@@ -22,9 +22,10 @@ Repo → **Settings → Pages** → **Build and deployment**:
 ## Updating
 
 The source of truth for the content lives in `cnj-landing/public/`. To publish updates,
-copy that folder's contents over this repo's root and push. From the `cnj-landing` checkout:
+run the helper from this repo (it mirrors `public/`, commits and pushes):
 
 ```bash
-rsync -a --delete --exclude='.git' --exclude='.nojekyll' --exclude='README.md' public/ ../curso-lia3r/
-cd ../curso-lia3r && git add -A && git commit -m "Sync site" && git push
+./sync.sh
 ```
+
+It assumes `cnj-landing` is a sibling folder; otherwise pass the path: `./sync.sh /path/to/cnj-landing/public`.
