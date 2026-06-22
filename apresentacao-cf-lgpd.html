@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Direitos Fundamentais · Proteção de Dados — CF, EC 115/2022 e LGPD</title>
+<link rel="icon" type="image/png" href="icone-lia.png" />
+<link rel="stylesheet" href="site-nav.css" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&family=Hanken+Grotesk:wght@300;400;500;600;700&family=Fragment+Mono:ital@0;1&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:#F4F1E9;          /* parchment */
+    --bg-2:#ECE7DA;
+    --panel:#FBF9F3;
+    --fg:#1B2620;          /* green-ink */
+    --fg-dim:rgba(27,38,32,.76);
+    --fg-faint:rgba(27,38,32,.52);
+    --rights:#0E3B2E;      /* thread A — direitos fundamentais / Constituição */
+    --data:#0F7B82;        /* thread B — dados / digital */
+    --alert:#A8541C;       /* dados sensíveis / responsabilidade */
+    --gold:#9C7C2A;        /* hairline constitucional */
+    --line:rgba(27,38,32,.15);
+    --line-strong:rgba(27,38,32,.30);
+    --display:"Libre Caslon Display",Georgia,serif;
+    --body:"Hanken Grotesk",system-ui,sans-serif;
+    --mono:"Fragment Mono",ui-monospace,monospace;
+  }
+  /* ---- MEDIUM theme (warm soft grey, reduced glare) ---- */
+  html[data-theme="medium"]{
+    --bg:#D8D4C8;--bg-2:#CCC7B8;--panel:#E3DFD4;
+    --fg:#171F1A;--fg-dim:rgba(23,31,26,.74);--fg-faint:rgba(23,31,26,.48);
+    --rights:#0C3527;--data:#0B6A71;--alert:#9A4B17;--gold:#856924;
+    --line:rgba(23,31,26,.18);--line-strong:rgba(23,31,26,.32);
+  }
+  /* ---- DARK theme (green-ink inverted) ---- */
+  html[data-theme="dark"]{
+    --bg:#10160F;--bg-2:#0B0F0A;--panel:#19211B;
+    --fg:#ECEFE7;--fg-dim:rgba(236,239,231,.74);--fg-faint:rgba(236,239,231,.46);
+    --rights:#6FBE9E;--data:#54C6CE;--alert:#E3A06F;--gold:#D9B968;
+    --line:rgba(236,239,231,.14);--line-strong:rgba(236,239,231,.26);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--fg);font-family:var(--body);-webkit-font-smoothing:antialiased;overflow-x:hidden;transition:background-color .4s ease,color .4s ease}
+
+  /* === MECHANICS === */
+  .deck{height:100vh;overflow-y:scroll;scroll-snap-type:y mandatory;scroll-behavior:smooth}
+  .deck::-webkit-scrollbar{width:0}
+  .slide{
+    min-height:100vh;scroll-snap-align:start;scroll-snap-stop:always;
+    position:relative;display:flex;flex-direction:column;justify-content:flex-start;
+    padding:calc(clamp(3.8rem,5vh,4.6rem) + 2cm) clamp(1.6rem,6vw,7rem) clamp(2rem,4vh,3.4rem);overflow:hidden;
+  }
+  .slide::before{content:"";position:absolute;inset:0;background:
+     radial-gradient(120% 90% at 100% 0%, rgba(15,123,130,.05), transparent 55%),
+     radial-gradient(100% 90% at 0% 100%, rgba(14,59,46,.05), transparent 55%);
+     pointer-events:none;z-index:0}
+  .wrap{position:relative;z-index:2;max-width:1160px;margin:0 auto;width:100%}
+
+  /* === TYPE === */
+  .eyebrow{font-family:var(--mono);font-size:clamp(.6rem,1vw,.74rem);letter-spacing:.26em;text-transform:uppercase;color:var(--data);display:flex;align-items:center;gap:.9rem;margin-bottom:1.4rem}
+  .eyebrow::before{content:"";width:clamp(24px,4vw,52px);height:1px;background:var(--data);opacity:.7}
+  .eyebrow.r{color:var(--rights)}
+  .eyebrow.r::before{background:var(--rights)}
+  .eyebrow.al{color:var(--alert)}
+  .eyebrow.al::before{background:var(--alert)}
+  h1,h2,h3{font-family:var(--display);font-weight:400;line-height:1.06;letter-spacing:-.005em;color:var(--rights)}
+  h2{font-size:clamp(1.8rem,4vw,3rem);margin-bottom:.4rem}
+  h3{font-size:clamp(1.3rem,2.4vw,1.9rem)}
+  .big{font-family:var(--display);font-size:clamp(2.4rem,7vw,6rem);line-height:1.02;color:var(--rights)}
+  .big .b{color:var(--data)}
+  .big .em{font-style:italic}
+  .lead{margin-top:1.4rem;max-width:60ch;color:var(--fg-dim);font-size:clamp(1.02rem,1.5vw,1.28rem);line-height:1.6}
+  .kicker{font-family:var(--mono);font-size:.8rem;letter-spacing:.05em;color:var(--gold);margin-top:1.8rem}
+
+  /* === ARTICLE / LAW CARD === */
+  .lei{background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--data);
+       border-radius:4px;padding:clamp(1.3rem,2.4vw,2.1rem) clamp(1.4rem,2.6vw,2.4rem);
+       box-shadow:0 1px 0 rgba(27,38,32,.04),0 18px 40px -28px rgba(14,59,46,.4)}
+  .lei.rights{border-left-color:var(--rights)}
+  .lei.alert{border-left-color:var(--alert)}
+  .lei .art{font-family:var(--mono);font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;color:var(--data);margin-bottom:.9rem;display:block}
+  .lei.rights .art{color:var(--rights)}
+  .lei.alert .art{color:var(--alert)}
+  .lei p{font-size:clamp(1rem,1.45vw,1.18rem);line-height:1.62;color:var(--fg);max-width:78ch}
+  .lei p + p{margin-top:.8rem}
+  .lei .legible{font-size:clamp(.92rem,1.3vw,1.05rem);line-height:1.58}
+  .src{font-family:var(--mono);font-size:.72rem;letter-spacing:.08em;color:var(--fg-faint);margin-top:1.1rem}
+
+  /* === QUOTE === */
+  .quote .mk{font-family:var(--display);font-size:clamp(3.4rem,8vw,7rem);line-height:.5;color:var(--gold);height:.5em;display:block;opacity:.6}
+  .quote blockquote{font-family:var(--display);font-size:clamp(1.3rem,2.9vw,2.3rem);line-height:1.28;margin:1rem 0 1.4rem;color:var(--rights);max-width:30ch}
+  .quote.sm blockquote{font-size:clamp(1.05rem,2vw,1.55rem);line-height:1.4;max-width:50ch}
+  .quote cite{font-family:var(--mono);font-style:normal;font-size:.74rem;letter-spacing:.1em;text-transform:uppercase;color:var(--fg-dim);display:block;line-height:1.7}
+
+  /* === INCISO LIST === */
+  .incisos{list-style:none;display:grid;gap:.55rem;margin-top:.2rem}
+  .incisos.two{grid-template-columns:1fr 1fr;gap:.55rem 1.8rem}
+  .incisos li{display:flex;gap:.8rem;font-size:clamp(.94rem,1.3vw,1.08rem);line-height:1.5;color:var(--fg);padding-bottom:.5rem;border-bottom:1px solid var(--line)}
+  .incisos .n{font-family:var(--mono);font-size:.78rem;color:var(--data);flex:0 0 auto;padding-top:.18em;min-width:2.4em}
+  .incisos.rights .n{color:var(--rights)}
+  .incisos.alert .n{color:var(--alert)}
+
+  /* === PYRAMID (signature) === */
+  .pyr{display:flex;flex-direction:column;gap:.7rem;margin-top:1.6rem;max-width:760px}
+  .tier{display:flex;align-items:center;gap:1.2rem;background:var(--panel);border:1px solid var(--line);border-radius:4px;padding:1rem 1.3rem;position:relative}
+  .tier .lvl{font-family:var(--mono);font-size:.72rem;letter-spacing:.14em;color:var(--gold)}
+  .tier .nm{font-family:var(--display);font-size:clamp(1.1rem,2vw,1.6rem);color:var(--rights)}
+  .tier .de{color:var(--fg-dim);font-size:.92rem;margin-left:auto;text-align:right;max-width:38ch}
+  .tier.t1{border-left:4px solid var(--rights);margin-right:0}
+  .tier.t2{border-left:4px solid var(--gold);margin-right:6%}
+  .tier.t3{border-left:4px solid var(--data);margin-right:12%}
+  .tier.t3 .nm{color:var(--data)}
+
+  /* === SHIELD (art 5 LXXIX signature) === */
+  .shield{display:grid;grid-template-columns:auto 1fr;gap:clamp(1.4rem,3vw,3rem);align-items:center;margin-top:1.2rem}
+  .crest{width:clamp(120px,16vw,180px);aspect-ratio:1/1.18;background:var(--rights);
+     clip-path:polygon(50% 0,100% 14%,100% 64%,50% 100%,0 64%,0 14%);
+     display:flex;align-items:center;justify-content:center;color:#F4F1E9;font-family:var(--display);
+     font-size:clamp(1.6rem,3vw,2.4rem);position:relative;box-shadow:0 24px 50px -30px rgba(14,59,46,.8)}
+  .crest span{position:relative;z-index:2;line-height:.9;text-align:center}
+  .crest::after{content:"";position:absolute;inset:8px;border:1px solid rgba(244,241,233,.4);
+     clip-path:polygon(50% 0,100% 14%,100% 64%,50% 100%,0 64%,0 14%)}
+
+  /* === GRID CARDS === */
+  .grid{display:grid;gap:.9rem;margin-top:1.4rem}
+  .grid.c2{grid-template-columns:1fr 1fr}
+  .grid.c3{grid-template-columns:repeat(3,1fr)}
+  .card{background:var(--panel);border:1px solid var(--line);border-top:3px solid var(--data);border-radius:4px;padding:1.2rem 1.3rem}
+  .card.rights{border-top-color:var(--rights)}
+  .card.alert{border-top-color:var(--alert)}
+  .card .ct{font-family:var(--mono);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--data);margin-bottom:.5rem}
+  .card.rights .ct{color:var(--rights)}
+  .card.alert .ct{color:var(--alert)}
+  .card .cb{font-size:clamp(.94rem,1.3vw,1.06rem);line-height:1.5;color:var(--fg)}
+  .card h4{font-family:var(--display);font-size:1.15rem;color:var(--rights);margin-bottom:.35rem}
+
+  /* === PRINCIPLES CHIPS === */
+  .princ{display:grid;grid-template-columns:repeat(2,1fr);gap:.6rem 1.4rem;margin-top:1.4rem}
+  .princ .p{display:flex;gap:.8rem;align-items:baseline;padding:.55rem .2rem;border-bottom:1px solid var(--line)}
+  .princ .pn{font-family:var(--mono);font-size:.76rem;color:var(--gold);min-width:2.2em}
+  .princ .pt{font-family:var(--display);font-size:clamp(1rem,1.6vw,1.3rem);color:var(--rights)}
+
+  /* === DEF SPLIT === */
+  .split{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:1.4rem}
+  @media(max-width:820px){.split,.grid.c2,.grid.c3,.princ,.incisos.two{grid-template-columns:1fr}.shield{grid-template-columns:1fr;justify-items:center;text-align:center}.tier .de{display:none}}
+
+  /* === THEME SWITCH === */
+  .theme-switch{position:fixed;top:1.15rem;right:1.4rem;z-index:60;display:flex;gap:2px;padding:3px;border:1px solid var(--line-strong);border-radius:999px;background:var(--panel)}
+  .theme-switch button{display:inline-flex;align-items:center;gap:.35rem;font-family:var(--mono);font-size:.64rem;letter-spacing:.06em;text-transform:uppercase;color:var(--fg-dim);background:transparent;border:0;border-radius:999px;padding:.34rem .6rem;cursor:pointer;transition:all .2s}
+  .theme-switch button .ico{width:11px;height:11px;border-radius:50%;border:1.5px solid currentColor}
+  .theme-switch button[data-t="medium"] .ico{background:linear-gradient(90deg,currentColor 50%,transparent 50%)}
+  .theme-switch button[data-t="light"] .ico{background:currentColor}
+  .theme-switch button:hover{color:var(--fg)}
+  .theme-switch button[aria-pressed="true"]{background:var(--rights);color:var(--bg)}
+  @media(max-width:560px){.theme-switch{top:auto;bottom:1.3rem;left:50%;right:auto;transform:translateX(-50%)}.theme-switch button span.lbl{display:none}}
+
+  /* === CHROME === */
+  .progress{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--rights),var(--data));width:0;z-index:50;transition:width .15s linear}
+  .counter{position:fixed;bottom:1.4rem;right:1.6rem;z-index:50;font-family:var(--mono);font-size:.74rem;letter-spacing:.1em;color:var(--fg-dim)}
+  .counter .cur{color:var(--rights)}
+  .nav-dots{position:fixed;top:50%;right:1.4rem;transform:translateY(-50%);z-index:50;display:flex;flex-direction:column;gap:.65rem}
+  .nav-dots button{width:8px;height:8px;border-radius:50%;border:1px solid var(--fg-faint);background:transparent;padding:0;cursor:pointer;transition:all .25s;display:block}
+  .nav-dots button:hover{border-color:var(--data)}
+  .nav-dots button.active{background:var(--rights);border-color:var(--rights);transform:scale(1.4)}
+  .kbd-hint{position:fixed;bottom:1.4rem;left:1.6rem;z-index:50;font-family:var(--mono);font-size:.64rem;letter-spacing:.08em;color:var(--fg-faint)}
+  .kbd-hint kbd{border:1px solid var(--line-strong);border-radius:3px;padding:.05em .4em;color:var(--fg-dim)}
+  :focus-visible{outline:2px solid var(--data);outline-offset:3px}
+
+  .reveal>*{opacity:0;transform:translateY(20px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1)}
+  .slide.in .reveal>*{opacity:1;transform:none}
+  .slide.in .reveal>*:nth-child(2){transition-delay:.07s}
+  .slide.in .reveal>*:nth-child(3){transition-delay:.14s}
+  .slide.in .reveal>*:nth-child(4){transition-delay:.21s}
+  .slide.in .reveal>*:nth-child(5){transition-delay:.28s}
+  .slide.in .reveal>*:nth-child(6){transition-delay:.35s}
+
+  @media(max-width:780px){.nav-dots,.kbd-hint{display:none}.slide{padding:3.4rem 1.2rem}}
+  @media (prefers-reduced-motion:reduce){*{scroll-behavior:auto !important}.reveal>*{opacity:1 !important;transform:none !important}}
+</style>
+</head>
+<body>
+<nav class="site-nav site-nav--light" aria-label="Navegação principal">
+  <a class="site-nav__brand" href="index.html" aria-label="LIA 3R — início"><span class="site-nav__mark" aria-hidden="true">L3</span><span class="site-nav__wordmark">LIA 3R</span></a><span class="site-nav__divider" aria-hidden="true"></span>
+  <a href="index.html#lgpd">CF · LGPD</a><a href="index.html#fachin">Magna</a><a href="index.html#curso">Curso</a>
+</nav>
+
+<div class="theme-switch" id="themeSwitch" role="group" aria-label="Tema de cor">
+  <button data-t="dark" aria-pressed="false"><span class="ico"></span><span class="lbl">Escuro</span></button>
+  <button data-t="medium" aria-pressed="false"><span class="ico"></span><span class="lbl">Médio</span></button>
+  <button data-t="light" aria-pressed="true"><span class="ico"></span><span class="lbl">Claro</span></button>
+</div>
+
+<div class="progress" id="progress"></div>
+<div class="counter"><span class="cur" id="cur">01</span> / <span id="tot">00</span></div>
+<nav class="nav-dots" id="dots" aria-label="Navegação dos slides"></nav>
+<div class="kbd-hint">↑ ↓ ← → · <kbd>espaço</kbd> navega</div>
+
+<main class="deck" id="deck">
+
+  <!-- 1 · HERO -->
+  <section class="slide" data-label="Abertura">
+    <div class="wrap reveal">
+      <div class="eyebrow r">Direitos Fundamentais · Aula</div>
+      <h1 class="big">Proteção de <span class="b em">dados</span><br>pessoais</h1>
+      <p class="lead">Panorama constitucional e legislativo: Constituição Federal, Emenda Constitucional n. 115/2022 e Lei Geral de Proteção de Dados.</p>
+      <p class="kicker">Instrutor: Fabio Pauli</p>
+    </div>
+  </section>
+
+  <!-- 2 · PYRAMID (signature) -->
+  <section class="slide" data-label="Panorama normativo">
+    <div class="wrap reveal">
+      <div class="eyebrow r">Panorama normativo</div>
+      <h2>A proteção de dados na hierarquia das normas</h2>
+      <div class="pyr">
+        <div class="tier t1"><span class="nm">Constituição Federal&nbsp;/&nbsp;1988</span><span class="de">Direitos e garantias fundamentais — base de toda a tutela</span></div>
+        <div class="tier t2"><span class="nm">EC n. 115/2022</span><span class="de">Inclui a proteção de dados entre os direitos fundamentais (art. 5º, LXXIX)</span></div>
+        <div class="tier t3"><span class="nm">LGPD — Lei nº 13.709/2018</span><span class="de">Disciplina legal do tratamento de dados pessoais</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 · QUOTE direitos fundamentais -->
+  <section class="slide quote sm" data-label="Direitos fundamentais">
+    <div class="wrap reveal">
+      <div class="eyebrow r">Direitos fundamentais</div>
+      <span class="mk">“</span>
+      <blockquote>Direitos fundamentais são normas jurídicas, intimamente ligadas à ideia de dignidade da pessoa humana e de limitação do poder positivadas no plano constitucional de determinado Estado Democrático de Direito, que, por sua importância axiológica, fundamentam e legitimam todo o ordenamento jurídico.</blockquote>
+      <cite>Marmelstein, George. Curso de direitos fundamentais. 6. ed. São Paulo: Atlas, 2016, p. 18.</cite>
+    </div>
+  </section>
+
+  <!-- 4 · características -->
+  <section class="slide" data-label="Características">
+    <div class="wrap reveal">
+      <div class="eyebrow r">Estatura constitucional</div>
+      <h2>Por que importam</h2>
+      <div class="grid c2">
+        <div class="card rights"><div class="ct">Origem</div><div class="cb">Decorrem da <strong>dignidade da pessoa humana</strong> — art. 1º, III, da CF/1988.</div></div>
+        <div class="card rights"><div class="ct">Eficácia</div><div class="cb">Dotados de <strong>aplicabilidade imediata</strong> — art. 5º, § 1º, da CF.</div></div>
+        <div class="card rights"><div class="ct">Posição</div><div class="cb">Possuem <strong>hierarquia constitucional</strong> no ordenamento jurídico.</div></div>
+        <div class="card rights"><div class="ct">Proteção reforçada</div><div class="cb">Constituem <strong>cláusulas pétreas</strong> — limites materiais à reforma.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 · CF art 5 caput + X -->
+  <section class="slide" data-label="CF art. 5º">
+    <div class="wrap reveal">
+      <div class="eyebrow r">Constituição Federal · Art. 5º</div>
+      <h2>A inviolabilidade da vida privada</h2>
+      <div class="lei rights">
+        <span class="art">CF/1988 — Art. 5º, caput</span>
+        <p class="legible">Todos são iguais perante a lei, sem distinção de qualquer natureza, garantindo-se aos brasileiros e aos estrangeiros residentes no País a inviolabilidade do direito à vida, à liberdade, à igualdade, à segurança e à propriedade, nos termos seguintes: <span style="color:var(--fg-faint)">(...)</span></p>
+        <p class="legible"><strong>X —</strong> são invioláveis a intimidade, a vida privada, a honra e a imagem das pessoas, assegurado o direito a indenização pelo dano material ou moral decorrente de sua violação;</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 · STF ADI 6387 quote 1 -->
+  <section class="slide quote sm" data-label="STF · ADI 6387 (I)">
+    <div class="wrap reveal">
+      <div class="eyebrow">STF · ADI 6387 · Medida Cautelar</div>
+      <span class="mk">“</span>
+      <blockquote>A Constituição da República confere especial proteção à intimidade, à vida privada, à honra e à imagem das pessoas ao qualificá-las como invioláveis, enquanto direitos fundamentais da personalidade […]</blockquote>
+      <cite>Min. Rosa Weber · STF — ADI 6387, Medida Cautelar · 06 de maio de 2020</cite>
+    </div>
+  </section>
+
+  <!-- 7 · STF ADI 6387 quote 2 (I) -->
+  <section class="slide" data-label="STF · ADI 6387 (II)">
+    <div class="wrap reveal">
+      <div class="eyebrow">STF · ADI 6387 · Medida Cautelar</div>
+      <h2>O que são dados pessoais</h2>
+      <div class="lei">
+        <span class="art">Voto · Min. Rosa Weber</span>
+        <p class="legible">Referindo-se à relação de nomes, números de telefone e endereços de consumidores de serviços de telefonia, pessoas físicas ou jurídicas, assinalou a Ministra Rosa Weber:</p>
+        <p class="legible">“Tais informações, relacionadas à identificação — efetiva ou potencial — de pessoa natural, configuram <strong>dados pessoais</strong> e integram, nessa medida, o âmbito de proteção das cláusulas constitucionais assecuratórias da liberdade individual (art. 5º, caput), da privacidade e do livre desenvolvimento da personalidade (art. 5º, X e XII).</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7b · STF ADI 6387 quote 2 (II) -->
+  <section class="slide" data-label="STF · ADI 6387 (II — cont.)">
+    <div class="wrap reveal">
+      <div class="eyebrow">STF · ADI 6387 · Medida Cautelar · continuação</div>
+      <h2>Autodeterminação informativa</h2>
+      <div class="lei">
+        <span class="art">Voto · Min. Rosa Weber (cont.)</span>
+        <p class="legible">Sua manipulação e tratamento, desse modo, hão de observar, sob pena de lesão a esses direitos, os limites delineados pela proteção constitucional. Decorrências dos direitos da personalidade, o respeito à privacidade e à <strong>autodeterminação informativa</strong> foram positivados, no art. 2º, I e II, da Lei nº 13.709/2018 (Lei Geral de Proteção de Dados Pessoais), como fundamentos específicos da disciplina da proteção de dados pessoais.”</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8 · EC 115 / art 5 LXXIX -->
+  <section class="slide" data-label="EC 115/2022">
+    <div class="wrap reveal">
+      <div class="eyebrow r">CF/1988 · Art. 5º, LXXIX</div>
+      <div class="big" style="font-size:clamp(1.8rem,4.5vw,4rem);margin-bottom:.25em;line-height:1.05">Emenda Constitucional n. 115/2022</div>
+      <h2 style="font-size:clamp(1.3rem,2.4vw,2rem);color:var(--fg-dim);font-weight:400;margin-bottom:1.2rem">Proteção de dados torna-se direito fundamental</h2>
+      <div class="lei rights" style="max-width:72ch">
+        <span class="art">CF/1988 — Art. 5º, LXXIX (incluído pela EC 115/2022)</span>
+        <p>“é assegurado, nos termos da lei, o direito à proteção dos dados pessoais, inclusive nos meios digitais.”</p>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- 8b · EC 115 ementa -->
+  <section class="slide" data-label="EC 115/2022 · Ementa">
+    <div class="wrap reveal">
+      <div class="eyebrow r">EC 115/2022 · Ementa</div>
+      <h2>O que a Emenda altera</h2>
+      <div class="lei rights" style="margin-top:1.4rem;max-width:72ch">
+        <span class="art">Ementa</span>
+        <p class="legible">Altera a Constituição Federal para incluir a <strong>proteção de dados pessoais</strong> entre os direitos e garantias fundamentais e para fixar a <strong>competência privativa da União</strong> para legislar sobre proteção e tratamento de dados pessoais.</p>
+      </div>
+      <p class="kicker">Brasília, 10 de fevereiro de 2022 · Publicada no DOU de 11.2.2022</p>
+    </div>
+  </section>
+
+  <!-- 9 · Três pilares -->
+  <section class="slide" data-label="Três pilares">
+    <div class="wrap reveal">
+      <div class="eyebrow r">Panorama normativo</div>
+      <h2>As três fontes normativas</h2>
+      <div class="grid c3" style="margin-top:1.6rem">
+        <div class="card rights">
+          <div class="ct">Constituição Federal / 1988</div>
+          <h4>Constituição</h4>
+          <div class="cb">Art. 5º, caput — inviolabilidade da vida privada, intimidade, honra e imagem. Base constitucional de toda tutela da personalidade.</div>
+        </div>
+        <div class="card rights">
+          <div class="ct">EC n. 115/2022</div>
+          <h4>Emenda Constitucional n. 115/2022</h4>
+          <div class="cb">Art. 5º, LXXIX — proteção de dados pessoais elevada a direito fundamental. Competência privativa da União para legislar.</div>
+        </div>
+        <div class="card">
+          <div class="ct">Lei nº 13.709/2018</div>
+          <h4>Lei Geral de Proteção de Dados</h4>
+          <div class="cb">Disciplina o tratamento de dados pessoais — princípios, hipóteses, direitos dos titulares, agentes e responsabilidade.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10 · LGPD objetivo -->
+  <section class="slide" data-label="LGPD · Objetivo">
+    <div class="wrap reveal">
+      <div class="eyebrow">LGPD · Lei nº 13.709/2018</div>
+      <div class="big" style="font-size:clamp(1.8rem,4.5vw,4rem);margin-bottom:.25em;line-height:1.05">Lei Geral de Proteção de Dados</div>
+      <h2 style="font-size:clamp(1.3rem,2.4vw,2rem);color:var(--fg-dim);font-weight:400;margin-bottom:1.2rem">O objetivo da Lei</h2>
+      <div class="lei">
+        <span class="art">Art. 1º</span>
+        <p>Esta Lei dispõe sobre o <strong>tratamento de dados pessoais</strong>, inclusive nos meios digitais, por pessoa natural ou por pessoa jurídica de direito público ou privado, com o objetivo de proteger os direitos fundamentais de <strong>liberdade</strong> e de <strong>privacidade</strong> e o <strong>livre desenvolvimento da personalidade</strong> da pessoa natural.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10 · LGPD fundamentos art 2 -->
+  <section class="slide" data-label="LGPD · Fundamentos">
+    <div class="wrap reveal">
+      <div class="eyebrow">LGPD · Art. 2º</div>
+      <h2>Fundamentos da disciplina</h2>
+      <p class="lead" style="margin:.2rem 0 .6rem">Art. 2º A disciplina da proteção de dados pessoais tem como fundamentos:</p>
+      <ul class="incisos two">
+        <li><span class="n">I</span><span>o respeito à privacidade;</span></li>
+        <li><span class="n">II</span><span>a autodeterminação informativa;</span></li>
+        <li><span class="n">III</span><span>a liberdade de expressão, de informação, de comunicação e de opinião;</span></li>
+        <li><span class="n">IV</span><span>a inviolabilidade da intimidade, da honra e da imagem;</span></li>
+        <li><span class="n">V</span><span>o desenvolvimento econômico e tecnológico e a inovação;</span></li>
+        <li><span class="n">VI</span><span>a livre iniciativa, a livre concorrência e a defesa do consumidor;</span></li>
+        <li style="grid-column:1/-1"><span class="n">VII</span><span>os direitos humanos, o livre desenvolvimento da personalidade, a dignidade e o exercício da cidadania pelas pessoas naturais.</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 11 · Definições: dado pessoal vs sensível (signature distinction) -->
+  <section class="slide" data-label="Dado pessoal × sensível">
+    <div class="wrap reveal">
+      <div class="eyebrow">LGPD · Art. 5º, I e II · Definições</div>
+      <h2>Dado pessoal &amp; dado pessoal sensível</h2>
+      <div class="split">
+        <div class="lei" style="box-shadow:none">
+          <span class="art">I — Dado pessoal</span>
+          <p class="legible">Informação relacionada a pessoa natural <strong>identificada ou identificável</strong>.</p>
+        </div>
+        <div class="lei alert" style="box-shadow:none">
+          <span class="art">II — Dado pessoal sensível</span>
+          <p class="legible">Dado sobre origem racial ou étnica, convicção religiosa, opinião política, filiação a sindicato ou a organização de caráter religioso, filosófico ou político, dado referente à saúde ou à vida sexual, dado genético ou biométrico, <strong>quando vinculado a uma pessoa natural</strong>.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 12 · Definições: titular/banco/anonimizado -->
+  <section class="slide" data-label="Definições (II)">
+    <div class="wrap reveal">
+      <div class="eyebrow">LGPD · Art. 5º · Definições</div>
+      <h2>Quem e o quê</h2>
+      <div class="grid c3">
+        <div class="card"><div class="ct">V — Titular</div><div class="cb">Pessoa natural a quem se referem os dados pessoais objeto de tratamento.</div></div>
+        <div class="card"><div class="ct">IV — Banco de dados</div><div class="cb">Conjunto estruturado de dados pessoais, em um ou vários locais, em suporte eletrônico ou físico.</div></div>
+        <div class="card"><div class="ct">III — Dado anonimizado</div><div class="cb">Dado relativo a titular que não possa ser identificado, considerando meios técnicos razoáveis e disponíveis na ocasião de seu tratamento.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 13 · Definições: agentes de tratamento -->
+  <section class="slide" data-label="Agentes de tratamento">
+    <div class="wrap reveal">
+      <div class="eyebrow">LGPD · Art. 5º · Definições</div>
+      <h2>Os agentes de tratamento</h2>
+      <div class="grid c2">
+        <div class="card"><div class="ct">VI — Controlador</div><div class="cb">Pessoa natural ou jurídica, de direito público ou privado, a quem competem as <strong>decisões</strong> referentes ao tratamento de dados pessoais.</div></div>
+        <div class="card"><div class="ct">VII — Operador</div><div class="cb">Pessoa natural ou jurídica que <strong>realiza o tratamento</strong> de dados pessoais em nome do controlador.</div></div>
+        <div class="card"><div class="ct">VIII — Encarregado</div><div class="cb">Pessoa indicada pelo controlador e operador para atuar como <strong>canal de comunicação</strong> entre o controlador, os titulares e a ANPD.<br><span class="src" style="margin-top:.4rem;display:block">Redação dada pela Lei nº 15.352, de 2026.</span></div></div>
+        <div class="card"><div class="ct">IX — Agentes de tratamento</div><div class="cb">O controlador <strong>e</strong> o operador.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 14 · Definições: tratamento + anonimização -->
+  <section class="slide" data-label="Tratamento · Anonimização">
+    <div class="wrap reveal">
+      <div class="eyebrow">LGPD · Art. 5º, X e XI</div>
+      <h2>Tratamento &amp; anonimização</h2>
+      <div class="lei" style="margin-bottom:.9rem">
+        <span class="art">X — Tratamento</span>
+        <p class="legible">Toda operação realizada com dados pessoais, como coleta, produção, recepção, classificação, utilização, acesso, reprodução, transmissão, distribuição, processamento, arquivamento, armazenamento, eliminação, avaliação ou controle, modificação, comunicação, transferência, difusão ou extração.</p>
+      </div>
+      <div class="lei">
+        <span class="art">XI — Anonimização</span>
+        <p class="legible">Utilização de meios técnicos razoáveis e disponíveis no momento do tratamento, por meio dos quais um dado perde a possibilidade de associação, <strong>direta ou indireta</strong>, a um indivíduo.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 15 · Princípios art 6 -->
+  <section class="slide" data-label="Princípios · Art. 6º">
+    <div class="wrap reveal">
+      <div class="eyebrow">LGPD · Art. 6º</div>
+      <h2>Os dez princípios — sob a boa-fé</h2>
+      <p class="lead" style="margin:.2rem 0 .6rem">Art. 6º As atividades de tratamento de dados pessoais deverão observar a boa-fé e os seguintes princípios:</p>
+      <div class="princ">
+        <div class="p"><span class="pn">I</span><span class="pt">Finalidade</span></div>
+        <div class="p"><span class="pn">II</span><span class="pt">Adequação</span></div>
+        <div class="p"><span class="pn">III</span><span class="pt">Necessidade</span></div>
+        <div class="p"><span class="pn">IV</span><span class="pt">Livre acesso</span></div>
+        <div class="p"><span class="pn">V</span><span class="pt">Qualidade dos dados</span></div>
+        <div class="p"><span class="pn">VI</span><span class="pt">Transparência</span></div>
+        <div class="p"><span class="pn">VII</span><span class="pt">Segurança</span></div>
+        <div class="p"><span class="pn">VIII</span><span class="pt">Prevenção</span></div>
+        <div class="p"><span class="pn">IX</span><span class="pt">Não discriminação</span></div>
+        <div class="p"><span class="pn">X</span><span class="pt">Responsabilização e prestação de contas</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 16 · Hipóteses tratamento art 7 -->
+  <section class="slide" data-label="Hipóteses · Art. 7º">
+    <div class="wrap reveal">
+      <div class="eyebrow">LGPD · Art. 7º</div>
+      <h2>Hipóteses de tratamento de dados pessoais</h2>
+      <p class="lead" style="margin:.2rem 0 .4rem">Somente poderá ser realizado nas seguintes hipóteses:</p>
+      <ul class="incisos two">
+        <li><span class="n">I</span><span>mediante o fornecimento de consentimento pelo titular;</span></li>
+        <li><span class="n">II</span><span>cumprimento de obrigação legal ou regulatória pelo controlador;</span></li>
+        <li><span class="n">III</span><span>pela administração pública, para tratamento e uso compartilhado de dados necessários à execução de políticas públicas previstas em leis e regulamentos ou respaldadas em contratos, convênios ou instrumentos congêneres;</span></li>
+        <li><span class="n">IV</span><span>realização de estudos por órgão de pesquisa, garantida, sempre que possível, a anonimização;</span></li>
+        <li><span class="n">V</span><span>execução de contrato ou de procedimentos preliminares relacionados a contrato do qual seja parte o titular, a seu pedido;</span></li>
+        <li><span class="n">VI</span><span>exercício regular de direitos em processo judicial, administrativo ou arbitral (este nos termos da Lei nº 9.307/1996 — Lei de Arbitragem);</span></li>
+        <li><span class="n">VII</span><span>proteção da vida ou da incolumidade física do titular ou de terceiro;</span></li>
+        <li><span class="n">VIII</span><span>tutela da saúde, exclusivamente, por profissionais de saúde, serviços de saúde ou autoridade sanitária;</span></li>
+        <li><span class="n">IX</span><span>interesses legítimos do controlador ou de terceiro, salvo prevalência de direitos e liberdades fundamentais do titular;</span></li>
+        <li><span class="n">X</span><span>proteção do crédito, inclusive quanto ao disposto na legislação pertinente.</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 17 · Dados sensíveis art 11 -->
+  <section class="slide" data-label="Dados sensíveis · Art. 11">
+    <div class="wrap reveal">
+      <div class="eyebrow al">LGPD · Art. 11 · Regime reforçado</div>
+      <h2>Tratamento de dados pessoais sensíveis</h2>
+      <div class="grid c2">
+        <div class="card alert"><div class="ct">I — Com consentimento</div><div class="cb">Quando o titular ou seu responsável legal consentir, de forma <strong>específica e destacada</strong>, para finalidades específicas.</div></div>
+        <div class="card alert"><div class="ct">II — Sem consentimento, quando indispensável para</div><div class="cb">a) obrigação legal ou regulatória do controlador · b) execução de políticas públicas pela administração, com tratamento compartilhado necessário (leis/regulamentos) · c) estudos por órgão de pesquisa, anonimizados sempre que possível · d) exercício regular de direitos, inclusive em contrato e processo judicial/adm./arbitral (Lei 9.307/1996) · e) proteção da vida ou incolumidade física · f) tutela da saúde, exclusivamente por profissionais/serviços/autoridade · g) prevenção à fraude e segurança nos processos de identificação e autenticação em sistemas eletrônicos (resguardado o art. 9º).</div></div>
+      </div>
+      <p class="src">Hipóteses do inciso II admitidas apenas quando indispensáveis (art. 11, II, “a” a “g”).</p>
+    </div>
+  </section>
+
+  <!-- 18 · Anonimização art 12 -->
+  <section class="slide" data-label="Anonimização · Art. 12">
+    <div class="wrap reveal">
+      <div class="eyebrow">LGPD · Art. 12</div>
+      <h2>O dado anonimizado deixa de ser pessoal — salvo exceções</h2>
+      <div class="lei">
+        <span class="art">Art. 12, caput</span>
+        <p class="legible">Os dados anonimizados não serão considerados dados pessoais para os fins desta Lei, <strong>salvo</strong> quando o processo de anonimização for revertido, utilizando exclusivamente meios próprios, ou quando, com esforços razoáveis, puder ser revertido.</p>
+        <p class="legible" style="margin-top:.7rem"><strong>§ 2º</strong> Poderão ser considerados dados pessoais aqueles utilizados para formação do <strong>perfil comportamental</strong> de determinada pessoa natural, se identificada.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 19 · Direitos do titular art 17/18 -->
+  <section class="slide" data-label="Direitos do titular · Art. 18">
+    <div class="wrap reveal">
+      <div class="eyebrow r">LGPD · Arts. 17 e 18</div>
+      <h2>Os direitos do titular</h2>
+      <p class="lead" style="margin:.2rem 0 .4rem"><strong>Art. 17.</strong> Toda pessoa natural tem assegurada a titularidade de seus dados pessoais e garantidos os direitos fundamentais de liberdade, de intimidade e de privacidade, nos termos desta Lei.</p>
+      <p class="lead" style="margin:.2rem 0 .4rem"><strong>Art. 18.</strong> O titular dos dados pessoais tem direito a obter do controlador, em relação aos dados do titular por ele tratados, a qualquer momento e mediante requisição:</p>
+      <ul class="incisos two rights">
+        <li><span class="n">I</span><span>confirmação da existência de tratamento;</span></li>
+        <li><span class="n">II</span><span>acesso aos dados;</span></li>
+        <li><span class="n">III</span><span>correção de dados incompletos, inexatos ou desatualizados;</span></li>
+        <li><span class="n">IV</span><span>anonimização, bloqueio ou eliminação de dados desnecessários, excessivos ou tratados em desconformidade com a Lei;</span></li>
+        <li><span class="n">V</span><span>portabilidade a outro fornecedor de serviço ou produto;</span></li>
+        <li><span class="n">VI</span><span>eliminação dos dados tratados com consentimento, salvo as hipóteses do art. 16;</span></li>
+        <li><span class="n">VII</span><span>informação das entidades públicas e privadas com as quais houve uso compartilhado;</span></li>
+        <li><span class="n">VIII</span><span>informação sobre a possibilidade de não consentir e suas consequências.</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 20 · Poder Público art 23 -->
+  <section class="slide" data-label="Poder Público · Art. 23">
+    <div class="wrap reveal">
+      <div class="eyebrow">LGPD · Art. 23</div>
+      <h2>Tratamento de dados no Poder Público</h2>
+      <div class="lei">
+        <span class="art">Art. 23</span>
+        <p class="legible">O tratamento pelas pessoas jurídicas de direito público referidas na Lei de Acesso à Informação (Lei 12.527/2011) deve atender à sua <strong>finalidade pública</strong>, na persecução do interesse público, para executar competências ou cumprir atribuições legais do serviço público, desde que:</p>
+        <ul class="incisos" style="margin-top:.8rem">
+          <li><span class="n">I</span><span>sejam informadas as hipóteses de tratamento, com informações claras e atualizadas sobre previsão legal, finalidade, procedimentos e práticas, em veículos de fácil acesso, preferencialmente em seus sítios eletrônicos;</span></li>
+          <li><span class="n">II</span><span>(VETADO);</span></li>
+          <li><span class="n">III</span><span>seja indicado um encarregado para as operações de tratamento (art. 39).</span></li>
+        </ul>
+        <p class="legible" style="margin-top:.7rem"><strong>§ 3º</strong> — os direitos do titular perante o Poder Público observam legislação específica: Habeas Data (Lei 9.507/1997), Processo Administrativo (Lei 9.784/1999) e Acesso à Informação (Lei 12.527/2011).</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 21 · Responsabilidade art 42 -->
+  <section class="slide" data-label="Responsabilidade · Art. 42">
+    <div class="wrap reveal">
+      <div class="eyebrow al">LGPD · Art. 42</div>
+      <h2>Responsabilidade e reparação do dano</h2>
+      <div class="lei alert">
+        <span class="art">Art. 42, caput</span>
+        <p class="legible">O controlador ou o operador que, em razão do tratamento de dados pessoais, causar a outrem <strong>dano patrimonial, moral, individual ou coletivo</strong>, em violação à legislação, é obrigado a repará-lo.</p>
+        <p class="legible" style="margin-top:.7rem"><strong>§ 1º, I</strong> — o operador responde <strong>solidariamente</strong> quando descumprir as obrigações da legislação ou não seguir instruções lícitas do controlador (equiparando-se a ele), salvo as exclusões do art. 43.</p>
+        <p class="legible" style="margin-top:.5rem"><strong>§ 1º, II</strong> — os controladores diretamente envolvidos respondem solidariamente, salvo exclusões do art. 43.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 22 · Segurança e sigilo art 46/47 + closing -->
+  <section class="slide" data-label="Segurança e sigilo · Art. 46">
+    <div class="wrap reveal">
+      <div class="eyebrow">LGPD · Arts. 46 e 47 · Segurança e sigilo</div>
+      <h2>Segurança desde a concepção</h2>
+      <div class="lei">
+        <span class="art">Art. 46</span>
+        <p class="legible">Os agentes de tratamento devem adotar <strong>medidas de segurança, técnicas e administrativas</strong> aptas a proteger os dados pessoais de acessos não autorizados e de situações acidentais ou ilícitas de destruição, perda, alteração, comunicação ou qualquer forma de tratamento inadequado ou ilícito.</p>
+        <p class="legible" style="margin-top:.6rem"><strong>§ 2º</strong> — observadas <strong>desde a concepção</strong> do produto ou serviço até a sua execução. <strong>(Art. 47)</strong> a segurança obriga mesmo <strong>após o término</strong> do tratamento.</p>
+      </div>
+      <p class="kicker">Direitos Fundamentais · Proteção de Dados — CF, EC 115/2022 e LGPD · Instrutor Fabio Pauli</p>
+    </div>
+  </section>
+
+</main>
+
+<script>
+  // theme switch (escuro / médio / claro), persisted — default: claro
+  (function(){
+    const DEF='light';
+    const sw=document.getElementById('themeSwitch');
+    const btns=[...sw.querySelectorAll('button')];
+    function apply(t){
+      if(t===DEF){document.documentElement.removeAttribute('data-theme');}
+      else{document.documentElement.setAttribute('data-theme',t);}
+      btns.forEach(b=>b.setAttribute('aria-pressed', String(b.dataset.t===t)));
+      try{localStorage.setItem('cflgpd-theme',t);}catch(e){}
+    }
+    btns.forEach(b=>b.addEventListener('click',()=>apply(b.dataset.t)));
+    let saved=DEF;
+    try{saved=localStorage.getItem('cflgpd-theme')||DEF;}catch(e){}
+    apply(saved);
+  })();
+
+  const deck=document.getElementById('deck');
+  const slides=[...document.querySelectorAll('.slide')];
+  const dotsWrap=document.getElementById('dots');
+  const progress=document.getElementById('progress');
+  const curEl=document.getElementById('cur');
+  document.getElementById('tot').textContent=String(slides.length).padStart(2,'0');
+
+  slides.forEach((s,i)=>{
+    const b=document.createElement('button');
+    b.setAttribute('aria-label',s.dataset.label||('Slide '+(i+1)));
+    b.title=s.dataset.label||'';
+    b.addEventListener('click',()=>slides[i].scrollIntoView());
+    dotsWrap.appendChild(b);
+  });
+  const dots=[...dotsWrap.children];
+
+  const io=new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        e.target.classList.add('in');
+        const i=slides.indexOf(e.target);
+        curEl.textContent=String(i+1).padStart(2,'0');
+        dots.forEach((d,j)=>d.classList.toggle('active',j===i));
+      }
+    });
+  },{threshold:.55});
+  slides.forEach(s=>io.observe(s));
+
+  deck.addEventListener('scroll',()=>{
+    const max=deck.scrollHeight-deck.clientHeight;
+    progress.style.width=(deck.scrollTop/max*100)+'%';
+  },{passive:true});
+
+  function currentIndex(){return Math.round(deck.scrollTop/deck.clientHeight)}
+  window.addEventListener('keydown',(e)=>{
+    const i=currentIndex();
+    if(['ArrowRight','ArrowDown','PageDown',' '].includes(e.key)){e.preventDefault();slides[Math.min(i+1,slides.length-1)].scrollIntoView();}
+    else if(['ArrowLeft','ArrowUp','PageUp'].includes(e.key)){e.preventDefault();slides[Math.max(i-1,0)].scrollIntoView();}
+    else if(e.key==='Home'){e.preventDefault();slides[0].scrollIntoView();}
+    else if(e.key==='End'){e.preventDefault();slides[slides.length-1].scrollIntoView();}
+  });
+</script>
+</body>
+</html>

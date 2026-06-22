@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Curso LIA 3R — Módulo I · Introdução ao Uso da LIA 3R</title>
+<link rel="icon" type="image/png" href="icone-lia.png" />
+<link rel="stylesheet" href="site-nav.css" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Figtree:ital,wght@0,300;0,400;0,500;0,600;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:#17171F;
+    --bg-2:#1E1F2A;
+    --panel:#232531;
+    --panel-2:#2A2C3A;
+    --fg:#ECEAF2;
+    --fg-dim:rgba(236,234,242,.80);
+    --fg-faint:rgba(236,234,242,.56);
+    --iris:#8C7DF0;
+    --iris-soft:#ABA0F7;
+    --iris-dim:rgba(140,125,240,.16);
+    --coral:#F0805E;
+    --coral-soft:#F6A184;
+    --coral-dim:rgba(240,128,94,.16);
+    --danger:#EF6E81;
+    --line:rgba(236,234,242,.12);
+    --line-strong:rgba(236,234,242,.22);
+    --display:"Space Grotesk",system-ui,sans-serif;
+    --body:"Figtree",system-ui,sans-serif;
+    --mono:"DM Mono",ui-monospace,monospace;
+  }
+  /* ---- MEDIUM theme (soft light-grey, reduced glare) ---- */
+  html[data-theme="medium"]{
+    --bg:#CFD1DB;--bg-2:#C4C6D2;--panel:#DBDDE5;--panel-2:#CDCFDA;
+    --fg:#1E202A;--fg-dim:rgba(30,32,42,.70);--fg-faint:rgba(30,32,42,.46);
+    --iris:#4F3FB8;--iris-soft:#5B49CB;--iris-dim:rgba(79,63,184,.13);
+    --coral:#B14E27;--coral-soft:#9E4421;--coral-dim:rgba(177,78,39,.13);
+    --danger:#A4192A;
+    --line:rgba(30,32,42,.17);--line-strong:rgba(30,32,42,.30);
+  }
+  /* ---- LIGHT theme (white) ---- */
+  html[data-theme="light"]{
+    --bg:#F7F7FB;--bg-2:#EEEEF4;--panel:#FFFFFF;--panel-2:#F1F1F7;
+    --fg:#1B1B26;--fg-dim:rgba(27,27,38,.66);--fg-faint:rgba(27,27,38,.42);
+    --iris:#5847CB;--iris-soft:#6453DC;--iris-dim:rgba(88,71,203,.10);
+    --coral:#C0552C;--coral-soft:#B14E27;--coral-dim:rgba(192,85,44,.10);
+    --danger:#C0392B;
+    --line:rgba(27,27,38,.13);--line-strong:rgba(27,27,38,.24);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--fg);font-family:var(--body);font-weight:400;-webkit-font-smoothing:antialiased;overflow-x:hidden;transition:background-color .4s ease,color .4s ease}
+
+  /* ---- deck mechanics ---- */
+  .deck{height:100vh;overflow-y:scroll;scroll-snap-type:y mandatory;scroll-behavior:smooth}
+  .deck::-webkit-scrollbar{width:0}
+  .slide{min-height:100vh;scroll-snap-align:start;scroll-snap-stop:always;position:relative;display:flex;flex-direction:column;justify-content:center;padding:clamp(2.2rem,4.2vh,4rem) clamp(1.8rem,6vw,7rem);overflow:hidden}
+  .slide::before{content:"";position:absolute;inset:0;background:radial-gradient(80% 60% at 85% 0%,var(--iris-dim),transparent 60%);opacity:.6;pointer-events:none}
+  .wrap{position:relative;z-index:2;max-width:1200px;margin:0 auto;width:100%}
+
+  /* ---- shared type ---- */
+  .kicker{font-family:var(--mono);font-size:clamp(.62rem,1vw,.74rem);letter-spacing:.14em;text-transform:uppercase;color:var(--iris-soft);display:flex;align-items:center;gap:.7rem;margin-bottom:1.3rem}
+  .kicker::before{content:"";width:18px;height:18px;border:1.5px solid var(--iris);border-radius:5px;display:inline-block}
+  .kicker.risk{color:var(--coral-soft)} .kicker.risk::before{border-color:var(--coral)}
+  h1,h2,h3{font-family:var(--display);font-weight:600;line-height:1.04;letter-spacing:-.02em}
+  .h-lg{font-size:clamp(2rem,4.6vw,3.8rem)}
+  .h-md{font-size:clamp(1.6rem,3.2vw,2.7rem)}
+  .h-sm{font-size:clamp(1.3rem,2.2vw,1.9rem)}
+  .lead{font-size:clamp(1rem,1.4vw,1.2rem);line-height:1.6;color:var(--fg-dim);max-width:60ch;font-weight:400}
+  .lead strong{color:var(--fg);font-weight:600}
+  .lead .i{color:var(--iris-soft);font-weight:500} .lead .c{color:var(--coral-soft);font-weight:500}
+  .term{font-family:var(--mono);color:var(--iris-soft)}
+
+  /* ---- hero ---- */
+  #hero{justify-content:center}
+  #hero .wrap{max-width:1280px}
+  .hero-badge{display:inline-flex;align-items:center;gap:.7rem;font-family:var(--mono);font-size:clamp(.66rem,1vw,.8rem);letter-spacing:.14em;text-transform:uppercase;color:var(--iris-soft);border:1px solid var(--line-strong);border-radius:999px;padding:.5rem 1rem;margin-bottom:2rem}
+  .hero-badge .d{width:8px;height:8px;border-radius:50%;background:var(--iris);box-shadow:0 0 0 4px var(--iris-dim)}
+  .hero-title{font-family:var(--display);font-weight:700;font-size:clamp(3rem,12vw,9.5rem);line-height:.86;letter-spacing:-.04em}
+  .hero-title .r{color:var(--iris)}
+  .hero-mod{font-family:var(--display);font-weight:500;font-size:clamp(1.3rem,2.8vw,2.2rem);color:var(--fg);margin-top:1rem;letter-spacing:-.01em}
+  .hero-sub{font-size:clamp(1.05rem,1.6vw,1.35rem);color:var(--fg-dim);max-width:60ch;line-height:1.5;font-weight:400;margin-top:1.6rem}
+  .hero-sub b{color:var(--fg);font-weight:600}
+
+  /* ---- card grid ---- */
+  .grid{display:grid;gap:1px;background:var(--line);border:1px solid var(--line);margin-top:clamp(1.6rem,3vw,2.4rem)}
+  .g3{grid-template-columns:repeat(3,1fr)}
+  .g2{grid-template-columns:repeat(2,1fr)}
+  .card{background:var(--bg);padding:clamp(1.4rem,2.6vw,2.1rem)}
+  .card .ci{font-family:var(--mono);font-size:.72rem;letter-spacing:.06em;color:var(--iris-soft);margin-bottom:1rem;display:flex;align-items:center;gap:.5rem}
+  .card .ci .dot{width:7px;height:7px;border-radius:50%;background:var(--iris)}
+  .card.risk .ci{color:var(--coral-soft)} .card.risk .ci .dot{background:var(--coral)}
+  .card h4{font-family:var(--display);font-weight:600;font-size:clamp(1.1rem,1.6vw,1.4rem);margin-bottom:.6rem;line-height:1.12}
+  .card p{font-size:clamp(.9rem,1.2vw,1.02rem);line-height:1.5;color:var(--fg-dim);font-weight:400}
+  @media(max-width:820px){.g3{grid-template-columns:1fr}.g2{grid-template-columns:1fr}}
+
+  /* ---- flow (entrada -> processamento -> saída) ---- */
+  .flow{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;align-items:stretch;gap:.8rem;margin-top:clamp(1.6rem,3vw,2.4rem)}
+  .flow-node{background:var(--panel);border:1px solid var(--line-strong);border-radius:14px;padding:clamp(1.3rem,2.4vw,2rem)}
+  .flow-node .fn{font-family:var(--mono);font-size:.72rem;letter-spacing:.06em;color:var(--iris-soft);margin-bottom:.7rem}
+  .flow-node h4{font-family:var(--display);font-weight:600;font-size:clamp(1.1rem,1.6vw,1.45rem);margin-bottom:.5rem}
+  .flow-node p{font-size:.9rem;line-height:1.45;color:var(--fg-dim);font-weight:400}
+  .flow-arrow{align-self:center;font-family:var(--display);color:var(--iris);font-size:1.6rem}
+  @media(max-width:820px){.flow{grid-template-columns:1fr}.flow-arrow{transform:rotate(90deg);justify-self:center}}
+
+  /* ---- glossary term block ---- */
+  .terms{display:grid;grid-template-columns:repeat(2,1fr);gap:clamp(1.2rem,2.4vw,2rem);margin-top:clamp(1.6rem,3vw,2.4rem)}
+  .tdef{border-left:2px solid var(--iris);padding-left:1.2rem}
+  .tdef.c{border-color:var(--coral)}
+  .tdef .tt{font-family:var(--mono);font-size:clamp(.95rem,1.3vw,1.1rem);color:var(--iris-soft);margin-bottom:.6rem;font-weight:500}
+  .tdef.c .tt{color:var(--coral-soft)}
+  .tdef p{font-size:clamp(.92rem,1.25vw,1.05rem);line-height:1.5;color:var(--fg-dim);font-weight:400}
+  .tdef p + p{margin-top:.5rem}
+  @media(max-width:760px){.terms{grid-template-columns:1fr}}
+
+  /* ---- formula chips ---- */
+  .formula{display:flex;flex-wrap:wrap;align-items:center;gap:.6rem;margin-top:clamp(1.6rem,3vw,2.2rem)}
+  .fchip{font-family:var(--mono);font-size:clamp(.92rem,1.5vw,1.25rem);font-weight:500;padding:.55rem 1.1rem;border:1px solid var(--iris);color:var(--iris-soft);border-radius:10px;background:var(--iris-dim)}
+  .fplus{font-family:var(--display);color:var(--fg-faint);font-size:1.2rem}
+
+  /* ---- numbered steps ---- */
+  .steps{display:grid;gap:0;margin-top:clamp(1.4rem,3vw,2rem)}
+  .step{display:grid;grid-template-columns:auto 1fr;gap:1.3rem;align-items:baseline;padding:1rem 0;border-top:1px solid var(--line)}
+  .step .sn{font-family:var(--display);font-weight:700;font-size:clamp(1.2rem,2vw,1.7rem);color:var(--iris);min-width:2.2ch;line-height:1}
+  .step.risk .sn{color:var(--coral)}
+  .step .sb h4{font-family:var(--display);font-weight:600;font-size:clamp(1.05rem,1.5vw,1.3rem);line-height:1.15}
+  .step .sb p{font-size:clamp(.9rem,1.2vw,1.02rem);color:var(--fg-dim);line-height:1.45;margin-top:.25rem;font-weight:400}
+  .steps.two{grid-template-columns:1fr 1fr;column-gap:clamp(2rem,4vw,4rem)}
+  @media(max-width:820px){.steps.two{grid-template-columns:1fr}}
+
+  /* ---- risk tiers ---- */
+  .tiers{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);margin-top:clamp(1.6rem,3vw,2.4rem)}
+  .tier{background:var(--bg);padding:clamp(1.3rem,2.4vw,1.9rem)}
+  .tier .th{font-family:var(--display);font-weight:700;font-size:clamp(1.1rem,1.7vw,1.5rem);margin-bottom:.3rem}
+  .tier .ts{font-family:var(--mono);font-size:.7rem;letter-spacing:.06em;text-transform:uppercase;margin-bottom:1rem;color:var(--fg-faint)}
+  .tier ul{list-style:none;display:flex;flex-direction:column;gap:.5rem}
+  .tier li{font-size:clamp(.86rem,1.15vw,.98rem);line-height:1.35;color:var(--fg-dim);padding-left:1rem;position:relative;font-weight:400}
+  .tier li::before{content:"";position:absolute;left:0;top:.55em;width:5px;height:5px;border-radius:50%}
+  .tier.exc{border-top:3px solid var(--danger)}.tier.exc .th{color:var(--danger)}.tier.exc li::before{background:var(--danger)}
+  .tier.alto{border-top:3px solid var(--coral)}.tier.alto .th{color:var(--coral-soft)}.tier.alto li::before{background:var(--coral)}
+  .tier.baixo{border-top:3px solid var(--iris)}.tier.baixo .th{color:var(--iris-soft)}.tier.baixo li::before{background:var(--iris)}
+  @media(max-width:820px){.tiers{grid-template-columns:1fr}}
+
+  /* ---- principles grid (9) ---- */
+  .princ{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);margin-top:clamp(1.4rem,3vw,2.2rem)}
+  .pc{background:var(--bg);padding:clamp(1.1rem,2vw,1.5rem)}
+  .pc .pt{font-family:var(--display);font-weight:600;font-size:clamp(1rem,1.4vw,1.22rem);color:var(--iris-soft);margin-bottom:.4rem}
+  .pc p{font-size:clamp(.82rem,1.1vw,.94rem);line-height:1.4;color:var(--fg-dim);font-weight:400}
+  @media(max-width:820px){.princ{grid-template-columns:1fr 1fr}}
+  @media(max-width:520px){.princ{grid-template-columns:1fr}}
+
+  /* ---- legal split ---- */
+  .legal{display:grid;grid-template-columns:1fr 1fr;gap:clamp(1.4rem,3vw,2.4rem);margin-top:clamp(1.4rem,3vw,2rem)}
+  .lbox{background:var(--panel);border:1px solid var(--line-strong);border-radius:14px;padding:clamp(1.4rem,2.6vw,2rem)}
+  .lbox .lh{font-family:var(--display);font-weight:600;font-size:clamp(1.15rem,1.7vw,1.5rem);margin-bottom:.3rem}
+  .lbox .lsub{font-family:var(--mono);font-size:.72rem;letter-spacing:.04em;color:var(--iris-soft);margin-bottom:1.1rem}
+  .lbox .li{padding:.7rem 0;border-top:1px solid var(--line);font-size:clamp(.9rem,1.2vw,1.02rem);line-height:1.45;color:var(--fg-dim);font-weight:400}
+  .lbox .li b{color:var(--fg);font-weight:600;font-family:var(--mono);font-size:.82em}
+  @media(max-width:760px){.legal{grid-template-columns:1fr}}
+
+  /* ---- pull quote ---- */
+  .quote .wrap{max-width:1040px}
+  .quote .mk{font-family:var(--display);font-weight:700;font-size:clamp(4rem,9vw,8rem);line-height:.5;color:var(--coral);height:.5em;display:block;opacity:.5}
+  .quote blockquote{font-family:var(--display);font-weight:500;font-size:clamp(1.4rem,3.1vw,2.5rem);line-height:1.22;letter-spacing:-.015em;margin:1.2rem 0 1.8rem}
+  .quote cite{font-family:var(--mono);font-style:normal;font-size:.76rem;letter-spacing:.04em;color:var(--fg-dim);display:block;line-height:1.7}
+
+  /* ---- section divider ---- */
+  .divider{justify-content:center}
+  .divider .wrap{max-width:1000px}
+  .divider .dnum{font-family:var(--mono);font-size:clamp(.7rem,1.1vw,.85rem);letter-spacing:.2em;color:var(--iris-soft);margin-bottom:1rem}
+  .divider h2{font-size:clamp(2.4rem,6vw,5rem);line-height:1}
+
+  /* ---- closing ---- */
+  #closing{justify-content:center}
+  #closing::before{background:radial-gradient(90% 70% at 50% 50%,var(--iris-dim),transparent 65%)}
+  #closing .wrap{max-width:1100px}
+  #closing .ck{font-family:var(--mono);font-size:.74rem;letter-spacing:.16em;text-transform:uppercase;color:var(--iris-soft);margin-bottom:1.4rem}
+
+  /* ---- theme switch ---- */
+  .theme-switch{position:fixed;top:1.3rem;right:1.6rem;z-index:60;display:flex;gap:2px;padding:3px;border:1px solid var(--line-strong);border-radius:999px;background:var(--panel)}
+  .theme-switch button{display:inline-flex;align-items:center;gap:.35rem;font-family:var(--mono);font-size:.66rem;letter-spacing:.04em;text-transform:uppercase;color:var(--fg-dim);background:transparent;border:0;border-radius:999px;padding:.35rem .65rem;cursor:pointer;transition:all .2s}
+  .theme-switch button .ico{width:11px;height:11px;border-radius:50%;border:1.5px solid currentColor}
+  .theme-switch button[data-t="medium"] .ico{background:linear-gradient(90deg,currentColor 50%,transparent 50%)}
+  .theme-switch button[data-t="light"] .ico{background:currentColor}
+  .theme-switch button:hover{color:var(--fg)}
+  .theme-switch button[aria-pressed="true"]{background:var(--iris);color:#fff}
+  html[data-theme="light"] .theme-switch button[aria-pressed="true"]{color:#fff}
+  @media(max-width:560px){.theme-switch button span.lbl{display:none}}
+
+  /* ---- chrome ---- */
+  .progress{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--iris),var(--coral));width:0;z-index:50;transition:width .15s linear}
+  .counter{position:fixed;bottom:1.4rem;right:1.7rem;z-index:50;font-family:var(--mono);font-size:.74rem;letter-spacing:.06em;color:var(--fg-dim)}
+  .counter .cur{color:var(--iris-soft)}
+  .nav-dots{position:fixed;top:50%;right:1.4rem;transform:translateY(-50%);z-index:50;display:flex;flex-direction:column;gap:.55rem}
+  .nav-dots button{width:8px;height:8px;border-radius:50%;border:1px solid var(--fg-faint);background:transparent;padding:0;cursor:pointer;transition:all .25s;display:block}
+  .nav-dots button:hover{border-color:var(--iris)}
+  .nav-dots button.active{background:var(--iris);border-color:var(--iris);transform:scale(1.35)}
+  .kbd-hint{position:fixed;bottom:1.4rem;left:1.7rem;z-index:50;font-family:var(--mono);font-size:.7rem;letter-spacing:.03em;color:var(--fg-faint)}
+  .kbd-hint kbd{border:1px solid var(--line-strong);border-radius:3px;padding:.05em .4em;color:var(--fg-dim)}
+  :focus-visible{outline:2px solid var(--iris);outline-offset:3px}
+
+  .reveal>*{opacity:0;transform:translateY(20px);transition:opacity .6s cubic-bezier(.2,.7,.2,1),transform .6s cubic-bezier(.2,.7,.2,1)}
+  .slide.in .reveal>*{opacity:1;transform:none}
+  .slide.in .reveal>*:nth-child(2){transition-delay:.07s}
+  .slide.in .reveal>*:nth-child(3){transition-delay:.14s}
+  .slide.in .reveal>*:nth-child(4){transition-delay:.2s}
+
+  /*
+   * Reflow the deck when the viewport is narrow or short. Browser zoom
+   * reduces the CSS viewport in both directions, so a width-only mobile
+   * breakpoint leaves intermediate zoom levels trapped in clipped 100vh
+   * slides.
+   */
+  @media(max-width:780px), (max-height:760px){
+    html{scroll-behavior:auto}
+    .deck{height:auto;overflow-y:visible;scroll-snap-type:none;scroll-behavior:auto}
+    .slide,
+    #hero{
+      min-height:100svh;
+      scroll-margin-top:4.5rem;
+      scroll-snap-align:none;
+      scroll-snap-stop:normal;
+      justify-content:flex-start;
+      overflow:visible;
+      padding:5rem clamp(1.3rem,6vw,7rem) 3rem;
+    }
+    .nav-dots,.kbd-hint,.progress,.counter{display:none}
+  }
+
+  @media(max-width:420px){
+    .theme-switch{position:absolute;top:4rem;right:.7rem}
+    .slide,
+    #hero{padding-top:7.5rem}
+  }
+
+  @media (prefers-reduced-motion:reduce){*{scroll-behavior:auto !important}.reveal>*{opacity:1 !important;transform:none !important}}
+</style>
+</head>
+<body>
+<nav class="site-nav" aria-label="Navegação principal">
+  <a class="site-nav__brand" href="index.html" aria-label="LIA 3R — início"><span class="site-nav__mark" aria-hidden="true">L3</span><span class="site-nav__wordmark">LIA 3R</span></a><span class="site-nav__divider" aria-hidden="true"></span>
+  <a href="index.html#lgpd">CF · LGPD</a><a href="index.html#fachin">Magna</a><a href="index.html#curso">Curso</a>
+</nav>
+
+<div class="progress" id="progress"></div>
+<div class="theme-switch" id="themeSwitch" role="group" aria-label="Tema de cor">
+  <button data-t="dark" aria-pressed="true"><span class="ico"></span><span class="lbl">Escuro</span></button>
+  <button data-t="medium" aria-pressed="false"><span class="ico"></span><span class="lbl">Médio</span></button>
+  <button data-t="light" aria-pressed="false"><span class="ico"></span><span class="lbl">Claro</span></button>
+</div>
+<div class="counter"><span class="cur" id="cur">01</span> / <span id="tot">21</span></div>
+<nav class="nav-dots" id="dots" aria-label="Navegação dos slides"></nav>
+<div class="kbd-hint">↑ ↓ ← → · <kbd>espaço</kbd> navega</div>
+
+<main class="deck" id="deck">
+
+  <!-- 1 HERO -->
+  <section class="slide" id="hero" data-label="Abertura">
+    <div class="wrap reveal">
+      <div class="hero-badge"><span class="d"></span>Capacitação · Sistema Judiciário Brasileiro</div>
+      <h1 class="hero-title">Curso LIA <span class="r">3R</span></h1>
+      <div class="hero-mod">Introdução ao Uso da LIA 3R</div>
+      <p class="hero-sub">Os fundamentos essenciais para o uso <b>ético, responsável e eficiente</b> da inteligência artificial no Poder Judiciário.</p>
+    </div>
+  </section>
+
+  <!-- 2 GOVERNANÇA -->
+  <section class="slide" id="governanca" data-label="Governança">
+    <div class="wrap reveal">
+      <div class="kicker">Governança da IA · princípios fundamentais</div>
+      <h2 class="h-md" style="max-width:24ch">O ser humano no centro de toda decisão.</h2>
+      <div class="grid g3">
+        <div class="card"><div class="ci"><span class="dot"></span>princípio</div><h4>Centralidade da Pessoa Humana</h4><p>A dignidade humana é o valor supremo. A tecnologia deve respeitar e promover os direitos fundamentais, servindo às pessoas e à sociedade.</p></div>
+        <div class="card"><div class="ci"><span class="dot"></span>princípio</div><h4>Supervisão Humana Obrigatória e Inafastável</h4><p>Todo sistema de IA requer supervisão humana constante e qualificada. Nenhuma decisão automatizada dispensa análise crítica e validação.</p></div>
+        <div class="card"><div class="ci"><span class="dot"></span>princípio</div><h4>Responsabilidade Integral do Usuário</h4><p>Quem utiliza a IA mantém responsabilidade total pelos resultados. A IA é ferramenta auxiliar; a responsabilidade final é sempre do profissional humano.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 IA GENERATIVA -->
+  <section class="slide" id="generativa" data-label="IA Generativa">
+    <div class="wrap reveal">
+      <div class="kicker">IA Generativa · entendendo a tecnologia</div>
+      <p class="lead"><strong>LLMs (Large Language Models)</strong> são sistemas treinados com bilhões ou trilhões de parâmetros, a partir de enormes quantidades de texto, para compreender e gerar linguagem humana — a base tecnológica do LIA 3R. Enquanto a <span class="i">IA analítica</span> classifica dados existentes, a <span class="i">IA generativa</span> cria novos conteúdos (textos, resumos, minutas) a partir de padrões aprendidos.</p>
+      <div class="flow">
+        <div class="flow-node"><div class="fn">entrada · input</div><h4>O que você fornece</h4><p>Informações, documentos, instruções ou perguntas fornecidas pelo usuário.</p></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-node"><div class="fn">processamento</div><h4>O modelo analisa</h4><p>Processa usando padrões aprendidos durante o treinamento.</p></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-node"><div class="fn">saída · output</div><h4>O que é gerado</h4><p>Conteúdo gerado: textos, resumos, análises ou respostas.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 GLOSSARY DIVIDER -->
+  <section class="slide divider" id="glossario" data-label="Glossário">
+    <div class="wrap reveal">
+      <div class="dnum">Desmistificando termos de IA</div>
+      <h2 class="h-lg" style="max-width:20ch">A terminologia que você encontrará ao trabalhar com o LIA 3R.</h2>
+    </div>
+  </section>
+
+  <!-- 5 PROMPT + ENG -->
+  <section class="slide" id="prompt" data-label="Prompt">
+    <div class="wrap reveal">
+      <div class="kicker">Glossário · o ponto de partida</div>
+      <div class="terms">
+        <div class="tdef">
+          <div class="tt">Prompt</div>
+          <p>Instrução, solicitação ou pergunta encaminhada ao sistema de IA ou LLM — a forma como “conversamos” ou “damos ordens” ao modelo.</p>
+          <p>Pode ser um prompt de chat (conversa) ou de agente (instrução estruturada). <strong style="color:var(--fg)">A qualidade da resposta depende diretamente da qualidade do prompt.</strong></p>
+        </div>
+        <div class="tdef">
+          <div class="tt">Engenharia de Prompts</div>
+          <p>Arte e técnica de formular instruções precisas e eficazes: estruturar perguntas, dar contexto e especificar o formato desejado.</p>
+          <p>É um processo iterativo — instrução → resposta → aperfeiçoamento → nova resposta — para ganhar clareza, precisão, formato e cadeia de raciocínio, eliminando ambiguidades.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 SIMPLES vs COMPLEXOS -->
+  <section class="slide" id="simples-complexos" data-label="Simples × Complexos">
+    <div class="wrap reveal">
+      <div class="kicker">Glossário · tipos de prompt</div>
+      <div class="grid g2">
+        <div class="card">
+          <div class="ci"><span class="dot"></span>prompts simples</div>
+          <h4>Diretos, curtos e objetivos</h4>
+          <p>Pouco contexto, direto ao ponto, com menor controle sobre o formato. <em>Ex.: “Resuma este texto em 3 pontos principais.”</em></p>
+          <p style="margin-top:.7rem;color:var(--fg-dim)"><strong style="color:var(--iris-soft)">Vantagem:</strong> rápidos, para tarefas singelas. <strong style="color:var(--coral-soft)">Desvantagem:</strong> respostas mais genéricas e menos precisas.</p>
+        </div>
+        <div class="card">
+          <div class="ci"><span class="dot"></span>prompts complexos</div>
+          <h4>Com contexto, papel, formato e exemplos</h4>
+          <p>Definem o papel (role), especificam o formato e podem usar técnicas como cadeia de raciocínio (Chain of Thought) e exemplos (few-shot).</p>
+          <p style="margin-top:.7rem;color:var(--fg-dim)"><strong style="color:var(--iris-soft)">Vantagem:</strong> resultados muito mais precisos e estruturados. <strong style="color:var(--coral-soft)">Desvantagem:</strong> exigem mais tempo e boas práticas.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7 REGRA PRÁTICA + CONTEXT ENG -->
+  <section class="slide" id="regra" data-label="Regra prática">
+    <div class="wrap reveal">
+      <div class="kicker">Engenharia de prompts · a regra prática</div>
+      <div class="formula">
+        <span class="fchip">Tarefa</span><span class="fplus">+</span>
+        <span class="fchip">Contexto</span><span class="fplus">+</span>
+        <span class="fchip">Restrições</span><span class="fplus">+</span>
+        <span class="fchip">Formato</span><span class="fplus">+</span>
+        <span class="fchip">Exemplos</span>
+        <span class="fplus" style="font-family:var(--mono);font-size:.9rem">quando necessário</span>
+      </div>
+      <p class="lead" style="margin-top:1.6rem">Essa estrutura resolve grande parte dos casos reais. <em>Ex.: “Sua tarefa é determinar os pontos controvertidos; use este contexto; observe estas restrições; escreva no formato de relatório.”</em></p>
+      <div class="terms" style="margin-top:1.6rem">
+        <div class="tdef">
+          <div class="tt">Engenharia de Contexto · Context Engineering</div>
+          <p>A prática de organizar e controlar <strong style="color:var(--fg)">o que o modelo recebe antes de responder</strong> — instruções, histórico da conversa, documentos, dados recuperados de fontes externas e o uso de ferramentas.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8 AGENTES + TOKENS -->
+  <section class="slide" id="agentes" data-label="Agentes & Tokens">
+    <div class="wrap reveal">
+      <div class="kicker">Glossário · como a IA executa e processa</div>
+      <div class="terms">
+        <div class="tdef">
+          <div class="tt">Agentes</div>
+          <p>Sistema que usa um LLM para executar uma tarefa completa de forma estruturada. Diferente de um chatbot, tem objetivo definido, segue um fluxo de trabalho e pode usar ferramentas (bases de dados, metadados do processo, buscas) até entregar o resultado.</p>
+        </div>
+        <div class="tdef">
+          <div class="tt">Tokens</div>
+          <p>Unidades básicas que os LLMs usam para processar e gerar texto. O modelo divide o texto em pedaços menores — que podem ser uma palavra inteira, parte de uma palavra, um espaço ou um sinal de pontuação.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9 HARNESS + JANELA DE CONTEXTO -->
+  <section class="slide" id="avancados" data-label="Harness & Contexto">
+    <div class="wrap reveal">
+      <div class="kicker">Glossário · conceitos avançados</div>
+      <div class="terms">
+        <div class="tdef">
+          <div class="tt">Harness</div>
+          <p>Camada de software que organiza e controla um agente — a estrutura de código que dá mais autonomia ao modelo, com memórias, ferramentas, consultas externas, instruções e skills, gerenciando o contexto, os logs, a segurança e o fluxo de trabalho.</p>
+        </div>
+        <div class="tdef">
+          <div class="tt">Janela de Contexto</div>
+          <p>Quantidade máxima de informação (em tokens) que o modelo processa de uma só vez — a “memória de trabalho” da IA. Quanto maior, mais contexto considerado simultaneamente.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9b RAG + PROMPT INJECTION -->
+  <section class="slide" id="rag-injection" data-label="RAG & Injection">
+    <div class="wrap reveal">
+      <div class="kicker">Glossário · conceitos avançados</div>
+      <div class="terms">
+        <div class="tdef">
+          <div class="tt">RAG · Retrieval-Augmented Generation</div>
+          <p>Geração Aumentada por Recuperação: a IA busca informações em documentos específicos antes de responder. No LIA 3R, permite analisar documentos do PJe com mais precisão e contextualização.</p>
+        </div>
+        <div class="tdef c">
+          <div class="tt">Prompt Injection</div>
+          <p>Tentativa maliciosa de manipular o comportamento da IA por instruções ocultas ou enganosas nos prompts. Conhecer o risco é essencial para identificar e evitar vulnerabilidades.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10 PROMPT INJECTION + CNJ quote -->
+  <section class="slide quote" id="injection" data-label="Prompt Injection">
+    <div class="wrap reveal">
+      <div class="kicker risk">Conceitos avançados · prompt injection</div>
+      <span class="mk">“</span>
+      <blockquote>Trata-se de classe de ataques em que comandos maliciosos são inseridos em documentos, textos, metadados, links ou outras entradas processadas por sistemas de IA, com a finalidade de subverter o comportamento do modelo, manipulando respostas ou comprometendo, no limite, informações sensíveis.</blockquote>
+      <cite>Nota Técnica · autos n. 0004183-33.2026.2.00.0000 · Conselho Nacional de Justiça — CNJ<br/></cite>
+    </div>
+  </section>
+
+  <!-- 11 CUIDADOS -->
+  <section class="slide" id="cuidados" data-label="Cuidados essenciais">
+    <div class="wrap reveal">
+      <div class="kicker risk">Cuidados essenciais no uso de IA</div>
+      <h2 class="h-md" style="max-width:26ch">Conhecer os riscos é o primeiro passo para contê-los.</h2>
+      <div class="grid g3">
+        <div class="card risk"><div class="ci"><span class="dot"></span>risco</div><h4>Alucinação</h4><p>A IA gera informações falsas com aparência convincente: citações jurídicas inexistentes, números de processos fictícios, jurisprudência fantasiosa.</p></div>
+        <div class="card risk"><div class="ci"><span class="dot"></span>risco</div><h4>Viés Algorítmico</h4><p>Padrões discriminatórios aprendidos dos dados de treinamento, perpetuando preconceitos de gênero, raça, classe e outras características.</p></div>
+        <div class="card risk"><div class="ci"><span class="dot"></span>risco</div><h4>Confiança Excessiva do Usuário</h4><p>Aceitar resultados sem questionamento crítico. A aparência fluente cria falsa sensação de infalibilidade.</p></div>
+      </div>
+      <p class="lead" style="margin-top:1.4rem"><strong style="color:var(--iris-soft)">Contramedida fundamental — Supervisão Humana Inafastável:</strong> sempre revise, valide e questione os resultados gerados por IA, especialmente em contextos decisórios.</p>
+    </div>
+  </section>
+
+  <!-- 12 MAPAS DE RISCO -->
+  <section class="slide" id="mapas" data-label="Mapas de risco">
+    <div class="wrap reveal">
+      <div class="kicker risk">Mapas de risco na atuação judicial</div>
+      <div class="steps two">
+        <div class="step risk"><span class="sn">1</span><div class="sb"><h4>Alucinação e Vieses</h4><p>Informações falsas e padrões discriminatórios podem comprometer decisões. Validação rigorosa é obrigatória.</p></div></div>
+        <div class="step risk"><span class="sn">2</span><div class="sb"><h4>Supervisão Humana Obrigatória</h4><p>Nenhuma decisão judicial pode ser delegada à IA. O profissional valida e assume total responsabilidade.</p></div></div>
+        <div class="step risk"><span class="sn">3</span><div class="sb"><h4>Tratamento de Dados Sensíveis</h4><p>A anonimização adequada é essencial para proteger a privacidade e a dignidade das partes.</p></div></div>
+        <div class="step risk"><span class="sn">4</span><div class="sb"><h4>Viés da Confiança Excessiva</h4><p>Aparência profissional não garante correção. Mantenha postura crítica e questionadora.</p></div></div>
+        <div class="step risk"><span class="sn">5</span><div class="sb"><h4>Conhecimento do Contexto</h4><p>A IA não compreende significado ou consequências. Conheça profundamente o processo antes de usar o conteúdo.</p></div></div>
+        <div class="step risk"><span class="sn">6</span><div class="sb"><h4>Responsabilidade Total do Usuário</h4><p>O usuário responde integralmente por resultados, erros e consequências do uso de IA.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LEGAL DIVIDER -->
+  <section class="slide divider" id="marco-legal" data-label="Marco legal">
+    <div class="wrap reveal">
+      <div class="dnum">Parte II · fundamentos legais e regulação</div>
+      <h2 class="h-lg" style="max-width:22ch">Constituição, LGPD e a Resolução CNJ 615/2025.</h2>
+    </div>
+  </section>
+
+  <!-- 13 CF + LGPD -->
+  <section class="slide" id="cf-lgpd" data-label="CF e LGPD">
+    <div class="wrap reveal">
+      <div class="kicker">Constituição Federal e LGPD · fundamentos legais</div>
+      <div class="legal">
+        <div class="lbox">
+          <div class="lh">Constituição Federal de 1988</div>
+          <div class="lsub">Artigo 5º — Direitos Fundamentais</div>
+          <div class="li"><b>X</b> — São invioláveis a intimidade, a vida privada, a honra e a imagem das pessoas, assegurado o direito à indenização pelo dano material ou moral decorrente de sua violação.</div>
+          <div class="li"><b>LXXIX (EC 115/2022)</b> — É assegurado, nos termos da lei, o direito à proteção dos dados pessoais, inclusive nos meios digitais.</div>
+        </div>
+        <div class="lbox">
+          <div class="lh">Lei Geral de Proteção de Dados</div>
+          <div class="lsub">Lei 13.709/18 · Artigo 2º — Fundamentos</div>
+          <div class="li"><b>I</b> — Respeito à privacidade.</div>
+          <div class="li"><b>IV</b> — Inviolabilidade da intimidade, da honra e da imagem.</div>
+          <div class="li" style="color:var(--fg-dim)">Estabelece regras sobre coleta, armazenamento, tratamento e compartilhamento de dados pessoais, garantindo direitos aos titulares e obrigações a controladores e operadores.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 14 LGPD DEFINIÇÕES -->
+  <section class="slide" id="lgpd-def" data-label="LGPD · definições">
+    <div class="wrap reveal">
+      <div class="kicker">LGPD · definições essenciais (Art. 5º)</div>
+      <div class="terms">
+        <div class="tdef"><div class="tt">Dado Pessoal</div><p>Informação relacionada a pessoa natural identificada ou identificável — qualquer dado que permita, direta ou indiretamente, identificar alguém.</p></div>
+        <div class="tdef c"><div class="tt">Dado Pessoal Sensível</div><p>Origem racial ou étnica, convicção religiosa, opinião política, filiação sindical, dados de saúde, vida sexual, dados genéticos ou biométricos vinculados a pessoa natural.</p></div>
+        <div class="tdef"><div class="tt">Dado Anonimizado</div><p>Dado relativo a titular que não possa ser identificado, considerando meios técnicos razoáveis e disponíveis na ocasião do tratamento.</p></div>
+        <div class="tdef"><div class="tt">Tratamento de Dados</div><p>Toda operação com dados pessoais: coleta, produção, classificação, acesso, transmissão, processamento, armazenamento, eliminação, entre outras.</p></div>
+        <div class="tdef"><div class="tt">Anonimização</div><p>Uso de técnicas razoáveis e disponíveis para impedir que um dado possa ser associado, direta ou indiretamente, a uma pessoa natural. Se for reversível com esforço razoável, os dados continuam sujeitos à lei.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 15 LGPD PRINCÍPIOS -->
+  <section class="slide" id="lgpd-princ" data-label="LGPD · princípios">
+    <div class="wrap reveal">
+      <div class="kicker">LGPD · princípios do tratamento (Art. 6º)</div>
+      <div class="princ">
+        <div class="pc"><div class="pt">Boa-fé</div><p>Atuação ética, honesta e leal em todas as operações.</p></div>
+        <div class="pc"><div class="pt">Finalidade</div><p>Propósitos legítimos, específicos, explícitos e informados ao titular.</p></div>
+        <div class="pc"><div class="pt">Adequação</div><p>Compatibilidade do tratamento com as finalidades informadas.</p></div>
+        <div class="pc"><div class="pt">Necessidade</div><p>Limitação ao mínimo necessário para as finalidades.</p></div>
+        <div class="pc"><div class="pt">Transparência</div><p>Informações claras, precisas e acessíveis aos titulares.</p></div>
+        <div class="pc"><div class="pt">Segurança</div><p>Medidas técnicas e administrativas de proteção.</p></div>
+        <div class="pc"><div class="pt">Prevenção</div><p>Medidas para prevenir danos aos titulares.</p></div>
+        <div class="pc"><div class="pt">Não Discriminação</div><p>Vedação de tratamento para fins discriminatórios ilícitos ou abusivos.</p></div>
+        <div class="pc"><div class="pt">Responsabilização e Prestação de Contas</div><p>Demonstração de medidas eficazes que comprovem a observância das normas.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 16 RESOLUÇÃO 615 -->
+  <section class="slide" id="res615" data-label="Resolução CNJ 615/2025">
+    <div class="wrap reveal">
+      <div class="kicker">Resolução CNJ 615/2025 · marco regulatório</div>
+      <h2 class="h-sm" style="max-width:40ch;margin-bottom:.4rem">Diretrizes para o uso de IA no Poder Judiciário, alinhadas aos princípios constitucionais.</h2>
+      <div class="steps two">
+        <div class="step"><span class="sn">1</span><div class="sb"><h4>Respeito aos Direitos Fundamentais e à LGPD</h4><p>Toda aplicação de IA observa os direitos fundamentais e as normas de proteção de dados.</p></div></div>
+        <div class="step"><span class="sn">2</span><div class="sb"><h4>IA como Ferramenta de Apoio</h4><p>Auxiliar do trabalho humano, jamais substituta da decisão judicial.</p></div></div>
+        <div class="step"><span class="sn">3</span><div class="sb"><h4>Responsabilidade do Usuário</h4><p>Responsabilidade integral pelos resultados e consequências do uso.</p></div></div>
+        <div class="step"><span class="sn">4</span><div class="sb"><h4>Supervisão Humana Constante</h4><p>Revisão, validação e controle humano sobre todos os produtos gerados.</p></div></div>
+        <div class="step"><span class="sn">5</span><div class="sb"><h4>Classificação de Riscos</h4><p>Categorias de risco com requisitos específicos de controle, documentação e supervisão.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 17 REGULAÇÃO POR RISCOS -->
+  <section class="slide" id="riscos-tiers" data-label="Regulação por riscos">
+    <div class="wrap reveal">
+      <div class="kicker">Regulação baseada em riscos · CNJ nº 615/2025</div>
+      <div class="tiers">
+        <div class="tier exc">
+          <div class="th">Risco Excessivo</div>
+          <div class="ts">aplicações proibidas</div>
+          <ul>
+            <li>Não possibilite a revisão humana</li>
+            <li>Perfilamento criminal de pessoas</li>
+            <li>Classificação de pessoas para aplicação jurídica</li>
+            <li>Análise biométrica para reconhecimento de emoções</li>
+            <li>Risco a direitos fundamentais</li>
+          </ul>
+        </div>
+        <div class="tier alto">
+          <div class="th">Alto Risco</div>
+          <div class="ts">controles rigorosos e supervisão</div>
+          <ul>
+            <li>Perfilamento de pessoas</li>
+            <li>Aferição e valoração de prova em processos</li>
+            <li>Interpretação de fatos como crimes</li>
+            <li>Juízos sobre aplicação da norma ou precedentes</li>
+            <li>Biometria para monitoramento comportamental</li>
+          </ul>
+        </div>
+        <div class="tier baixo">
+          <div class="th">Baixo Risco</div>
+          <div class="ts">ferramentas auxiliares</div>
+          <ul>
+            <li>Produção de textos de apoio</li>
+            <li>Atos processuais ordinatórios e tarefas de apoio</li>
+            <li>Extração de informações de sistemas e de documentos</li>
+            <li>Detecção de padrões decisórios e de precedentes qualificados</li>
+            <li>Relatórios gerenciais, análises jurimétricas e estatísticas</li>
+            <li>Análise de atuação pretérita</li>
+            <li>Transcrição de áudio e vídeo · anonimização de documentos</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 18 LIA 3R NA PRÁTICA -->
+  <section class="slide" id="pratica" data-label="LIA 3R na prática">
+    <div class="wrap reveal">
+      <div class="kicker">LIA 3R na prática · roteiro da demonstração</div>
+      <div class="steps two">
+        <div class="step"><span class="sn">01</span><div class="sb"><h4>Demonstração do acesso</h4></div></div>
+        <div class="step"><span class="sn">02</span><div class="sb"><h4>Visão geral do sistema</h4></div></div>
+        <div class="step"><span class="sn">03</span><div class="sb"><h4>Demonstrar conta do usuário</h4></div></div>
+        <div class="step"><span class="sn">04</span><div class="sb"><h4>Fluxo e Fator de Custo</h4></div></div>
+        <div class="step"><span class="sn">05</span><div class="sb"><h4>Uso como chatbot</h4><p>Demonstração do histórico de interações.</p></div></div>
+        <div class="step"><span class="sn">06</span><div class="sb"><h4>Análise de documentos do PJe</h4><p>Documentos processuais favoritados.</p></div></div>
+        <div class="step"><span class="sn">07</span><div class="sb"><h4>Como acessar os agentes</h4></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 19 MAPA / CLOSING -->
+  <section class="slide" id="closing" data-label="Uso responsável">
+    <div class="wrap reveal">
+      <div class="ck">Mapa do uso responsável da IA no Judiciário</div>
+      <h2 class="h-md" style="margin-bottom:clamp(1.4rem,3vw,2rem);max-width:22ch">Seis princípios para recordar.</h2>
+      <div class="grid g3">
+        <div class="card"><div class="ci"><span class="dot"></span>01</div><h4>Conhecer o processo com profundidade</h4></div>
+        <div class="card"><div class="ci"><span class="dot"></span>02</div><h4>Revisar e desconfiar da IA</h4></div>
+        <div class="card"><div class="ci"><span class="dot"></span>03</div><h4>Supervisão Humana Obrigatória e Inafastável</h4></div>
+        <div class="card"><div class="ci"><span class="dot"></span>04</div><h4>Nunca utilizar para processos sigilosos</h4></div>
+        <div class="card"><div class="ci"><span class="dot"></span>05</div><h4>Responsabilidade Integral do Usuário</h4></div>
+        <div class="card"><div class="ci"><span class="dot"></span>06</div><h4>Centralidade da Pessoa Humana</h4></div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<script>
+  // theme switch (dark / medium / light), persisted
+  (function(){
+    const sw=document.getElementById('themeSwitch');
+    const btns=[...sw.querySelectorAll('button')];
+    function apply(t){
+      if(t==='dark'){document.documentElement.removeAttribute('data-theme');}
+      else{document.documentElement.setAttribute('data-theme',t);}
+      btns.forEach(b=>b.setAttribute('aria-pressed', String(b.dataset.t===t)));
+      try{localStorage.setItem('lia3r-theme',t);}catch(e){}
+    }
+    btns.forEach(b=>b.addEventListener('click',()=>apply(b.dataset.t)));
+    let saved='dark';
+    try{saved=localStorage.getItem('lia3r-theme')||'dark';}catch(e){}
+    apply(saved);
+  })();
+
+  const deck=document.getElementById('deck');
+  const slides=[...document.querySelectorAll('.slide')];
+  const dotsWrap=document.getElementById('dots');
+  const progress=document.getElementById('progress');
+  const curEl=document.getElementById('cur');
+  document.getElementById('tot').textContent=String(slides.length).padStart(2,'0');
+
+  slides.forEach((s,i)=>{
+    const b=document.createElement('button');
+    b.setAttribute('aria-label',s.dataset.label||('Slide '+(i+1)));
+    b.title=s.dataset.label||'';
+    b.addEventListener('click',()=>slides[i].scrollIntoView());
+    dotsWrap.appendChild(b);
+  });
+  const dots=[...dotsWrap.children];
+
+  const io=new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        e.target.classList.add('in');
+      }
+    });
+  },{threshold:.01});
+  slides.forEach(s=>io.observe(s));
+
+  function currentIndex(){
+    const viewportCenter=window.innerHeight/2;
+    let bestIndex=0;
+    let bestDistance=Infinity;
+
+    slides.forEach((slide,i)=>{
+      const rect=slide.getBoundingClientRect();
+      const distance=viewportCenter<rect.top
+        ? rect.top-viewportCenter
+        : viewportCenter>rect.bottom
+          ? viewportCenter-rect.bottom
+          : 0;
+
+      if(distance<bestDistance){
+        bestDistance=distance;
+        bestIndex=i;
+      }
+    });
+
+    return bestIndex;
+  }
+
+  function updateChrome(){
+    const i=currentIndex();
+    curEl.textContent=String(i+1).padStart(2,'0');
+    dots.forEach((d,j)=>d.classList.toggle('active',j===i));
+
+    const deckIsScroller=getComputedStyle(deck).overflowY!=='visible';
+    const scrollTop=deckIsScroller ? deck.scrollTop : window.scrollY;
+    const max=deckIsScroller
+      ? deck.scrollHeight-deck.clientHeight
+      : document.documentElement.scrollHeight-window.innerHeight;
+    progress.style.width=(max>0 ? scrollTop/max*100 : 0)+'%';
+  }
+
+  let updateFrame=0;
+  function scheduleChromeUpdate(){
+    if(updateFrame)return;
+    updateFrame=requestAnimationFrame(()=>{
+      updateFrame=0;
+      updateChrome();
+    });
+  }
+
+  deck.addEventListener('scroll',scheduleChromeUpdate,{passive:true});
+  window.addEventListener('scroll',scheduleChromeUpdate,{passive:true});
+  window.addEventListener('resize',scheduleChromeUpdate,{passive:true});
+  updateChrome();
+
+  window.addEventListener('keydown',(e)=>{
+    if(e.defaultPrevented||e.ctrlKey||e.metaKey||e.altKey)return;
+    if(e.target instanceof Element&&e.target.closest('a,button,input,select,textarea,[contenteditable="true"]'))return;
+
+    // In reflow mode, preserve the browser's native line/page scrolling so
+    // enlarged, variable-height slides can be read from top to bottom.
+    if(getComputedStyle(deck).scrollSnapType==='none')return;
+
+    const i=currentIndex();
+    if(['ArrowRight','ArrowDown','PageDown',' '].includes(e.key)){e.preventDefault();slides[Math.min(i+1,slides.length-1)].scrollIntoView();}
+    else if(['ArrowLeft','ArrowUp','PageUp'].includes(e.key)){e.preventDefault();slides[Math.max(i-1,0)].scrollIntoView();}
+    else if(e.key==='Home'){e.preventDefault();slides[0].scrollIntoView();}
+    else if(e.key==='End'){e.preventDefault();slides[slides.length-1].scrollIntoView();}
+  });
+</script>
+</body>
+</html>

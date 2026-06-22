@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Resolução CNJ nº 615/2025 — IA no Poder Judiciário</title>
+<link rel="icon" type="image/png" href="icone-lia.png" />
+<link rel="stylesheet" href="site-nav.css" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  /* === SOBER HI-TECH THEME === single cyan-steel accent, engineered chrome === */
+  :root{
+    --bg:#090B0F;          /* graphite black */
+    --bg-2:#0C0F14;
+    --panel:#11151B;
+    --panel-2:#141922;
+    --fg:#DCE2EA;
+    --fg-dim:rgba(220,226,234,.62);
+    --fg-faint:rgba(220,226,234,.36);
+    --ai:#54C2D4;          /* primary — cyan-steel */
+    --ai-soft:#8AD8E4;
+    --human:#8094AE;       /* secondary — muted steel */
+    --human-soft:#A6B6CC;
+    --danger:#D76C63;      /* muted alert */
+    --ok:#5BB394;          /* muted positive */
+    --line:rgba(220,226,234,.10);
+    --line-strong:rgba(220,226,234,.22);
+    --accent-glow:rgba(84,194,212,.16);
+    --display:"Archivo",system-ui,sans-serif;
+    --body:"Inter",system-ui,sans-serif;
+    --mono:"JetBrains Mono",ui-monospace,monospace;
+  }
+  /* ---- MEDIUM theme (soft light-grey, reduced glare) ---- */
+  html[data-theme="medium"]{
+    --bg:#CFD3DA;--bg-2:#C4C9D1;--panel:#DCE0E6;--panel-2:#CFD4DB;
+    --fg:#11151B;--fg-dim:rgba(17,21,27,.72);--fg-faint:rgba(17,21,27,.46);
+    --ai:#0E7C8C;--ai-soft:#0A5F6C;--human:#4A5C74;--human-soft:#3A4A60;
+    --danger:#B0463C;--ok:#2E7D63;
+    --line:rgba(17,21,27,.16);--line-strong:rgba(17,21,27,.30);--accent-glow:rgba(14,124,140,.12);
+  }
+  /* ---- LIGHT theme (white) ---- */
+  html[data-theme="light"]{
+    --bg:#F5F7FA;--bg-2:#ECEFF3;--panel:#FFFFFF;--panel-2:#F1F4F8;
+    --fg:#0C1014;--fg-dim:rgba(12,16,20,.68);--fg-faint:rgba(12,16,20,.42);
+    --ai:#0C6F7E;--ai-soft:#09525D;--human:#445877;--human-soft:#33455F;
+    --danger:#B33A30;--ok:#1F7A5E;
+    --line:rgba(12,16,20,.12);--line-strong:rgba(12,16,20,.22);--accent-glow:rgba(12,111,126,.08);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--fg);font-family:var(--body);-webkit-font-smoothing:antialiased;overflow-x:hidden;transition:background-color .4s ease,color .4s ease}
+
+  /* === MECHANICS === */
+  .deck{height:100vh;overflow-y:scroll;scroll-snap-type:y mandatory;scroll-behavior:smooth}
+  .deck::-webkit-scrollbar{width:0}
+  .slide{
+    min-height:100vh;scroll-snap-align:start;scroll-snap-stop:always;
+    position:relative;display:flex;flex-direction:column;justify-content:center;
+    padding:clamp(2.2rem,4.2vh,4rem) clamp(1.6rem,6vw,7rem);overflow:hidden;
+  }
+  .slide::before{content:"";position:absolute;inset:0;background:
+     radial-gradient(120% 80% at 92% 4%, var(--accent-glow), transparent 52%);
+     pointer-events:none;z-index:0}
+  /* engineered grid — sober, faint */
+  .slide::after{content:"";position:absolute;inset:0;opacity:.45;pointer-events:none;z-index:0;
+     background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);
+     background-size:48px 48px;mask:radial-gradient(130% 110% at 85% 0%,#000,transparent 72%)}
+  .wrap{position:relative;z-index:2;max-width:1180px;margin:0 auto;width:100%}
+  /* hairline frame — HUD */
+  .frame{position:fixed;inset:14px;border:1px solid var(--line);pointer-events:none;z-index:40}
+  .frame::before,.frame::after{content:"";position:absolute;width:14px;height:14px;border-color:var(--ai);opacity:.6}
+  .frame::before{top:-1px;left:-1px;border-top:1.5px solid;border-left:1.5px solid}
+  .frame::after{bottom:-1px;right:-1px;border-bottom:1.5px solid;border-right:1.5px solid}
+
+  /* === TYPE === */
+  .eyebrow{font-family:var(--mono);font-size:clamp(.6rem,1vw,.74rem);letter-spacing:.24em;text-transform:uppercase;color:var(--ai);display:flex;align-items:center;gap:.8rem;margin-bottom:.95rem}
+  .eyebrow::before{content:"";width:8px;height:8px;background:var(--ai);box-shadow:0 0 0 3px var(--accent-glow);flex:0 0 auto}
+  .eyebrow.h{color:var(--human-soft)}.eyebrow.h::before{background:var(--human);box-shadow:none}
+  .eyebrow.d{color:var(--danger)}.eyebrow.d::before{background:var(--danger);box-shadow:none}
+  .eyebrow.g{color:var(--ok)}.eyebrow.g::before{background:var(--ok);box-shadow:none}
+  h1,h2,h3{font-family:var(--display);font-weight:700;line-height:1.05;letter-spacing:-.01em;color:var(--fg)}
+  h2{font-size:clamp(1.55rem,3.4vw,2.55rem);margin-bottom:.45rem}
+  h3{font-size:clamp(1.2rem,2.2vw,1.7rem)}
+  .big{font-family:var(--display);font-weight:800;font-size:clamp(2.3rem,6.4vw,5.2rem);line-height:1.01;letter-spacing:-.025em}
+  .big .ai{color:var(--ai)}
+  .big .hu{color:var(--human-soft)}
+  .lead{margin-top:1.1rem;max-width:74ch;color:var(--fg-dim);font-size:clamp(.98rem,1.4vw,1.18rem);line-height:1.6}
+  /* subtitle (article caput / intro) — its bottom margin IS the empty line before the body */
+  .subt{margin:.2rem 0 1.45rem;max-width:84ch;color:var(--fg-dim);font-size:clamp(.95rem,1.35vw,1.13rem);line-height:1.5}
+  /* consistent gap between header block and body when no subtitle is present */
+  h2 + .grid, h2 + .incisos, h2 + .lei, h2 + .check{margin-top:1.45rem}
+  .kicker{font-family:var(--mono);font-size:.78rem;letter-spacing:.04em;color:var(--fg-faint);margin-top:1.7rem}
+
+  /* === ARTICLE CARD — technical corner ticks === */
+  .lei{position:relative;background:var(--panel);border:1px solid var(--line);border-left:2px solid var(--ai);
+       border-radius:2px;padding:clamp(1.2rem,2.2vw,1.8rem) clamp(1.3rem,2.4vw,2.1rem);
+       box-shadow:0 26px 54px -36px rgba(0,0,0,.85)}
+  .lei::before,.lei::after{content:"";position:absolute;width:9px;height:9px;border-color:var(--ai);opacity:.55}
+  .lei::after{right:-1px;bottom:-1px;border-bottom:1.5px solid;border-right:1.5px solid;left:auto;top:auto}
+  .lei::before{top:-1px;right:-1px;border-top:1.5px solid;border-right:1.5px solid}
+  .lei.human{border-left-color:var(--human)}.lei.human::before,.lei.human::after{border-color:var(--human)}
+  .lei.danger{border-left-color:var(--danger)}.lei.danger::before,.lei.danger::after{border-color:var(--danger)}
+  .lei.ok{border-left-color:var(--ok)}.lei.ok::before,.lei.ok::after{border-color:var(--ok)}
+  .lei .art{font-family:var(--mono);font-size:.74rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ai);margin-bottom:.8rem;display:block}
+  .lei.human .art{color:var(--human-soft)}
+  .lei.danger .art{color:var(--danger)}
+  .lei.ok .art{color:var(--ok)}
+  .lei p{font-size:clamp(.95rem,1.35vw,1.12rem);line-height:1.58;color:var(--fg);max-width:88ch}
+  .lei p + p{margin-top:.65rem}
+  .lei .legible{font-size:clamp(.9rem,1.25vw,1.02rem);line-height:1.54}
+  .src{font-family:var(--mono);font-size:.72rem;letter-spacing:.05em;color:var(--fg-faint);margin-top:.9rem}
+
+  /* === ENUM LIST === */
+  .incisos{list-style:none;display:grid;gap:.45rem;margin-top:.2rem}
+  .incisos.two{grid-template-columns:1fr 1fr;gap:.45rem 1.8rem}
+  .incisos li{display:flex;gap:.75rem;font-size:clamp(.88rem,1.18vw,1.0rem);line-height:1.42;color:var(--fg);padding-bottom:.4rem;border-bottom:1px solid var(--line)}
+  .incisos .n{font-family:var(--mono);font-size:.72rem;color:var(--ai);flex:0 0 auto;padding-top:.14em;min-width:2.6em}
+  .incisos.human .n{color:var(--human-soft)}
+  .incisos.danger .n{color:var(--danger)}
+
+  /* === THESIS (signature) === */
+  .thesis{display:flex;flex-direction:column;align-items:center;text-align:center;gap:1rem;margin-top:.5rem}
+  .thesis .tline{font-family:var(--display);font-weight:800;font-size:clamp(2rem,6vw,4.4rem);line-height:1.04;letter-spacing:-.025em}
+  .thesis .tline .tool{color:var(--ai)}
+  .thesis .tline .neg{color:var(--human-soft);position:relative}
+  .balance{position:relative;display:flex;align-items:stretch;gap:0;margin-top:1.6rem;width:100%;max-width:860px;border:1px solid var(--line);border-radius:2px;overflow:hidden}
+  .balance .side{flex:1;padding:1.2rem 1.3rem;background:var(--panel)}
+  .balance .side.r{border-left:1px solid var(--line);text-align:right}
+  .balance .lab{font-family:var(--mono);font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;margin-bottom:.4rem}
+  .balance .side.l .lab{color:var(--ai)}
+  .balance .side.r .lab{color:var(--human-soft)}
+  .balance .val{font-family:var(--display);font-weight:600;font-size:clamp(1.0rem,1.7vw,1.32rem);color:var(--fg)}
+
+  /* === GRID CARDS === */
+  .grid{display:grid;gap:.8rem;margin-top:1.2rem}
+  .grid.c2{grid-template-columns:1fr 1fr}
+  .grid.c3{grid-template-columns:repeat(3,1fr)}
+  .card{position:relative;background:var(--panel);border:1px solid var(--line);border-top:2px solid var(--ai);border-radius:2px;padding:1.05rem 1.15rem;transition:border-color .25s,background .25s}
+  .card::after{content:"";position:absolute;right:-1px;bottom:-1px;width:8px;height:8px;border-bottom:1.5px solid var(--ai);border-right:1.5px solid var(--ai);opacity:.4}
+  .card.human{border-top-color:var(--human)}.card.human::after{border-color:var(--human)}
+  .card.danger{border-top-color:var(--danger)}.card.danger::after{border-color:var(--danger)}
+  .card.ok{border-top-color:var(--ok)}.card.ok::after{border-color:var(--ok)}
+  .card .ct{font-family:var(--mono);font-size:.68rem;letter-spacing:.07em;text-transform:uppercase;color:var(--ai);margin-bottom:.4rem}
+  .card.human .ct{color:var(--human-soft)}
+  .card.danger .ct{color:var(--danger)}
+  .card .cb{font-size:clamp(.88rem,1.2vw,1.0rem);line-height:1.46;color:var(--fg-dim)}
+  .card h4{font-family:var(--display);font-weight:600;font-size:1.05rem;color:var(--fg);margin-bottom:.3rem}
+
+  /* === STRUCTURE / CHAPTER MAP === */
+  .flow{display:grid;grid-template-columns:repeat(4,1fr);gap:.6rem;margin-top:1.2rem}
+  .flow.six{grid-template-columns:repeat(3,1fr)}
+  .flow .step{position:relative;background:var(--panel);border:1px solid var(--line);border-radius:2px;padding:.85rem .95rem}
+  .flow .step .sn{font-family:var(--mono);font-size:.68rem;color:var(--ai);letter-spacing:.1em}
+  .flow .step .st{font-family:var(--display);font-weight:600;font-size:.98rem;margin-top:.3rem;color:var(--fg);line-height:1.2}
+  .flow .step .sd{font-size:.8rem;color:var(--fg-dim);margin-top:.25rem;line-height:1.35}
+
+  /* === CHECKLIST === */
+  .check{display:grid;gap:.6rem;margin-top:1.2rem;max-width:820px}
+  .check li{list-style:none;display:flex;gap:.85rem;align-items:flex-start;background:var(--panel);border:1px solid var(--line);border-left:2px solid var(--ok);border-radius:2px;padding:.8rem 1.05rem;font-size:clamp(.94rem,1.3vw,1.08rem);color:var(--fg)}
+  .check .ck{color:var(--ok);font-weight:700;flex:0 0 auto;font-family:var(--mono)}
+
+  @media(max-width:860px){.grid.c2,.grid.c3,.incisos.two,.flow,.flow.six,.balance{grid-template-columns:1fr;flex-direction:column}.balance .side.r{text-align:left;border-left:0;border-top:1px solid var(--line)}}
+
+  /* === THEME SWITCH === */
+  .theme-switch{position:fixed;top:1.55rem;right:1.7rem;z-index:60;display:flex;gap:2px;padding:3px;border:1px solid var(--line-strong);border-radius:999px;background:var(--panel)}
+  .theme-switch button{display:inline-flex;align-items:center;gap:.35rem;font-family:var(--mono);font-size:.64rem;letter-spacing:.06em;text-transform:uppercase;color:var(--fg-dim);background:transparent;border:0;border-radius:999px;padding:.35rem .62rem;cursor:pointer;transition:all .2s}
+  .theme-switch button .ico{width:11px;height:11px;border-radius:50%;border:1.5px solid currentColor}
+  .theme-switch button[data-t="medium"] .ico{background:linear-gradient(90deg,currentColor 50%,transparent 50%)}
+  .theme-switch button[data-t="light"] .ico{background:currentColor}
+  .theme-switch button:hover{color:var(--fg)}
+  .theme-switch button[aria-pressed="true"]{background:var(--ai);color:var(--bg)}
+  @media(max-width:560px){.theme-switch{top:auto;bottom:1.4rem;left:50%;right:auto;transform:translateX(-50%)}.theme-switch button span.lbl{display:none}}
+
+  /* === CHROME === */
+  .progress{position:fixed;top:0;left:0;height:2px;background:linear-gradient(90deg,var(--ai),var(--human-soft));width:0;z-index:50;transition:width .15s linear;box-shadow:0 0 10px var(--accent-glow)}
+  .counter{position:fixed;bottom:1.5rem;right:1.7rem;z-index:50;font-family:var(--mono);font-size:.74rem;letter-spacing:.1em;color:var(--fg-dim)}
+  .counter .cur{color:var(--ai)}
+  .nav-dots{position:fixed;top:50%;right:1.5rem;transform:translateY(-50%);z-index:50;display:flex;flex-direction:column;gap:.5rem}
+  .nav-dots button{width:7px;height:7px;border-radius:0;border:1px solid var(--fg-faint);background:transparent;padding:0;cursor:pointer;transition:all .25s;display:block;transform:rotate(45deg)}
+  .nav-dots button:hover{border-color:var(--ai)}
+  .nav-dots button.active{background:var(--ai);border-color:var(--ai);transform:rotate(45deg) scale(1.35)}
+  .kbd-hint{position:fixed;bottom:1.5rem;left:1.7rem;z-index:50;font-family:var(--mono);font-size:.64rem;letter-spacing:.08em;color:var(--fg-faint)}
+  .kbd-hint kbd{border:1px solid var(--line-strong);border-radius:2px;padding:.05em .4em;color:var(--fg-dim)}
+  :focus-visible{outline:2px solid var(--ai);outline-offset:3px}
+
+  .reveal>*{opacity:0;transform:translateY(18px);transition:opacity .6s cubic-bezier(.2,.7,.2,1),transform .6s cubic-bezier(.2,.7,.2,1)}
+  .slide.in .reveal>*{opacity:1;transform:none}
+  .slide.in .reveal>*:nth-child(2){transition-delay:.06s}
+  .slide.in .reveal>*:nth-child(3){transition-delay:.12s}
+  .slide.in .reveal>*:nth-child(4){transition-delay:.18s}
+  .slide.in .reveal>*:nth-child(5){transition-delay:.24s}
+  .slide.in .reveal>*:nth-child(6){transition-delay:.30s}
+
+  @media(max-width:780px){.nav-dots,.kbd-hint,.frame{display:none}.slide{padding:3.2rem 1.2rem}.slide::after{display:none}}
+  @media (prefers-reduced-motion:reduce){*{scroll-behavior:auto !important}.reveal>*{opacity:1 !important;transform:none !important}}
+</style>
+</head>
+<body>
+<nav class="site-nav" aria-label="Navegação principal">
+  <a class="site-nav__brand" href="index.html" aria-label="LIA 3R — início"><span class="site-nav__mark" aria-hidden="true">L3</span><span class="site-nav__wordmark">LIA 3R</span></a><span class="site-nav__divider" aria-hidden="true"></span>
+  <a href="index.html#lgpd">CF · LGPD</a><a href="index.html#fachin">Magna</a><a href="index.html#curso">Curso</a>
+</nav>
+
+<div class="theme-switch" id="themeSwitch" role="group" aria-label="Tema de cor">
+  <button data-t="dark" aria-pressed="true"><span class="ico"></span><span class="lbl">Escuro</span></button>
+  <button data-t="medium" aria-pressed="false"><span class="ico"></span><span class="lbl">Médio</span></button>
+  <button data-t="light" aria-pressed="false"><span class="ico"></span><span class="lbl">Claro</span></button>
+</div>
+
+<div class="frame"></div>
+<div class="progress" id="progress"></div>
+<div class="counter"><span class="cur" id="cur">01</span> / <span id="tot">00</span></div>
+<nav class="nav-dots" id="dots" aria-label="Navegação dos slides"></nav>
+<div class="kbd-hint">↑ ↓ ← → · <kbd>espaço</kbd> navega</div>
+
+<main class="deck" id="deck">
+
+  <!-- 1 · HERO -->
+  <section class="slide" data-label="Abertura">
+    <div class="wrap reveal">
+      <div class="eyebrow">Conselho Nacional de Justiça · 11 de março de 2025</div>
+      <h1 class="big">Inteligência <span class="ai">artificial</span><br>no Poder <span class="hu">Judiciário</span></h1>
+      <p class="lead">Resolução CNJ nº 615/2025 — diretrizes para o desenvolvimento, a utilização e a governança de soluções desenvolvidas com recursos de inteligência artificial no Poder Judiciário.</p>
+      <p class="kicker">Texto compilado (redação dada pela Resolução CNJ nº 674/2026) · sucede a Resolução CNJ nº 332/2020</p>
+    </div>
+  </section>
+
+  <!-- 2 · Recomendações de estudo -->
+  <section class="slide" data-label="Como estudar">
+    <div class="wrap reveal">
+      <div class="eyebrow">Recomendações de estudo</div>
+      <h2>Uma resolução ampla, de leitura por temas</h2>
+      <div class="grid c3">
+        <div class="card"><div class="ct">01 · Amplitude</div><div class="cb">Trata-se de uma Resolução ampla, que regulamenta diversos temas em um mesmo documento.</div></div>
+        <div class="card"><div class="ct">02 · Leitura direcionada</div><div class="cb">Estudar por temas: direitos fundamentais, usos permitidos, usos vedados, supervisão e controle, Comitê Nacional, etc.</div></div>
+        <div class="card"><div class="ct">03 · Origem</div><div class="cb">Ler a parte introdutória: como a Resolução foi construída a partir de estudos, trabalhos técnicos e da experiência desde a Res. 332/2020.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 · Signature: ferramenta, não substituta -->
+  <section class="slide" data-label="Tese central">
+    <div class="wrap reveal">
+      <div class="eyebrow h">Ponto fundamental</div>
+      <div class="thesis">
+        <div class="tline">A IA é <span class="tool">ferramenta</span>,<br>não <span class="neg">substituta</span> da decisão humana.</div>
+        <div class="balance">
+          <div class="side l"><div class="lab">Promove</div><div class="val">Inovação tecnológica e eficiência dos serviços judiciários</div></div>
+          <div class="side r"><div class="lab">Com estrita observância</div><div class="val">Dos direitos fundamentais dos jurisdicionados</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 · Pontos fundamentais (eixos) -->
+  <section class="slide" data-label="Pontos fundamentais">
+    <div class="wrap reveal">
+      <div class="eyebrow h">Pontos fundamentais</div>
+      <h2>Os alicerces da Resolução</h2>
+      <div class="grid c3">
+        <div class="card human"><div class="ct">Direitos</div><div class="cb">Respeito aos direitos fundamentais, notadamente à <strong>proteção de dados</strong>, e observância da <strong>LGPD</strong>.</div></div>
+        <div class="card human"><div class="ct">Papel da IA</div><div class="cb">Uso da IA como <strong>ferramenta e não como substituta</strong> das decisões humanas.</div></div>
+        <div class="card human"><div class="ct">Responsabilidade</div><div class="cb">Responsabilidade do <strong>usuário</strong> pela revisão dos produtos ou resultados do emprego da IA.</div></div>
+        <div class="card human"><div class="ct">Controle</div><div class="cb"><strong>Transparência, supervisão e controle contínuos</strong> do uso da IA nas aplicações do Judiciário.</div></div>
+        <div class="card danger"><div class="ct">Vedação</div><div class="cb">Vedação de usos que deem margem à divulgação indevida de dados e à violação de direitos — notadamente <strong>preconceitos e vieses</strong>.</div></div>
+        <div class="card human"><div class="ct">Equilíbrio</div><div class="cb">Inovação e eficiência, porém com clara ênfase à indispensável <strong>proteção dos direitos fundamentais</strong>.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 · Estrutura (12 capítulos) -->
+  <section class="slide" data-label="Estrutura">
+    <div class="wrap reveal">
+      <div class="eyebrow">Estrutura · 12 capítulos · 47 artigos - Anexo</div>
+      <h2>A arquitetura da Resolução</h2>
+      <div class="flow six">
+        <div class="step"><div class="sn">CAP. I</div><div class="st">Definições e fundamentos</div><div class="sd">Arts. 1º a 4º</div></div>
+        <div class="step"><div class="sn">CAP. II</div><div class="st">Respeito aos direitos fundamentais</div><div class="sd">Arts. 5º a 8º</div></div>
+        <div class="step"><div class="sn">CAP. III</div><div class="st">Categorização dos riscos</div><div class="sd">Arts. 9º a 11</div></div>
+        <div class="step"><div class="sn">CAP. IV</div><div class="st">Medidas de governança</div><div class="sd">Arts. 12 a 14</div></div>
+        <div class="step"><div class="sn">CAP. V</div><div class="st">Supervisão e implementação</div><div class="sd">Arts. 15 a 18 · Comitê Nacional</div></div>
+        <div class="step"><div class="sn">CAP. VI</div><div class="st">Uso e contratação de LLMs / IAGen</div><div class="sd">Arts. 19 a 21</div></div>
+        <div class="step"><div class="sn">CAP. VII</div><div class="st">Transparência e registro no Sinapses</div><div class="sd">Arts. 22 a 25</div></div>
+        <div class="step"><div class="sn">CAP. VIII</div><div class="st">Qualidade e segurança</div><div class="sd">Arts. 26 a 31</div></div>
+        <div class="step"><div class="sn">CAP. IX</div><div class="st">Controle do usuário</div><div class="sd">Arts. 32 a 34</div></div>
+        <div class="step"><div class="sn">CAP. X</div><div class="st">Pesquisa, desenvolvimento e implantação</div><div class="sd">Arts. 35 a 38</div></div>
+        <div class="step"><div class="sn">CAP. XI</div><div class="st">Auditoria e monitoramento</div><div class="sd">Arts. 39 a 42</div></div>
+        <div class="step"><div class="sn">CAP. XII</div><div class="st">Disposições finais</div><div class="sd">Arts. 43 a 47</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 · Art 1 objetivo -->
+  <section class="slide" data-label="Art. 1º · Objetivo">
+    <div class="wrap reveal">
+      <div class="eyebrow">Cap. I · Art. 1º · Objetivo</div>
+      <h2>O que a Resolução estabelece</h2>
+      <div class="lei">
+        <span class="art">Art. 1º</span>
+        <p>A presente Resolução estabelece normas para o <strong>desenvolvimento, a governança, a auditoria, o monitoramento e o uso responsável</strong> de soluções que adotam técnicas de inteligência artificial (IA) no âmbito do Poder Judiciário, com o objetivo de promover a inovação tecnológica e a eficiência dos serviços judiciários de modo <strong>seguro, transparente, isonômico e ético</strong>, em benefício dos jurisdicionados e com <strong>estrita observância de seus direitos fundamentais</strong>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7 · Art 2 fundamentos (caput + I-XII) -->
+  <section class="slide" data-label="Art. 2º · Fundamentos">
+    <div class="wrap reveal">
+      <div class="eyebrow">Cap. I · Art. 2º · Fundamentos</div>
+      <h2>Doze fundamentos</h2>
+      <p class="subt">“O desenvolvimento, a governança, a auditoria, o monitoramento e o uso responsável de soluções de IA pelo Poder Judiciário têm como fundamentos:”</p>
+      <ul class="incisos two">
+        <li><span class="n">I</span><span>o respeito aos direitos fundamentais e aos valores democráticos;</span></li>
+        <li><span class="n">II</span><span>a promoção do bem-estar dos jurisdicionados;</span></li>
+        <li><span class="n">III</span><span>o desenvolvimento tecnológico e o estímulo à inovação no setor público, com ênfase na colaboração entre os tribunais e o CNJ e respeitada a autonomia dos tribunais;</span></li>
+        <li><span class="n">IV</span><span>a centralidade da pessoa humana;</span></li>
+        <li><span class="n">V</span><span>a participação e a supervisão humana em todas as etapas dos ciclos de desenvolvimento e de utilização, ressalvado o uso como ferramentas auxiliares em serviços meramente acessórios ou procedimentais e no suporte à decisão;</span></li>
+        <li><span class="n">VI</span><span>a promoção da igualdade, da pluralidade e da justiça decisória;</span></li>
+        <li><span class="n">VII</span><span>a formulação de soluções seguras, com identificação, classificação, monitoramento e mitigação de riscos sistêmicos;</span></li>
+        <li><span class="n">VIII</span><span>a proteção de dados pessoais, o acesso à informação e o respeito ao segredo de justiça;</span></li>
+        <li><span class="n">IX</span><span>a curadoria dos dados, com fontes seguras, rastreáveis e auditáveis, preferencialmente governamentais, permitida a contratação de fontes privadas que atendam aos requisitos de segurança e auditabilidade;</span></li>
+        <li><span class="n">X</span><span>a conscientização e a difusão do conhecimento, com capacitação contínua dos usuários;</span></li>
+        <li><span class="n">XI</span><span>a garantia da segurança da informação e da segurança cibernética; e</span></li>
+        <li><span class="n">XII</span><span>a transparência dos relatórios de auditoria, de avaliação de impacto algorítmico e monitoramento.</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 8 · Art 3 princípios (caput + I-VIII) -->
+  <section class="slide" data-label="Art. 3º · Princípios">
+    <div class="wrap reveal">
+      <div class="eyebrow">Cap. I · Art. 3º · Princípios</div>
+      <h2>Oito princípios</h2>
+      <p class="subt">“O desenvolvimento, a governança, a auditoria, o monitoramento e o uso responsável de soluções de IA pelos tribunais têm como princípios:”</p>
+      <ul class="incisos two">
+        <li><span class="n">I</span><span>a justiça, a equidade, a inclusão e a não-discriminação abusiva ou ilícita;</span></li>
+        <li><span class="n">II</span><span>a transparência, a eficiência, a explicabilidade, a contestabilidade, a auditabilidade e a confiabilidade;</span></li>
+        <li><span class="n">III</span><span>a segurança jurídica e a segurança da informação;</span></li>
+        <li><span class="n">IV</span><span>a busca da eficiência e qualidade na prestação jurisdicional, sempre com observância dos direitos fundamentais;</span></li>
+        <li><span class="n">V</span><span>o devido processo legal, a ampla defesa e o contraditório, a identidade física do juiz e a razoável duração do processo, com observância das prerrogativas e dos direitos dos atores do sistema de Justiça;</span></li>
+        <li><span class="n">VI</span><span>a prevenção, a precaução e o controle para a mitigação de riscos do uso intencional ou não intencional da IA;</span></li>
+        <li><span class="n">VII</span><span>a supervisão humana efetiva, periódica e adequada no ciclo de vida, conforme o grau de risco, com possibilidade de ajuste conforme o nível de automação e o impacto da solução; e</span></li>
+        <li><span class="n">VIII</span><span>a oferta, pelos tribunais e suas escolas, de capacitação contínua para magistrados e servidores sobre riscos da automação, vieses algorítmicos e análise crítica dos resultados gerados por IA.</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 9 · Art 4 defs A -->
+  <section class="slide" data-label="Art. 4º · Definições (I)">
+    <div class="wrap reveal">
+      <div class="eyebrow">Cap. I · Art. 4º · Definições</div>
+      <h2>O que é IA — e IA generativa</h2>
+      <div class="grid c3">
+        <div class="card"><div class="ct">I — Sistema de IA</div><div class="cb">Sistema baseado em máquina que, com diferentes níveis de autonomia, processa dados para gerar <strong>resultados prováveis e coerentes de decisão, recomendação ou conteúdo</strong>, que possam influenciar o ambiente virtual, físico ou real.</div></div>
+        <div class="card"><div class="ct">IX — IA generativa (IAGen)</div><div class="cb">Sistema de IA destinado a <strong>gerar ou modificar significativamente</strong> texto, imagens, áudio, vídeo ou código de software, além dos modelos estatísticos e de aprendizado a partir dos dados treinados.</div></div>
+        <div class="card"><div class="ct">II — Ciclo de vida</div><div class="cb">Série de fases: concepção, planejamento, desenvolvimento, treinamento, retreinamento, testagem, validação, implantação, monitoramento, modificações e descontinuidade.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10 · Art 4 defs B -->
+  <section class="slide" data-label="Art. 4º · Definições (II)">
+    <div class="wrap reveal">
+      <div class="eyebrow h">Cap. I · Art. 4º · Definições</div>
+      <h2>Governança, riscos e garantias</h2>
+      <div class="grid c3">
+        <div class="card human"><div class="ct">XI — Avaliação de impacto algorítmico</div><div class="cb">Análise <strong>contínua</strong> dos impactos do sistema sobre os <strong>direitos fundamentais</strong>, com medidas preventivas, mitigadoras de danos e de maximização de impactos positivos.</div></div>
+        <div class="card human"><div class="ct">XII — Comitê Nacional de IA do Judiciário</div><div class="cb">Comitê de <strong>composição plural</strong> que auxilia o CNJ na implementação, no cumprimento e na supervisão da Resolução, em diálogo com tribunais e sociedade civil.</div></div>
+        <div class="card human"><div class="ct">XIII — Viés discriminatório ilegal ou abusivo</div><div class="cb">Resultado indevidamente discriminatório que cria, reproduz ou reforça preconceitos ou tendências.</div></div>
+        <div class="card"><div class="ct">XVII / XVIII — Auditabilidade · Explicabilidade</div><div class="cb">Sujeitar algoritmos, dados e resultados à avaliação; e compreender claramente, sempre que tecnicamente possível, como as “decisões” são tomadas pela IA.</div></div>
+        <div class="card"><div class="ct">XIX — Contestabilidade</div><div class="cb">Possibilidade de questionamento e revisão dos resultados gerados pela IA.</div></div>
+        <div class="card human"><div class="ct">XIV / XV — Privacy by design · by default</div><div class="cb">Privacidade desde a concepção e durante todo o ciclo de vida; e alto nível de confidencialidade de dados por padrão.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 11 · Art 5 direitos fundamentais -->
+  <section class="slide" data-label="Art. 5º · Direitos fundamentais">
+    <div class="wrap reveal">
+      <div class="eyebrow h">Cap. II · Art. 5º · Direitos fundamentais</div>
+      <h2>Compatibilidade com os direitos fundamentais</h2>
+      <div class="lei human">
+        <span class="art">Art. 5º, caput e § 3º</span>
+        <p class="legible">No desenvolvimento, na implantação e no uso de soluções de IA no Judiciário, os tribunais observarão a <strong>compatibilidade dessas soluções com os direitos fundamentais</strong>, especialmente aqueles previstos na Constituição da República ou em <strong>tratados de que a República Federativa do Brasil seja parte</strong> — em todas as fases do ciclo de vida (§ 1º).</p>
+        <p class="legible"><strong>§ 3º</strong> — Havendo notícia ou indícios de violação, assegura-se à <strong>OAB, ao Ministério Público</strong> e demais entidades legitimadas o acesso às avaliações de impacto algorítmico e o direito de peticionar ao Comitê.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 12 · Arts 6 e 7 -->
+  <section class="slide" data-label="Arts. 6º e 7º">
+    <div class="wrap reveal">
+      <div class="eyebrow">Cap. II · Arts. 6º e 7º</div>
+      <h2>Segurança jurídica · dados &amp; proteção</h2>
+      <div class="grid c2">
+        <div class="card"><div class="ct">Art. 6º — Segurança jurídica</div><div class="cb">A adoção de aplicações de IA deve buscar <strong>garantir a segurança jurídica</strong> e colaborar para que o Judiciário respeite os princípios do art. 3º — com diretrizes internas, supervisão e revisão periódica (parágrafo único).</div></div>
+        <div class="card human"><div class="ct">Art. 7º — Dados representativos</div><div class="cb">Os dados devem ser <strong>representativos de casos judiciais</strong> e observar as cautelas quanto ao <strong>segredo de justiça</strong> e à proteção de dados (LGPD). Anonimização <strong>obrigatória</strong> para dados sigilosos ou protegidos por segredo de justiça (§ 2º).</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 13 · Art 8 igualdade -->
+  <section class="slide" data-label="Art. 8º · Igualdade">
+    <div class="wrap reveal">
+      <div class="eyebrow h">Cap. II · Art. 8º · Igualdade</div>
+      <h2>Produtos que preservam a igualdade</h2>
+      <div class="lei human">
+        <span class="art">Art. 8º</span>
+        <p class="legible">Os produtos gerados pela inteligência artificial para <strong>suporte às decisões judiciais</strong> deverão preservar a igualdade, a <strong>não discriminação abusiva ou ilícita</strong> e a pluralidade, assegurando que os sistemas de IA auxiliem no julgamento justo e contribuam para <strong>eliminar ou minimizar a marginalização do ser humano</strong> e os erros de julgamento decorrentes de preconceitos.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 14 · Art 9 categorização de riscos -->
+  <section class="slide" data-label="Art. 9º · Risco">
+    <div class="wrap reveal">
+      <div class="eyebrow">Cap. III · Art. 9º · Categorização dos riscos</div>
+      <h2>Avaliar o grau de risco</h2>
+      <p class="subt">Os tribunais avaliarão as soluções de IA para definir o grau de risco, com base no Anexo de Classificação de Riscos e em fatores como:</p>
+      <div class="grid c3">
+        <div class="card"><div class="ct">Direitos</div><div class="cb">Potencial impacto nos <strong>direitos fundamentais</strong>.</div></div>
+        <div class="card"><div class="ct">Modelo</div><div class="cb">Complexidade do modelo e usos pretendidos e potenciais.</div></div>
+        <div class="card"><div class="ct">Dados</div><div class="cb">Quantidade de <strong>dados sensíveis</strong> utilizados e sustentabilidade financeira.</div></div>
+      </div>
+      <p class="src">O Comitê Nacional fixa as diretrizes e critérios de avaliação (§ 2º) e pode reclassificar o grau de risco (§ 3º).</p>
+    </div>
+  </section>
+
+  <!-- 15 · Art 10 vedações -->
+  <section class="slide" data-label="Art. 10 · Vedações">
+    <div class="wrap reveal">
+      <div class="eyebrow d">Cap. III · Art. 10 · Risco excessivo</div>
+      <h2>Vedações por risco excessivo</h2>
+      <p class="subt">São vedados, por acarretarem risco excessivo à segurança da informação, aos direitos fundamentais ou à <strong>independência dos magistrados</strong>, o desenvolvimento e a utilização de soluções:</p>
+      <ul class="incisos danger">
+        <li><span class="n">I</span><span>que <strong>não possibilitem a revisão humana</strong> dos resultados ao longo do ciclo, ou que gerem dependência absoluta do usuário, sem possibilidade de alteração ou revisão;</span></li>
+        <li><span class="n">II</span><span>que <strong>valorem traços da personalidade</strong>, características ou comportamentos de pessoas naturais (ou grupos) para avaliar ou prever o cometimento de crimes ou a reiteração delitiva, ou para fins preditivos em matéria trabalhista a partir de perfis;</span></li>
+        <li><span class="n">III</span><span>que <strong>classifiquem ou ranqueiem pessoas naturais</strong> por comportamento, situação social ou atributos da personalidade, para avaliar a plausibilidade de seus direitos, méritos judiciais ou testemunhos; e</span></li>
+        <li><span class="n">IV</span><span>a identificação e a autenticação de <strong>padrões biométricos para o reconhecimento de emoções</strong>.</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 16 · Art 11 alto/baixo risco -->
+  <section class="slide" data-label="Art. 11 · Alto/baixo risco">
+    <div class="wrap reveal">
+      <div class="eyebrow">Cap. III · Art. 11 · Alto e baixo risco</div>
+      <h2>Dois níveis, conforme o Anexo</h2>
+      <div class="grid c2">
+        <div class="card danger"><div class="ct">Alto risco</div><div class="cb">Submetidas a <strong>auditoria e monitoramento contínuo</strong> para mitigar riscos aos direitos fundamentais, à privacidade e à justiça. Categorização <strong>revista ao menos anualmente</strong> pelo Comitê Nacional (art. 16, I).</div></div>
+        <div class="card"><div class="ct">Baixo risco</div><div class="cb">Monitoradas e <strong>revisadas periodicamente</strong>, para assegurar que permaneçam dentro dos parâmetros de baixo risco e que mudanças tecnológicas não alterem a categorização.</div></div>
+      </div>
+      <p class="src">As finalidades e contextos de alto/baixo risco constam do Anexo de Classificação de Riscos da Resolução.</p>
+    </div>
+  </section>
+
+  <!-- 17 · Art 12 governança -->
+  <section class="slide" data-label="Art. 12 · Governança">
+    <div class="wrap reveal">
+      <div class="eyebrow">Cap. IV · Art. 12 · Medidas de governança</div>
+      <h2>Processos internos de segurança</h2>
+      <p class="subt">Art. 12. O tribunal desenvolvedor ou contratante deverá estabelecer processos internos aptos a garantir a segurança dos sistemas de inteligência artificial, incluindo, ao menos:</p>
+      <ul class="incisos two">
+        <li><span class="n">I</span><span>transparência: relatórios sobre funcionamento, finalidades, dados utilizados e supervisão;</span></li>
+        <li><span class="n">II</span><span>prevenção e mitigação de <strong>vieses discriminatórios</strong>, com monitoramento contínuo e correção;</span></li>
+        <li><span class="n">III</span><span>mecanismos de governança, com pessoas ou comitês internos responsáveis pela fiscalização;</span></li>
+        <li><span class="n">IV</span><span>priorização de soluções <strong>interoperáveis</strong>, compartilháveis entre órgãos;</span></li>
+        <li><span class="n">V</span><span>adoção apenas de soluções de código aberto ou comerciais que permitam adaptação aos contextos locais, respeitadas as diretrizes de segurança, transparência e proteção de dados;</span></li>
+        <li><span class="n">VI</span><span>práticas de <strong>gestão de produto</strong> (requisitos, testes, suporte, melhorias contínuas);</span></li>
+        <li><span class="n">VII</span><span>incentivo a <strong>APIs</strong> para interoperabilidade com outras instituições da Justiça; e</span></li>
+        <li><span class="n">VIII</span><span>acesso da <strong>OAB, advocacia pública, MP e Defensorias</strong> aos relatórios de auditoria e monitoramento e à parametrização ao longo do ciclo de vida da solução.</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 18 · Arts 13 e 14 -->
+  <section class="slide" data-label="Arts. 13 e 14 · Alto risco">
+    <div class="wrap reveal">
+      <div class="eyebrow">Cap. IV · Arts. 13 e 14 · Soluções de alto risco</div>
+      <h2>Antes de entrar em produção</h2>
+      <div class="grid c2 subt" style="margin:.2rem 0 1.45rem;max-width:none">
+        <p style="margin:0"><strong>Art. 13.</strong> Antes de ser colocada em produção, a solução que utilize modelos de IA de alto risco deverá adotar medidas de governança.</p>
+        <p style="margin:0"><strong>Art. 14.</strong> O tribunal desenvolvedor ou contratante deverá promover a avaliação de impacto algorítmico da solução classificada como de alto risco, nos termos do art. 11.</p>
+      </div>
+      <div class="grid c2">
+        <div class="card"><div class="ct">Art. 13 — Medidas de governança</div><div class="cb">Dados adequados e representativos; <strong>registro de fontes e do grau de supervisão humana</strong>; documentação em linguagem simples; <strong>logs</strong> de operação; mitigação de vieses; e explicabilidade adequada, sempre que tecnicamente possível.</div></div>
+        <div class="card human"><div class="ct">Art. 14 — Avaliação de impacto algorítmico</div><div class="cb">Processo <strong>contínuo</strong>, conforme diretrizes do Comitê, com participação pública sempre que possível e acompanhamento de OAB, MP e Defensoria. Conclusões <strong>públicas no Sinapses</strong>.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 19 · Art 15 Comitê composição -->
+  <section class="slide" data-label="Art. 15 · Comitê Nacional">
+    <div class="wrap reveal">
+      <div class="eyebrow h">Cap. V · Art. 15 · Comitê Nacional de IA do Judiciário</div>
+      <h2>Uma composição plural</h2>
+      <p class="subt">Instituído com membros titulares e suplentes designados pelo Presidente do CNJ (redação dada pela Res. 674/2026), a partir de:</p>
+      <ul class="incisos two">
+        <li><span class="n">I–II</span><span>Conselheiros do CNJ, juízes auxiliares e servidores do CNJ;</span></li>
+        <li><span class="n">III</span><span>magistrados representantes do CJF e do CSJT;</span></li>
+        <li><span class="n">IV</span><span>desembargadores de TJ, TRF, TRT e tribunal eleitoral;</span></li>
+        <li><span class="n">V–VI</span><span>representantes das escolas (Enfam e Enamat) e magistrados indicados por AMB, Anamatra e Ajufe;</span></li>
+        <li><span class="n">VII–IX</span><span>representantes da OAB, do Ministério Público e da Defensoria Pública;</span></li>
+        <li><span class="n">X</span><span>representantes da sociedade civil, preferencialmente com notório saber ou sólida atuação profissional em IA, tecnologia da informação, governança de IA e direitos humanos.</span></li>
+      </ul>
+      <p class="src">Incisos I a VI: voz e voto · incisos VII em diante: direito apenas a voz (§ 3º).</p>
+    </div>
+  </section>
+
+  <!-- 20 · Art 16 competências -->
+  <section class="slide" data-label="Art. 16 · Competências">
+    <div class="wrap reveal">
+      <div class="eyebrow h">Cap. V · Art. 16 · Competências do Comitê</div>
+      <h2>O que compete ao Comitê</h2>
+      <ul class="incisos two">
+        <li><span class="n">I</span><span>avaliar a necessidade de atualização das hipóteses de categorização de riscos (art. 11 e Anexo);</span></li>
+        <li><span class="n">II</span><span>reclassificar sistemas, com justificativa e relatório técnico;</span></li>
+        <li><span class="n">III</span><span>estabelecer normas e diretrizes para o sistema <strong>Sinapses</strong>;</span></li>
+        <li><span class="n">IV</span><span>consolidar padrões de governança e mapeamento de riscos;</span></li>
+        <li><span class="n">V</span><span>sugerir convênios e acordos de cooperação;</span></li>
+        <li><span class="n">VI</span><span>avaliar a conveniência do uso de soluções de mercado;</span></li>
+        <li><span class="n">VII</span><span>monitorar a capacitação e o treinamento em IA;</span></li>
+        <li><span class="n">VIII–IX</span><span>determinar auditorias e definir protocolos técnicos padronizados; e</span></li>
+        <li style="grid-column:1/-1"><span class="n">X</span><span>estabelecer padrões de transparência, com documentação e relatórios regulares de impacto e desempenho.</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 21 · Art 19 uso de LLMs/IAGen -->
+  <section class="slide" data-label="Art. 19 · LLMs e IAGen">
+    <div class="wrap reveal">
+      <div class="eyebrow h">Cap. VI · Art. 19 · Uso de LLMs e IA generativa</div>
+      <h2>Permitido — sob condições (§ 3º)</h2>
+      <p class="subt">LLMs, SLMs e IAGen podem ser usados por magistrados e servidores como <strong>ferramentas de auxílio à gestão ou de apoio à decisão</strong>. Na contratação direta para uso privado, observam-se:</p>
+      <ul class="incisos two human">
+        <li><span class="n">I</span><span>capacitação e treinamentos específicos sobre riscos e uso ético;</span></li>
+        <li><span class="n">II</span><span>uso <strong>auxiliar e complementar</strong>, vedado como instrumento autônomo de decisão — o magistrado permanece <strong>integralmente responsável</strong>;</span></li>
+        <li><span class="n">III</span><span>empresas: vedado o tratamento, uso ou compartilhamento dos dados fornecidos <strong>e dos dados inferidos</strong> para treinamento, aperfeiçoamento ou fins não autorizados;</span></li>
+        <li><span class="n">IV</span><span>vedado o uso de LLMs privados/externos para dados <strong>sigilosos ou de segredo de justiça</strong>, salvo anonimizados na origem ou com mecanismos técnicos e procedimentais que garantam a efetiva proteção e segurança desses dados e de seus titulares; e</span></li>
+        <li style="grid-column:1/-1"><span class="n">V</span><span>vedado o uso para finalidades de <strong>risco excessivo ou alto risco</strong> (arts. 10 e 11).</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 22 · Art 19 §§ -->
+  <section class="slide" data-label="Art. 19 · Parágrafos">
+    <div class="wrap reveal">
+      <div class="eyebrow">Cap. VI · Art. 19 · §§ 2º, 6º e 4º</div>
+      <h2>Acesso, registro e boas práticas</h2>
+      <div class="grid c3">
+        <div class="card"><div class="ct">§ 2º — Contratação direta</div><div class="cb">Quando o tribunal não oferecer solução corporativa, faculta-se a contratação direta por assinatura ou cadastro privado, observado o § 3º.</div></div>
+        <div class="card human"><div class="ct">§ 6º — Menção e registro</div><div class="cb">O emprego de IAGen na redação de ato judicial <strong>poderá</strong> ser mencionado na decisão (a critério do magistrado), com <strong>registro automático</strong> no sistema para estatística, monitoramento e auditoria.</div></div>
+        <div class="card"><div class="ct">§ 4º — Manual de boas práticas</div><div class="cb">O Comitê elaborará e atualizará manual em linguagem simples sobre uso correto, ético e eficiente de LLMs e IAGen.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 23 · Art 20 contratação -->
+  <section class="slide" data-label="Art. 20 · Contratação">
+    <div class="wrap reveal">
+      <div class="eyebrow">Cap. VI · Art. 20 · Contratação pelos tribunais</div>
+      <h2>Diretrizes de contratação</h2>
+      <ul class="incisos two">
+        <li><span class="n">I</span><span>respeitar a legislação brasileira — Loman (LC 35/1979), LGPD, LPI (Lei 9.279/1996) e esta Resolução;</span></li>
+        <li><span class="n">II</span><span>uso de dados para treinamento condicionado às bases legais da LGPD, vedados fins não autorizados, com monitoramento contínuo de conformidade (proteção de dados e propriedade intelectual);</span></li>
+        <li><span class="n">IV</span><span>uso <strong>auxiliar e complementar</strong>, magistrado <strong>integralmente responsável</strong> pelas decisões;</span></li>
+        <li><span class="n">V</span><span>vedado processar dados sigilosos/segredo de justiça, exceto nas hipóteses do art. 19, § 3º, IV;</span></li>
+        <li><span class="n">VI</span><span>vedado o uso de LLMs/IAGen <strong>privados ou externos ao Judiciário</strong> para finalidades de risco excessivo ou alto risco (arts. 10 e 11);</span></li>
+        <li><span class="n">IX</span><span><strong>privacy by design</strong> e <strong>by default</strong>, com possibilidade de não-armazenar o histórico de prompts.</span></li>
+      </ul>
+      <p class="src">Parágrafo único — vedada a utilização de dados sigilosos ou de segredo de justiça para treinamento, salvo prévia anonimização na origem.</p>
+    </div>
+  </section>
+
+  <!-- 24 · Art 21 transparência PJe -->
+  <section class="slide" data-label="Art. 21 · PJe">
+    <div class="wrap reveal">
+      <div class="eyebrow">Cap. VI · Art. 21 · Transparência no processo eletrônico</div>
+      <h2>O que o sistema deve mostrar</h2>
+      <div class="lei">
+        <span class="art">Art. 21, caput e §§</span>
+        <p class="legible">Os sistemas de processo judicial eletrônico que usem IA deverão indicar, na <strong>interface principal</strong>, a relação dos modelos em uso, sua <strong>versão</strong>, o <strong>código de registro no Sinapses</strong> e a data da última atualização — revisada a cada <strong>12 meses</strong> ou a cada alteração significativa.</p>
+        <p class="legible"><strong>§ 2º</strong> — Os produtos elaborados de forma automatizada deverão registrar o uso de IA nos <strong>logs</strong> por meio de rótulos de identificação adequados e compreensíveis.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 25 · Arts 22/24/25 transparência Sinapses -->
+  <section class="slide" data-label="Arts. 22-25 · Sinapses">
+    <div class="wrap reveal">
+      <div class="eyebrow">Cap. VII · Arts. 22, 24 e 25 · Transparência e registro</div>
+      <h2>Catálogo público no Sinapses</h2>
+      <div class="grid c3">
+        <div class="card"><div class="ct">Art. 22 — Governança de dados</div><div class="cb">Todo modelo adotado observa a LGPD, a Lei de Acesso à Informação, a propriedade intelectual e o segredo de justiça, com conformidade assegurada contratualmente.</div></div>
+        <div class="card"><div class="ct">Art. 24 — Cadastro no Sinapses</div><div class="cb">As soluções, em desenvolvimento ou uso, são cadastradas no <strong>Sinapses</strong>, em catálogo organizado por grau de risco; o sumário público da AIA é incluído para alto risco.</div></div>
+        <div class="card"><div class="ct">Art. 25 — Publicação pelo CNJ</div><div class="cb">O CNJ publica em seu sítio a relação das aplicações de IA, em <strong>linguagem simples</strong>, com o grau de risco respectivo — revisão a cada 12 meses.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 26 · Arts 26/28/30 qualidade e segurança -->
+  <section class="slide" data-label="Arts. 26-31 · Qualidade & segurança">
+    <div class="wrap reveal">
+      <div class="eyebrow">Cap. VIII · Arts. 26, 28 e 30 · Qualidade e segurança</div>
+      <h2>Dados de qualidade, ambientes seguros</h2>
+      <div class="grid c3">
+        <div class="card"><div class="ct">Art. 26 — Fontes de dados</div><div class="cb">Dados <strong>preferencialmente de fontes públicas ou governamentais</strong>, com curadoria de qualidade; coletados apenas os estritamente necessários (§ 4º).</div></div>
+        <div class="card"><div class="ct">Art. 28 — Isolamento</div><div class="cb">Armazenamento e execução com <strong>isolamento dos dados</strong>, criptografia e segregação de ambientes; provedores de nuvem/APIs em conformidade com a LGPD.</div></div>
+        <div class="card human"><div class="ct">Art. 30 — Anonimização na origem</div><div class="cb">Quando o uso se der por sites, apps ou APIs que usem os dados compartilhados para alimentar repositório central ou treinar/readequar o modelo, é vedado compartilhar dados custodiados pelo Judiciário, <strong>exceto anonimizados ou pseudoanonimizados na origem</strong> (LGPD).</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 27 · Arts 32/33/34 controle do usuário -->
+  <section class="slide" data-label="Arts. 32-34 · Controle do usuário">
+    <div class="wrap reveal">
+      <div class="eyebrow h">Cap. IX · Arts. 32, 33 e 34 · Controle do usuário</div>
+      <h2>A autoridade final é humana</h2>
+      <div class="grid c3">
+        <div class="card human"><div class="ct">Art. 32 — Usuário interno</div><div class="cb">A IA promove eficiência <strong>sem vinculação</strong> à solução apresentada; em nenhum momento poderá restringir ou substituir a <strong>autoridade final</strong> dos usuários internos.</div></div>
+        <div class="card human"><div class="ct">Art. 33 — Usuário externo</div><div class="cb">Os usuários externos são informados, em linguagem simples, sobre o uso de IA, com destaque ao seu <strong>caráter consultivo e não vinculante</strong>.</div></div>
+        <div class="card human"><div class="ct">Art. 34 — Supervisão humana</div><div class="cb">Os sistemas deverão exigir supervisão humana e permitir a <strong>modificação pelo magistrado</strong> de qualquer produto gerado pela IA.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 28 · Arts 45/46/47 disposições finais -->
+  <section class="slide" data-label="Arts. 45-47 · Vigência">
+    <div class="wrap reveal">
+      <div class="eyebrow">Cap. XII · Arts. 45, 46 e 47 · Disposições finais</div>
+      <h2>Adequação, revogação e vigência</h2>
+      <div class="grid c3">
+        <div class="card"><div class="ct">Art. 45 — Adequação</div><div class="cb">Aplica-se também a projetos já em desenvolvimento ou implantados; <strong>12 meses</strong> para adequação, a partir da publicação.</div></div>
+        <div class="card danger"><div class="ct">Art. 46 — Revogação</div><div class="cb">Revoga-se a <strong>Resolução CNJ nº 332/2020</strong>, a partir do início da vigência desta Resolução.</div></div>
+        <div class="card ok"><div class="ct">Art. 47 — Vigência</div><div class="cb">Entra em vigor após decorridos <strong>120 dias</strong> da data de sua publicação.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 29 · Considerações finais -->
+  <section class="slide" data-label="Considerações finais">
+    <div class="wrap reveal">
+      <div class="eyebrow g">Considerações finais</div>
+      <h2>Um marco regulatório robusto</h2>
+      <p class="subt">A Resolução CNJ nº 615/2025 estabelece um marco para o uso de IA no Judiciário brasileiro, prevendo:</p>
+      <ul class="check">
+        <li><span class="ck">✓</span><span>Equilíbrio entre inovação tecnológica e proteção de direitos fundamentais</span></li>
+        <li><span class="ck">✓</span><span>Conformidade com a LGPD, a Lei de Acesso à Informação e o segredo de justiça</span></li>
+        <li><span class="ck">✓</span><span>Supervisão humana e responsabilidade integral do magistrado</span></li>
+        <li><span class="ck">✓</span><span>Categorização de riscos, vedações e avaliação de impacto algorítmico</span></li>
+        <li><span class="ck">✓</span><span>Governança, transparência (Sinapses) e monitoramento contínuos</span></li>
+      </ul>
+    </div>
+  </section>
+
+</main>
+
+<script>
+  // theme switch (dark / medium / light), persisted
+  (function(){
+    const sw=document.getElementById('themeSwitch');
+    const btns=[...sw.querySelectorAll('button')];
+    function apply(t){
+      if(t==='dark'){document.documentElement.removeAttribute('data-theme');}
+      else{document.documentElement.setAttribute('data-theme',t);}
+      btns.forEach(b=>b.setAttribute('aria-pressed', String(b.dataset.t===t)));
+      try{localStorage.setItem('res615-theme',t);}catch(e){}
+    }
+    btns.forEach(b=>b.addEventListener('click',()=>apply(b.dataset.t)));
+    let saved='dark';
+    try{saved=localStorage.getItem('res615-theme')||'dark';}catch(e){}
+    apply(saved);
+  })();
+
+  const deck=document.getElementById('deck');
+  const slides=[...document.querySelectorAll('.slide')];
+  const dotsWrap=document.getElementById('dots');
+  const progress=document.getElementById('progress');
+  const curEl=document.getElementById('cur');
+  document.getElementById('tot').textContent=String(slides.length).padStart(2,'0');
+
+  slides.forEach((s,i)=>{
+    const b=document.createElement('button');
+    b.setAttribute('aria-label',s.dataset.label||('Slide '+(i+1)));
+    b.title=s.dataset.label||'';
+    b.addEventListener('click',()=>slides[i].scrollIntoView());
+    dotsWrap.appendChild(b);
+  });
+  const dots=[...dotsWrap.children];
+
+  const io=new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        e.target.classList.add('in');
+        const i=slides.indexOf(e.target);
+        curEl.textContent=String(i+1).padStart(2,'0');
+        dots.forEach((d,j)=>d.classList.toggle('active',j===i));
+      }
+    });
+  },{threshold:.55});
+  slides.forEach(s=>io.observe(s));
+
+  deck.addEventListener('scroll',()=>{
+    const max=deck.scrollHeight-deck.clientHeight;
+    progress.style.width=(deck.scrollTop/max*100)+'%';
+  },{passive:true});
+
+  function currentIndex(){return Math.round(deck.scrollTop/deck.clientHeight)}
+  window.addEventListener('keydown',(e)=>{
+    const i=currentIndex();
+    if(['ArrowRight','ArrowDown','PageDown',' '].includes(e.key)){e.preventDefault();slides[Math.min(i+1,slides.length-1)].scrollIntoView();}
+    else if(['ArrowLeft','ArrowUp','PageUp'].includes(e.key)){e.preventDefault();slides[Math.max(i-1,0)].scrollIntoView();}
+    else if(e.key==='Home'){e.preventDefault();slides[0].scrollIntoView();}
+    else if(e.key==='End'){e.preventDefault();slides[slides.length-1].scrollIntoView();}
+  });
+</script>
+</body>
+</html>

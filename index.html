@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="LIA 3R — Curso, apresentações e materiais sobre IA, Judiciário e sociedade digital." />
+<title>LIA 3R · Curso e Apresentações</title>
+<link rel="icon" type="image/png" href="icone-lia.png" />
+<link rel="stylesheet" href="site-nav.css" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..500&family=Spectral:ital,wght@0,300;0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --ink:#0C0F16;
+    --ink-2:#11151F;
+    --paper:#ECE5D5;
+    --paper-dim:#b7b2a6;
+    --paper-faint:#6f6e69;
+    --gold:#C3A24B;
+    --gold-soft:#d8bd72;
+    --signal:#7FB0CC;
+    --signal-soft:#a7cbe0;
+    --signal-dim:rgba(127,176,204,.12);
+    --blue:#1F5FA8;
+    --line:rgba(236,229,213,.14);
+    --serif:"Newsreader",Georgia,serif;
+    --body:"Spectral",Georgia,serif;
+    --mono:"JetBrains Mono",ui-monospace,monospace;
+  }
+  /* ---- MEDIUM theme (warm soft grey) ---- */
+  html[data-theme="medium"]{
+    --ink:#CFC9BA;--ink-2:#C5BEAD;
+    --paper:#1A1E26;--paper-dim:rgba(26,30,38,.72);--paper-faint:rgba(26,30,38,.52);
+    --gold:#866823;--gold-soft:#6F551A;--signal:#2C6285;--signal-soft:#244F6C;--signal-dim:rgba(44,98,133,.10);--blue:#1A5290;
+    --line:rgba(26,30,38,.17);
+  }
+  /* ---- LIGHT theme (paper) ---- */
+  html[data-theme="light"]{
+    --ink:#F1ECE0;--ink-2:#E8E2D3;
+    --paper:#14181F;--paper-dim:rgba(20,24,31,.68);--paper-faint:rgba(20,24,31,.48);
+    --gold:#7C621F;--gold-soft:#674E15;--signal:#2A5E80;--signal-soft:#214B66;--signal-dim:rgba(42,94,128,.08);--blue:#1B4F8C;
+    --line:rgba(20,24,31,.15);
+  }
+  html[data-theme="medium"] .hero-title .gold-focus,
+  html[data-theme="light"] .hero-title .gold-focus{color:var(--gold);text-shadow:none}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--ink);
+    color:var(--paper);
+    font-family:var(--body);
+    font-weight:400;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+    transition:background-color .4s ease,color .4s ease;
+  }
+
+  /* ---- deck mechanics ---- */
+  .deck{height:100vh;overflow-y:scroll;scroll-snap-type:y mandatory;scroll-behavior:smooth}
+  .deck::-webkit-scrollbar{width:0}
+  .slide{
+    min-height:100vh;scroll-snap-align:start;scroll-snap-stop:always;
+    position:relative;display:flex;flex-direction:column;justify-content:center;
+    padding:clamp(2.4rem,4.5vh,4.5rem) clamp(2rem,6vw,7rem);overflow:hidden;
+  }
+  .slide::before{
+    content:"";position:absolute;inset:0;
+    background-image:radial-gradient(rgba(127,176,204,.07) 1px,transparent 1px);
+    background-size:34px 34px;
+    -webkit-mask-image:linear-gradient(180deg,transparent,#000 40%,#000 60%,transparent);
+            mask-image:linear-gradient(180deg,transparent,#000 40%,#000 60%,transparent);
+    opacity:.5;pointer-events:none;
+  }
+  .wrap{position:relative;z-index:2;max-width:1200px;margin:0 auto;width:100%}
+
+  /* ---- type ---- */
+  .eyebrow{
+    font-family:var(--mono);font-size:clamp(.62rem,1vw,.78rem);
+    letter-spacing:.32em;text-transform:uppercase;color:var(--signal);
+    display:flex;align-items:center;gap:.9rem;margin-bottom:1.6rem;
+  }
+  .eyebrow::before{
+    content:"";width:clamp(28px,4vw,56px);height:1px;background:var(--signal);opacity:.6;
+  }
+  h1,h2,h3{font-family:var(--serif);font-weight:340;letter-spacing:-.01em}
+  .lead{
+    font-family:var(--body);font-size:clamp(1.05rem,1.5vw,1.3rem);
+    line-height:1.6;color:var(--paper-dim);max-width:58ch;font-weight:300;
+  }
+  .lead strong{color:var(--paper);font-weight:500}
+  .lead .g{color:var(--gold-soft)}
+  .lead .s{color:var(--signal-soft)}
+
+  /* ---- 1. hero ---- */
+  #hero{justify-content:center}
+  #hero .wrap{max-width:1280px}
+  .hero-meta{
+    font-family:var(--mono);font-size:clamp(.62rem,1vw,.74rem);
+    letter-spacing:.3em;text-transform:uppercase;color:var(--paper-faint);
+    display:flex;flex-wrap:wrap;gap:.6rem 1.6rem;margin-bottom:2.4rem;
+  }
+  .hero-title{
+    font-family:var(--serif);font-size:clamp(2.6rem,8vw,7rem);
+    line-height:.96;font-weight:300;letter-spacing:-.025em;
+  }
+  .hero-title .hl{color:var(--gold);font-style:italic;font-weight:400}
+  .hero-title .gold-focus{color:#E4C96F;font-weight:500;text-shadow:0 0 24px rgba(228,201,111,.14)}
+  .hero-title .mono{
+    display:inline-block;font-family:var(--mono);font-weight:500;
+    font-size:.58em;letter-spacing:-.02em;color:var(--signal);transform:translateY(-.05em);
+  }
+  .hero-rule{height:1px;background:linear-gradient(90deg,var(--gold),transparent);margin:2.6rem 0;max-width:520px}
+  .hero-sub{
+    font-size:clamp(1.1rem,1.7vw,1.45rem);line-height:1.55;
+    color:var(--paper-dim);max-width:56ch;font-weight:300;
+  }
+  .hero-sub strong{color:var(--paper);font-weight:500}
+
+  /* ---- hero navigation hint ---- */
+  .hero-hint{margin-top:clamp(2rem,4.5vh,3.6rem);font-family:var(--mono);font-size:clamp(.62rem,1vw,.74rem);letter-spacing:.14em;text-transform:uppercase;color:var(--paper-faint);display:flex;align-items:center;gap:.75rem;flex-wrap:wrap}
+  .hero-hint kbd{border:1px solid var(--line);border-radius:3px;padding:.1em .42em;color:var(--paper-dim)}
+  .hero-hint .chev{display:inline-block;font-size:1.15em;color:var(--gold);animation:hbob 1.8s ease-in-out infinite}
+  @keyframes hbob{0%,100%{transform:translateY(0)}50%{transform:translateY(4px)}}
+  @media(prefers-reduced-motion:reduce){.hero-hint .chev{animation:none}}
+
+  /* ---- brand mark as logo image ---- */
+  .site-nav img.site-nav__mark{background:#F1ECE0;padding:2px;border-color:var(--site-nav-mark-line);object-fit:contain}
+
+  /* ---- cards grid ---- */
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);margin-top:clamp(1.8rem,3.5vw,3rem)}
+  .card{background:var(--ink);padding:clamp(1.4rem,2.4vw,2.2rem);text-decoration:none;color:inherit;display:grid;transition:background .2s}
+  .card:hover{background:var(--ink-2)}
+  .card .ci{font-family:var(--mono);font-size:.68rem;letter-spacing:.2em;color:var(--signal);margin-bottom:.8rem}
+  .card .ct{font-family:var(--serif);font-weight:400;font-size:clamp(1.1rem,1.6vw,1.4rem);margin-bottom:.6rem;line-height:1.2}
+  .card .cd{font-size:.9rem;line-height:1.5;color:var(--paper-dim);font-weight:300}
+  .card .tag{
+    align-self:end;margin-top:1rem;font-family:var(--mono);font-size:.7rem;
+    letter-spacing:.14em;text-transform:uppercase;color:var(--gold-soft);
+  }
+  .card .tag.signal{color:var(--signal-soft)}
+  .card .tag.faint{color:var(--paper-faint)}
+
+  /* ---- section-specific grids ---- */
+  #lgpd .cards{grid-template-columns:repeat(4,1fr)}
+  #curso .cards{grid-template-columns:repeat(5,1fr)}
+
+  /* ---- theme switch ---- */
+  .theme-switch{position:fixed;top:1.15rem;right:1.4rem;z-index:60;display:flex;gap:2px;padding:3px;border:1px solid var(--line);border-radius:999px;background:var(--ink-2)}
+  .theme-switch button{display:inline-flex;align-items:center;gap:.35rem;font-family:var(--mono);font-size:.64rem;letter-spacing:.06em;text-transform:uppercase;color:var(--paper-dim);background:transparent;border:0;border-radius:999px;padding:.34rem .6rem;cursor:pointer;transition:all .2s}
+  .theme-switch button .ico{width:11px;height:11px;border-radius:50%;border:1.5px solid currentColor}
+  .theme-switch button[data-t="medium"] .ico{background:linear-gradient(90deg,currentColor 50%,transparent 50%)}
+  .theme-switch button[data-t="light"] .ico{background:currentColor}
+  .theme-switch button:hover{color:var(--paper)}
+  .theme-switch button[aria-pressed="true"]{background:var(--gold);color:var(--ink)}
+  @media(max-width:560px){.theme-switch{top:auto;bottom:1.3rem;left:50%;right:auto;transform:translateX(-50%)}.theme-switch button span.lbl{display:none}}
+
+  /* ---- chrome ---- */
+  .progress{position:fixed;top:0;left:0;height:2px;background:linear-gradient(90deg,var(--gold),var(--signal));width:0;z-index:50;transition:width .15s linear}
+  .counter{position:fixed;bottom:1.6rem;right:1.8rem;z-index:50;font-family:var(--mono);font-size:.74rem;letter-spacing:.12em;color:var(--paper-dim)}
+  .counter .cur{color:var(--paper)}
+  .nav-dots{position:fixed;top:50%;right:1.6rem;transform:translateY(-50%);z-index:50;display:flex;flex-direction:column;gap:.7rem}
+  .nav-dots button{width:8px;height:8px;border-radius:50%;border:1px solid var(--paper-faint);background:transparent;padding:0;cursor:pointer;transition:all .25s;display:block}
+  .nav-dots button:hover{border-color:var(--gold)}
+  .nav-dots button.active{background:var(--gold);border-color:var(--gold);transform:scale(1.35)}
+  .kbd-hint{position:fixed;bottom:1.6rem;left:1.8rem;z-index:50;font-family:var(--mono);font-size:.66rem;letter-spacing:.1em;color:var(--paper-faint)}
+  .kbd-hint kbd{border:1px solid var(--line);border-radius:3px;padding:.05em .4em;color:var(--paper-dim)}
+  :focus-visible{outline:2px solid var(--signal);outline-offset:3px}
+
+  .reveal>*{opacity:0;transform:translateY(22px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1)}
+  .slide.in .reveal>*{opacity:1;transform:none}
+  .slide.in .reveal>*:nth-child(2){transition-delay:.08s}
+  .slide.in .reveal>*:nth-child(3){transition-delay:.16s}
+  .slide.in .reveal>*:nth-child(4){transition-delay:.24s}
+
+  @media(max-width:780px){
+    html{scroll-behavior:auto}
+    .deck{
+      height:auto;
+      overflow-y:visible;
+      scroll-snap-type:none;
+      scroll-behavior:auto;
+    }
+    .slide,
+    #hero{
+      min-height:100svh;
+      scroll-snap-align:none;
+      scroll-snap-stop:normal;
+      justify-content:flex-start;
+      overflow:visible;
+      padding:4.2rem 1.4rem;
+    }
+    .slide{min-height:auto;padding-bottom:3rem}
+    #hero{min-height:100svh}
+    /* stack the card rows — no more clipped/overflowing columns on phones */
+    .cards,
+    #lgpd .cards,
+    #curso .cards{grid-template-columns:repeat(auto-fit,minmax(min(100%,15rem),1fr))}
+    .nav-dots,.kbd-hint,.progress,.counter{display:none}
+  }
+  @media(prefers-reduced-motion:reduce){
+    *{scroll-behavior:auto !important}
+    .reveal>*{opacity:1 !important;transform:none !important}
+  }
+</style>
+</head>
+<body>
+<nav class="site-nav" aria-label="Navegação principal">
+  <a class="site-nav__brand" href="index.html" aria-current="page" aria-label="LIA 3R — início"><img class="site-nav__mark" src="icone-lia.png" alt="" aria-hidden="true" /><span class="site-nav__wordmark">LIA 3R</span></a><span class="site-nav__divider" aria-hidden="true"></span>
+  <a href="index.html#lgpd">CF · LGPD</a><a href="index.html#fachin">Magna</a><a href="index.html#curso">Curso</a><a href="perfilamento.html" style="display:none" id="perfilamento-route">Perfilamento</a>
+</nav>
+
+<div class="theme-switch" id="themeSwitch" role="group" aria-label="Tema de cor">
+  <button data-t="dark" aria-pressed="true"><span class="ico"></span><span class="lbl">Escuro</span></button>
+  <button data-t="medium" aria-pressed="false"><span class="ico"></span><span class="lbl">Médio</span></button>
+  <button data-t="light" aria-pressed="false"><span class="ico"></span><span class="lbl">Claro</span></button>
+</div>
+
+<div class="progress" id="progress"></div>
+<div class="counter"><span class="cur" id="cur">01</span> / <span id="tot">3</span></div>
+<nav class="nav-dots" id="dots" aria-label="Navegação"></nav>
+<div class="kbd-hint">↑ ↓ ← → · <kbd>espaço</kbd> navega</div>
+
+<main class="deck" id="deck">
+
+  <!-- 1 HERO -->
+  <section class="slide" id="hero" data-label="Abertura">
+    <div class="wrap reveal">
+      <div class="hero-meta">
+        <span>LIA 3R</span>
+        <span>Materiais públicos</span>
+        <span>2026</span>
+      </div>
+      <div class="hero-title" style="font-size:clamp(1.3rem,2.8vw,2.2rem);margin-bottom:.15em;line-height:1.2">
+        <a href="#lgpd" style="color:inherit;text-decoration:none;display:block">
+          <span class="gold-focus">Constituição Federal</span> e Lei Geral de Proteção de Dados — <strong style="color:var(--gold-soft);font-weight:500">LGPD</strong>
+        </a>
+      </div>
+      <div class="hero-rule"></div>
+      <div class="hero-title" style="font-size:clamp(1.3rem,2.8vw,2.2rem);color:var(--paper-dim);font-weight:300;letter-spacing:-.01em;line-height:1.2;margin-bottom:.5em">
+        <a href="#fachin" style="color:inherit;text-decoration:none;display:block">
+          Aula Magna do Ministro <span class="hl">Edson Fachin</span><br/>
+          <span class="mono">Jornadas de Direito Civil de 2026</span>
+        </a>
+      </div>
+      <div style="height:1px;background:linear-gradient(90deg,var(--signal),transparent);max-width:520px;margin:2.6rem 0 1.4rem"></div>
+      <div class="hero-title" style="font-size:clamp(1.3rem,2.8vw,2.2rem);color:var(--paper-dim);font-weight:300;letter-spacing:-.01em;line-height:1.2">
+        <a href="#curso" style="color:inherit;text-decoration:none;display:block">
+          Curso sobre a plataforma <strong style="color:var(--blue);font-weight:500">LIA 3R</strong>
+        </a>
+      </div>
+      <div class="hero-hint">
+        <span class="chev" aria-hidden="true">↓</span>
+        <span>Role para explorar &nbsp;·&nbsp; <kbd>↑</kbd> <kbd>↓</kbd> ou <kbd>espaço</kbd> navega &nbsp;·&nbsp; clique nos temas e cartões para abrir</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 CF + LGPD -->
+  <section class="slide" id="lgpd" data-label="CF e LGPD">
+    <div class="wrap reveal">
+      <div class="eyebrow">Direitos Fundamentais · Proteção de Dados</div>
+      <h2 style="font-size:clamp(1.8rem,3.8vw,3.2rem);margin-bottom:.6rem">Constituição Federal e Lei Geral de Proteção de Dados</h2>
+      <p class="lead">EC 115/2022 e LGPD — o direito à proteção de dados como <strong>direito fundamental</strong>, os princípios do tratamento de dados e as obrigações dos agentes públicos.</p>
+      <div class="cards">
+        <a class="card" href="apresentacao-cf-lgpd.html">
+          <div class="ci" style="color:var(--gold)">★ principal</div>
+          <div class="ct">Direitos Fundamentais · CF e LGPD</div>
+          <div class="cd">Constituição Federal, EC 115/2022 e LGPD — proteção de dados como direito fundamental, princípios do tratamento e obrigações dos agentes públicos.</div>
+          <span class="tag" style="color:var(--gold)">Abrir apresentação →</span>
+        </a>
+        <a class="card" href="apresentacao-lgpd-integra.html">
+          <div class="ci">// complemento</div>
+          <div class="ct">LGPD — Íntegra</div>
+          <div class="cd">Texto integral da Lei Geral de Proteção de Dados (Lei 13.709/2018), com as vedações destacadas em vermelho e navegação por capítulos e artigos.</div>
+          <span class="tag faint">Abrir →</span>
+        </a>
+        <a class="card" href="apresentacao-resolucao-615-hightech.html">
+          <div class="ci" style="color:var(--gold)">★ principal</div>
+          <div class="ct">Resolução CNJ 615/2025</div>
+          <div class="cd">Apresentação da Resolução CNJ 615/2025 — governança da inteligência artificial no Poder Judiciário.</div>
+          <span class="tag" style="color:var(--gold)">Abrir apresentação →</span>
+        </a>
+        <a class="card" href="apresentacao-resolucao-615-integra.html">
+          <div class="ci">// íntegra</div>
+          <div class="ct">Resolução CNJ 615/2025 — Íntegra</div>
+          <div class="cd">Texto integral da Resolução CNJ 615/2025 com navegação por capítulos e artigos.</div>
+          <span class="tag faint">Abrir →</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 AULA MAGNA -->
+  <section class="slide" id="fachin" data-label="Magna">
+    <div class="wrap reveal">
+      <div class="eyebrow">Aula Magna · Jornada de Direito Civil 2026</div>
+      <h2 style="font-size:clamp(1.8rem,3.8vw,3.2rem);margin-bottom:.6rem">Entre a tradição civilista e a sociedade algorítmica</h2>
+      <p class="lead">Conferência magna proferida pelo <strong>Ministro Edson Fachin</strong>, Presidente do STF e do CNJ, na Jornada de Direito Civil de 16 de junho de 2026.</p>
+      <div class="cards">
+        <a class="card" href="apresentacao-fachin.html">
+          <div class="ci" style="color:var(--gold)">★ principal</div>
+          <div class="ct">Apresentação do Ministro Edson Fachin</div>
+          <div class="cd">18 slides com a conferência magna. Tradição civilista, vulnerabilidade algorítmica e o futuro do direito civil na era dos dados.</div>
+          <span class="tag" style="color:var(--gold)">Abrir apresentação →</span>
+        </a>
+        <a class="card" href="apresentaçãoMinFachin.pdf">
+          <div class="ci">// documento</div>
+          <div class="ct">Texto da Apresentação</div>
+          <div class="cd">Transcrição formatada para leitura, com capa, data e diagramação — pronta para download.</div>
+          <span class="tag signal">Baixar PDF →</span>
+        </a>
+        <a class="card" href="apresentacao-magnifica-humanitas.html">
+          <div class="ci" style="color:var(--gold)">★ principal</div>
+          <div class="ct">Magnifica Humanitas</div>
+          <div class="cd">Apresentação complementar sobre a salvaguarda da pessoa humana na era da inteligência artificial.</div>
+          <span class="tag" style="color:var(--gold)">Abrir apresentação →</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 CURSO + COMPLEMENTOS -->
+  <section class="slide" id="curso" data-label="Curso LIA 3R">
+    <div class="wrap reveal">
+      <div class="eyebrow">Curso LIA 3R</div>
+      <h2 style="font-size:clamp(1.8rem,3.8vw,3.2rem);margin-bottom:.6rem">Introdução ao uso da Plataforma LIA 3R</h2>
+      <p class="lead">Os fundamentos essenciais para o uso <strong>ético, responsável e eficiente</strong> da inteligência artificial no Poder Judiciário.</p>
+      <div class="cards">
+        <a class="card" href="apresentacao-curso-lia3r.html">
+          <div class="ci" style="color:var(--gold)">★ principal</div>
+          <div class="ct">Apresentação do Curso LIA 3R</div>
+          <div class="cd">Governança da IA, fundamentos legais, LGPD, Resolução CNJ 615/2025 e o uso prático da LIA 3R — uma apresentação em 19 slides com navegação interativa.</div>
+          <span class="tag">Abrir apresentação →</span>
+        </a>
+        <a class="card" href="curso-lia3r-acessivel.html">
+          <div class="ci">// acessível</div>
+          <div class="ct">Curso LIA 3R — versão acessível</div>
+          <div class="cd">Mesmo conteúdo em formato acessível, estruturado para navegação linear, leitura com leitores de tela e alto contraste, conforme as diretrizes eMAG.</div>
+          <span class="tag signal">Abrir versão acessível →</span>
+        </a>
+        <a class="card" href="apresentacao-nota-tecnica-cnj.html">
+          <div class="ci">// complemento</div>
+          <div class="ct">Nota Técnica CNJ</div>
+          <div class="cd">Segurança adversarial da IA no Poder Judiciário — riscos de prompt injection e recomendações para o uso seguro de sistemas de IA generativa.</div>
+          <span class="tag faint">Abrir →</span>
+        </a>
+        <a class="card" href="apresentacao-pesquisa-cnj.html">
+          <div class="ci">// complemento</div>
+          <div class="ct">Pesquisa CNJ</div>
+          <div class="cd">2ª Pesquisa de Percepção e Avaliação do Poder Judiciário Brasileiro — dados e análises sobre a confiança da população no sistema de justiça.</div>
+          <span class="tag faint">Abrir →</span>
+        </a>
+        <a class="card" href="termo_responsabilidade_IA_judiciario.pdf">
+          <div class="ci">// documento</div>
+          <div class="ct">Termo de Responsabilidade e Ciência</div>
+          <div class="cd">Termo para formalização da ciência e do compromisso com o uso responsável de inteligência artificial no Poder Judiciário.</div>
+          <span class="tag signal">Baixar PDF →</span>
+        </a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script>
+  // theme switch (escuro / médio / claro), persisted — default: escuro
+  (function(){
+    const DEF='dark';
+    const sw=document.getElementById('themeSwitch');
+    const btns=[...sw.querySelectorAll('button')];
+    function apply(t){
+      if(t===DEF){document.documentElement.removeAttribute('data-theme');}
+      else{document.documentElement.setAttribute('data-theme',t);}
+      btns.forEach(b=>b.setAttribute('aria-pressed', String(b.dataset.t===t)));
+      try{localStorage.setItem('index-theme',t);}catch(e){}
+    }
+    btns.forEach(b=>b.addEventListener('click',()=>apply(b.dataset.t)));
+    let saved=DEF;
+    try{saved=localStorage.getItem('index-theme')||DEF;}catch(e){}
+    apply(saved);
+  })();
+
+  const deck = document.getElementById('deck');
+  const slides = [...document.querySelectorAll('.slide')];
+  const dotsWrap = document.getElementById('dots');
+  const progress = document.getElementById('progress');
+  const curEl = document.getElementById('cur');
+  document.getElementById('tot').textContent = String(slides.length).padStart(2,'0');
+
+  slides.forEach((s,i)=>{
+    const b = document.createElement('button');
+    b.setAttribute('aria-label', s.dataset.label || ('Slide '+(i+1)));
+    b.title = s.dataset.label || '';
+    b.addEventListener('click',()=>slides[i].scrollIntoView());
+    dotsWrap.appendChild(b);
+  });
+  const dots = [...dotsWrap.children];
+
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        e.target.classList.add('in');
+        const i = slides.indexOf(e.target);
+        curEl.textContent = String(i+1).padStart(2,'0');
+        dots.forEach((d,j)=>d.classList.toggle('active', j===i));
+      }
+    });
+  },{threshold:.55});
+  slides.forEach(s=>io.observe(s));
+
+  deck.addEventListener('scroll',()=>{
+    const max = deck.scrollHeight - deck.clientHeight;
+    progress.style.width = (deck.scrollTop/max*100)+'%';
+  },{passive:true});
+
+  function currentIndex(){
+    const top = deck.scrollTop;
+    return Math.round(top / deck.clientHeight);
+  }
+  window.addEventListener('keydown',(e)=>{
+    const i = currentIndex();
+    if(['ArrowRight','ArrowDown','PageDown',' '].includes(e.key)){ e.preventDefault(); slides[Math.min(i+1,slides.length-1)].scrollIntoView(); }
+    else if(['ArrowLeft','ArrowUp','PageUp'].includes(e.key)){ e.preventDefault(); slides[Math.max(i-1,0)].scrollIntoView(); }
+    else if(e.key==='Home'){ e.preventDefault(); slides[0].scrollIntoView(); }
+    else if(e.key==='End'){ e.preventDefault(); slides[slides.length-1].scrollIntoView(); }
+    else if(e.ctrlKey && e.shiftKey && e.key==='P'){ e.preventDefault(); window.location.href='perfilamento.html'; }
+  });
+</script>
+</body>
+</html>

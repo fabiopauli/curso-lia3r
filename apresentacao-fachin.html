@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Entre a tradição civilista e a sociedade algorítmica — Min. Edson Fachin</title>
+<link rel="icon" type="image/png" href="icone-lia.png" />
+<link rel="stylesheet" href="site-nav.css" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..700&family=Spectral:ital,wght@0,300;0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --ink:#0C0F16;
+    --ink-2:#11151F;
+    --ink-3:#171C28;
+    --paper:#ECE5D5;
+    --paper-dim:#b7b2a6;
+    --paper-faint:#6f6e69;
+    --gold:#C3A24B;
+    --gold-soft:#d8bd72;
+    --signal:#7FB0CC;
+    --signal-soft:#a7cbe0;
+    --line:rgba(236,229,213,.14);
+    --serif:"Fraunces",Georgia,serif;
+    --body:"Spectral",Georgia,serif;
+    --mono:"JetBrains Mono",ui-monospace,monospace;
+  }
+  /* ---- MEDIUM theme (warm soft grey) ---- */
+  html[data-theme="medium"]{
+    --ink:#CFC9BA;--ink-2:#C5BEAD;--ink-3:#BBB3A1;
+    --paper:#1A1E26;--paper-dim:rgba(26,30,38,.70);--paper-faint:rgba(26,30,38,.46);
+    --gold:#866823;--gold-soft:#6F551A;--signal:#2C6285;--signal-soft:#244F6C;
+    --line:rgba(26,30,38,.17);
+  }
+  /* ---- LIGHT theme (paper) ---- */
+  html[data-theme="light"]{
+    --ink:#F1ECE0;--ink-2:#E8E2D3;--ink-3:#DED7C6;
+    --paper:#14181F;--paper-dim:rgba(20,24,31,.66);--paper-faint:rgba(20,24,31,.44);
+    --gold:#7C621F;--gold-soft:#674E15;--signal:#2A5E80;--signal-soft:#214B66;
+    --line:rgba(20,24,31,.15);
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0}
+
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--ink);
+    color:var(--paper);
+    font-family:var(--body);
+    font-weight:400;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+    transition:background-color .4s ease,color .4s ease;
+  }
+
+  /* ---------- deck mechanics ---------- */
+  .deck{
+    height:100vh;
+    overflow-y:scroll;
+    scroll-snap-type:y mandatory;
+    scroll-behavior:smooth;
+  }
+  .deck::-webkit-scrollbar{width:0}
+
+  .slide{
+    min-height:100vh;
+    scroll-snap-align:start;
+    scroll-snap-stop:always;
+    position:relative;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    padding:clamp(2.4rem,4.5vh,4.5rem) clamp(2rem,6vw,7rem);
+    overflow:hidden;
+  }
+
+  /* ambient bridge motif: faint data dot-grid + a single gold tradition rule */
+  .slide::before{
+    content:"";
+    position:absolute;inset:0;
+    background-image:radial-gradient(rgba(127,176,204,.07) 1px,transparent 1px);
+    background-size:34px 34px;
+    -webkit-mask-image:linear-gradient(180deg,transparent,#000 40%,#000 60%,transparent);
+            mask-image:linear-gradient(180deg,transparent,#000 40%,#000 60%,transparent);
+    opacity:.5;
+    pointer-events:none;
+  }
+
+  .wrap{position:relative;z-index:2;max-width:1180px;margin:0 auto;width:100%}
+
+  /* ---------- shared type ---------- */
+  .eyebrow{
+    font-family:var(--mono);
+    font-size:clamp(.62rem,1vw,.78rem);
+    letter-spacing:.32em;
+    text-transform:uppercase;
+    color:var(--signal);
+    display:flex;align-items:center;gap:.9rem;
+    margin-bottom:1.6rem;
+  }
+  .eyebrow::before{
+    content:"";width:clamp(28px,4vw,56px);height:1px;background:var(--signal);opacity:.6;
+  }
+
+  h1,h2,h3{font-family:var(--serif);font-weight:340;line-height:1.04;letter-spacing:-.01em}
+
+  .lead{
+    font-family:var(--body);
+    font-size:clamp(1.12rem,1.7vw,1.5rem);
+    line-height:1.6;
+    color:var(--paper-dim);
+    max-width:46ch;
+    font-weight:300;
+  }
+  .lead strong{color:var(--paper);font-weight:500}
+  .lead .g{color:var(--gold-soft)}
+  .lead .s{color:var(--signal-soft)}
+
+  /* ---------- 1. hero ---------- */
+  #hero{justify-content:center}
+  #hero .wrap{max-width:1280px}
+  .hero-meta{
+    font-family:var(--mono);
+    font-size:clamp(.62rem,1vw,.74rem);
+    letter-spacing:.3em;text-transform:uppercase;
+    color:var(--paper-faint);
+    display:flex;flex-wrap:wrap;gap:.6rem 1.6rem;
+    margin-bottom:2.4rem;
+  }
+  .hero-title{
+    font-family:var(--serif);
+    font-size:clamp(2.3rem,6.4vw,5.8rem);
+    line-height:.98;
+    font-weight:300;
+    letter-spacing:-.025em;
+  }
+  .hero-title .trad{
+    color:var(--gold);
+    font-style:italic;
+    font-weight:400;
+  }
+  .hero-title .algo{
+    display:inline-block;
+    font-family:var(--mono);
+    font-weight:500;
+    font-size:.62em;
+    letter-spacing:-.02em;
+    color:var(--signal);
+    transform:translateY(-.05em);
+  }
+  .hero-rule{
+    height:1px;background:linear-gradient(90deg,var(--gold),transparent);
+    margin:2.6rem 0;max-width:520px;
+  }
+  .hero-by{
+    display:flex;flex-wrap:wrap;align-items:baseline;gap:.4rem 1.4rem;
+  }
+  .hero-by .name{font-family:var(--serif);font-size:clamp(1.3rem,2.6vw,2rem);font-weight:400}
+  .hero-by .role{
+    font-family:var(--mono);font-size:clamp(.66rem,1.1vw,.82rem);
+    letter-spacing:.18em;text-transform:uppercase;color:var(--paper-dim);max-width:38ch;line-height:1.6;
+  }
+  .scroll-hint{
+    position:absolute;left:50%;bottom:2.2rem;transform:translateX(-50%);
+    font-family:var(--mono);font-size:.64rem;letter-spacing:.3em;text-transform:uppercase;
+    color:var(--paper-faint);z-index:3;display:flex;flex-direction:column;align-items:center;gap:.6rem;
+  }
+  .scroll-hint .dot{width:1px;height:34px;background:linear-gradient(var(--gold),transparent);animation:drop 2.4s infinite}
+  @keyframes drop{0%{opacity:0;transform:scaleY(.2)}40%{opacity:1}100%{opacity:0;transform:scaleY(1) translateY(10px)}}
+
+  /* ---------- two-column standard ---------- */
+  .split{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1fr);gap:clamp(2rem,5vw,5rem);align-items:center}
+  .split h2{font-size:clamp(2rem,4.4vw,4rem)}
+  .split .col-r{display:flex;flex-direction:column;gap:1.6rem}
+
+  /* ---------- homage ---------- */
+  #homage .wrap{max-width:960px;text-align:center}
+  #homage .memoriam{font-family:var(--mono);font-size:.72rem;letter-spacing:.34em;text-transform:uppercase;color:var(--gold);margin-bottom:2rem}
+  #homage .hname{font-family:var(--serif);font-style:italic;font-size:clamp(2.4rem,6vw,5rem);font-weight:300;color:var(--paper)}
+  #homage .htag{font-family:var(--mono);font-size:.74rem;letter-spacing:.2em;text-transform:uppercase;color:var(--paper-dim);margin:1.4rem 0 2.6rem}
+  #homage p{font-size:clamp(1.05rem,1.7vw,1.4rem);line-height:1.65;color:var(--paper-dim);max-width:60ch;margin:0 auto;font-weight:300}
+  #homage p em{color:var(--gold-soft);font-style:italic}
+
+  /* ---------- big question ---------- */
+  #question{justify-content:center}
+  #question .wrap{max-width:1100px}
+  .q-big{
+    font-family:var(--serif);font-weight:300;
+    font-size:clamp(1.6rem,3.7vw,3.3rem);line-height:1.12;letter-spacing:-.02em;
+  }
+  .q-big .hl{color:var(--gold);font-style:italic}
+  .q-big .hl2{font-family:var(--mono);font-weight:500;font-size:.78em;color:var(--signal)}
+  .q-foot{margin-top:2.4rem;max-width:52ch;color:var(--paper-dim);font-size:clamp(1rem,1.5vw,1.25rem);line-height:1.6;font-weight:300}
+
+  /* ---------- timeline ---------- */
+  #timeline h2{font-size:clamp(1.8rem,4vw,3.4rem);margin-bottom:.6rem}
+  #timeline .sub{color:var(--paper-dim);font-weight:300;max-width:56ch;margin-bottom:clamp(2rem,4vw,3.4rem);font-size:clamp(1rem,1.4vw,1.2rem);line-height:1.55}
+  .tl{display:grid;grid-template-columns:repeat(5,1fr);gap:0;position:relative}
+  .tl::after{content:"";position:absolute;top:14px;left:0;right:0;height:1px;background:var(--line)}
+  .tl-item{position:relative;padding:0 1rem 0 0}
+  .tl-node{width:11px;height:11px;border-radius:50%;background:var(--ink);border:1px solid var(--paper-dim);margin:9px 0 1.4rem;position:relative;z-index:2}
+  .tl-item:last-child .tl-node{border-color:var(--signal);background:var(--signal);box-shadow:0 0 0 5px rgba(127,176,204,.12)}
+  .tl-n{font-family:var(--mono);font-size:.68rem;letter-spacing:.2em;color:var(--paper-faint)}
+  .tl-era{font-family:var(--serif);font-size:clamp(1.05rem,1.5vw,1.35rem);font-weight:400;margin:.5rem 0 .7rem;line-height:1.15}
+  .tl-item:last-child .tl-era{color:var(--signal)}
+  .tl-v{font-size:.92rem;line-height:1.45;color:var(--paper-dim);font-weight:300}
+  .tl-v b{color:var(--gold-soft);font-weight:500}
+
+  /* ---------- pull quote ---------- */
+  .quote{justify-content:center}
+  .quote .wrap{max-width:1080px}
+  .quote .mark{font-family:var(--serif);font-size:clamp(4rem,9vw,9rem);line-height:.5;color:var(--gold);opacity:.5;height:.5em;display:block}
+  .quote blockquote{
+    font-family:var(--serif);font-weight:300;font-style:italic;
+    font-size:clamp(1.6rem,4.2vw,3.6rem);line-height:1.18;letter-spacing:-.015em;
+    margin:1.4rem 0 2rem;
+  }
+  .quote blockquote .u{color:var(--gold)}
+  .quote cite{font-family:var(--mono);font-style:normal;font-size:.76rem;letter-spacing:.18em;text-transform:uppercase;color:var(--paper-dim);display:block;line-height:1.7}
+
+  /* dark-quote variant (algoritmo) */
+  #dignidade{background:var(--ink-2)}
+  #dignidade blockquote .u{color:var(--signal)}
+  #dignidade .mark{color:var(--signal)}
+
+  /* ---------- cards / instituicoes ---------- */
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);margin-top:clamp(1.6rem,3vw,2.6rem)}
+  .card{background:var(--ink);padding:clamp(1.4rem,2.4vw,2.2rem)}
+  .card .ci{font-family:var(--mono);font-size:.68rem;letter-spacing:.2em;color:var(--signal);margin-bottom:1rem}
+  .card h4{font-family:var(--serif);font-weight:400;font-size:clamp(1.05rem,1.5vw,1.35rem);margin-bottom:.6rem;line-height:1.2}
+  .card p{font-size:.92rem;line-height:1.5;color:var(--paper-dim);font-weight:300}
+
+  /* ---------- challenges list (future) ---------- */
+  #future h2{font-size:clamp(1.9rem,4.4vw,3.6rem);margin-bottom:.6rem}
+  #future .sub{color:var(--paper-dim);font-weight:300;margin-bottom:clamp(1.8rem,3.5vw,2.8rem);max-width:54ch;font-size:clamp(1rem,1.4vw,1.2rem);line-height:1.55}
+  .grid-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1px 0}
+  .gl{display:flex;gap:1rem;align-items:baseline;padding:1rem 1.4rem 1rem 0;border-top:1px solid var(--line)}
+  .gl .gn{font-family:var(--mono);font-size:.72rem;color:var(--signal);min-width:2.4ch}
+  .gl .gt{font-family:var(--serif);font-size:clamp(1rem,1.4vw,1.22rem);font-weight:400;line-height:1.25}
+
+  /* ---------- conclusion ---------- */
+  #closing{background:radial-gradient(120% 120% at 50% 0%,var(--ink-2),var(--ink))}
+  #closing .wrap{max-width:1000px;text-align:center}
+  #closing .ckicker{font-family:var(--mono);font-size:.72rem;letter-spacing:.32em;text-transform:uppercase;color:var(--signal);margin-bottom:2rem}
+  #closing .cbig{font-family:var(--serif);font-weight:300;font-size:clamp(1.7rem,4vw,3.4rem);line-height:1.16;letter-spacing:-.015em}
+  #closing .cbig .g{color:var(--gold);font-style:italic}
+  #closing .csig{margin-top:3rem;font-family:var(--serif);font-style:italic;font-size:clamp(1.4rem,2.6vw,2.2rem);color:var(--gold-soft)}
+  #closing .cby{font-family:var(--mono);font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--paper-dim);margin-top:1rem}
+
+  /* ---------- UI chrome ---------- */
+  .theme-switch{position:fixed;top:1.15rem;right:1.4rem;z-index:60;display:flex;gap:2px;padding:3px;border:1px solid var(--line);border-radius:999px;background:var(--ink-2)}
+  .theme-switch button{display:inline-flex;align-items:center;gap:.35rem;font-family:var(--mono);font-size:.64rem;letter-spacing:.06em;text-transform:uppercase;color:var(--paper-dim);background:transparent;border:0;border-radius:999px;padding:.34rem .6rem;cursor:pointer;transition:all .2s}
+  .theme-switch button .ico{width:11px;height:11px;border-radius:50%;border:1.5px solid currentColor}
+  .theme-switch button[data-t="medium"] .ico{background:linear-gradient(90deg,currentColor 50%,transparent 50%)}
+  .theme-switch button[data-t="light"] .ico{background:currentColor}
+  .theme-switch button:hover{color:var(--paper)}
+  .theme-switch button[aria-pressed="true"]{background:var(--gold);color:var(--ink)}
+  @media(max-width:560px){.theme-switch{top:auto;bottom:1.3rem;left:50%;right:auto;transform:translateX(-50%)}.theme-switch button span.lbl{display:none}}
+
+  .progress{position:fixed;top:0;left:0;height:2px;background:linear-gradient(90deg,var(--gold),var(--signal));width:0;z-index:50;transition:width .15s linear}
+  .counter{position:fixed;bottom:1.6rem;right:1.8rem;z-index:50;font-family:var(--mono);font-size:.74rem;letter-spacing:.12em;color:var(--paper-dim)}
+  .counter .cur{color:var(--paper)}
+  .nav-dots{position:fixed;top:50%;right:1.6rem;transform:translateY(-50%);z-index:50;display:flex;flex-direction:column;gap:.7rem}
+  .nav-dots button{width:8px;height:8px;border-radius:50%;border:1px solid var(--paper-faint);background:transparent;padding:0;cursor:pointer;transition:all .25s;display:block}
+  .nav-dots button:hover{border-color:var(--gold)}
+  .nav-dots button.active{background:var(--gold);border-color:var(--gold);transform:scale(1.35)}
+  .kbd-hint{position:fixed;bottom:1.6rem;left:1.8rem;z-index:50;font-family:var(--mono);font-size:.66rem;letter-spacing:.1em;color:var(--paper-faint)}
+  .kbd-hint kbd{border:1px solid var(--line);border-radius:3px;padding:.05em .4em;color:var(--paper-dim)}
+
+  :focus-visible{outline:2px solid var(--signal);outline-offset:3px}
+
+  /* reveal animation */
+  .reveal>*{opacity:0;transform:translateY(22px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1)}
+  .slide.in .reveal>*{opacity:1;transform:none}
+  .slide.in .reveal>*:nth-child(2){transition-delay:.08s}
+  .slide.in .reveal>*:nth-child(3){transition-delay:.16s}
+  .slide.in .reveal>*:nth-child(4){transition-delay:.24s}
+  .slide.in .reveal>*:nth-child(5){transition-delay:.32s}
+
+  @media (max-width:780px){
+    .split{grid-template-columns:1fr;gap:1.6rem}
+    .tl{grid-template-columns:1fr;gap:1.6rem}
+    .tl::after{display:none}
+    .tl-node{margin:0 0 .8rem}
+    .nav-dots{display:none}
+    .kbd-hint{display:none}
+    .slide{padding:4.2rem 1.4rem}
+  }
+
+  /* mobile no-snap: use normal document scrolling on touch devices */
+  @media(max-width:780px){
+    html{scroll-behavior:auto}
+    .deck{height:auto;overflow-y:visible;scroll-snap-type:none;scroll-behavior:auto}
+    .slide,
+    #hero{min-height:100svh;scroll-snap-align:none;scroll-snap-stop:normal;justify-content:flex-start;overflow:visible}
+    .nav-dots,.kbd-hint,.progress,.counter{display:none}
+  }
+
+  @media (prefers-reduced-motion:reduce){
+    *{scroll-behavior:auto !important}
+    .reveal>*{opacity:1 !important;transform:none !important}
+    .scroll-hint .dot{animation:none}
+  }
+</style>
+</head>
+<body>
+<nav class="site-nav" aria-label="Navegação principal">
+  <a class="site-nav__brand" href="index.html" aria-label="LIA 3R — início"><span class="site-nav__mark" aria-hidden="true">L3</span><span class="site-nav__wordmark">LIA 3R</span></a><span class="site-nav__divider" aria-hidden="true"></span>
+  <a href="index.html#lgpd">CF · LGPD</a><a href="index.html#fachin">Magna</a><a href="index.html#curso">Curso</a>
+</nav>
+
+<div class="theme-switch" id="themeSwitch" role="group" aria-label="Tema de cor">
+  <button data-t="dark" aria-pressed="true"><span class="ico"></span><span class="lbl">Escuro</span></button>
+  <button data-t="medium" aria-pressed="false"><span class="ico"></span><span class="lbl">Médio</span></button>
+  <button data-t="light" aria-pressed="false"><span class="ico"></span><span class="lbl">Claro</span></button>
+</div>
+
+<div class="progress" id="progress"></div>
+<div class="counter"><span class="cur" id="cur">01</span> / <span id="tot">18</span></div>
+<nav class="nav-dots" id="dots" aria-label="Navegação dos slides"></nav>
+<div class="kbd-hint">↑ ↓ ← → · <kbd>espaço</kbd> navega</div>
+
+<main class="deck" id="deck">
+
+  <!-- 1 HERO -->
+  <section class="slide" id="hero" data-label="Abertura">
+    <div class="wrap reveal">
+      <div class="hero-meta">
+        <span>Jornada de Direito Civil</span>
+        <span>Conferência Magna</span>
+        <span>16 de junho de 2026</span>
+      </div>
+      <h1 class="hero-title">
+        Entre a <span class="trad">tradição</span> civilista<br/>
+        e a sociedade <span class="algo">algorítmica</span>
+      </h1>
+      <div class="hero-rule"></div>
+      <div class="hero-by">
+        <span class="name">Ministro Edson Fachin</span>
+        <span class="role">Presidente do Supremo Tribunal Federal e do Conselho Nacional de Justiça</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 HOMAGE -->
+  <section class="slide" id="homage" data-label="Homenagem">
+    <div class="wrap reveal">
+      <div class="memoriam">Em memória</div>
+      <div class="hname">Ruy Rosado de Aguiar</div>
+      <div class="htag">Magistrado · Professor · Civilista</div>
+      <p>Pertenceu àquela rara linhagem de intérpretes que compreenderam que o direito civil jamais poderia ser reduzido a uma <em>técnica de administração patrimonial</em>. Sua obra é uma ponte entre a tradição clássica do direito privado e os desafios do constitucionalismo contemporâneo — sob a advertência permanente de que <em>o direito existe para servir a pessoa humana</em>.</p>
+    </div>
+  </section>
+
+  <!-- 3 BIG QUESTION -->
+  <section class="slide" id="question" data-label="A pergunta">
+    <div class="wrap reveal">
+      <div class="eyebrow">A indagação central</div>
+      <p class="q-big">Como preservar a <span class="hl">centralidade da pessoa humana</span> em uma sociedade progressivamente governada por <span class="hl2">dados, algoritmos e sistemas automatizados de decisão</span>?</p>
+      <p class="q-foot">A pergunta não é nova; a preocupação que ela encerra é ainda mais antiga. Passaram-se os primeiros 25 anos do século XXI — o que nos espera são os próximos 75, já interpelando juristas e tribunais de todo o Brasil.</p>
+    </div>
+  </section>
+
+  <!-- 4 TIMELINE -->
+  <section class="slide" id="timeline" data-label="Vulnerabilidades">
+    <div class="wrap reveal">
+      <div class="eyebrow">Lição do passado</div>
+      <h2>Cada poder novo gera uma vulnerabilidade nova</h2>
+      <p class="sub">Os instrumentos mudam, as formas de dominação se transformam — mas permanece constante a necessidade de proteger a dignidade humana.</p>
+      <div class="tl">
+        <div class="tl-item"><div class="tl-node"></div><div class="tl-n">I</div><div class="tl-era">Propriedade fundiária</div><div class="tl-v">Desenvolvimento e, ao mesmo tempo, <b>vulnerabilidade econômica</b>.</div></div>
+        <div class="tl-item"><div class="tl-node"></div><div class="tl-n">II</div><div class="tl-era">Revolução industrial</div><div class="tl-v">Inovação e, simultaneamente, <b>vulnerabilidade no trabalho</b>.</div></div>
+        <div class="tl-item"><div class="tl-node"></div><div class="tl-n">III</div><div class="tl-era">Sociedade de consumo</div><div class="tl-v">Novo modo de ser — e <b>vulnerabilidade informacional</b>.</div></div>
+        <div class="tl-item"><div class="tl-node"></div><div class="tl-n">IV</div><div class="tl-era">Globalização</div><div class="tl-v">Transformações extraordinárias e <b>vulnerabilidades nacionais e transnacionais</b>.</div></div>
+        <div class="tl-item"><div class="tl-node"></div><div class="tl-n">V</div><div class="tl-era">Sociedade digital</div><div class="tl-v">A colmeia digital produz a <b>vulnerabilidade algorítmica</b>.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 INSTITUICOES -->
+  <section class="slide" data-label="Instituições">
+    <div class="wrap reveal split">
+      <div>
+        <div class="eyebrow">Instituições algorítmicas</div>
+        <h2>O algoritmo deixou de ser mero instrumento técnico.</h2>
+      </div>
+      <div class="col-r">
+        <p class="lead">Em muitas esferas da vida, eles passaram a desempenhar <strong>funções estruturantes</strong>: estabelecem regras de interação, produzem classificações, moldam expectativas e <span class="s">condicionam o acesso a direitos e recursos</span>.</p>
+        <p class="lead">Sua relevância para a teoria jurídica é comparável à do mercado ou da burocracia estatal — eles participam da construção da própria <span class="g">ordem jurídica e social</span>.</p>
+        <p class="lead" style="font-family:var(--mono);font-size:.8rem;letter-spacing:.04em;color:var(--paper-faint)">Mendonça · Filgueiras · Almeida — <em>O Algoritmo Institucional</em> (Oxford, 2024)</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 OPACITY -->
+  <section class="slide" id="opacity" data-label="Poder opaco">
+    <div class="wrap reveal">
+      <div class="eyebrow">Uma nova forma de poder</div>
+      <p class="q-big">As instituições tradicionais têm estruturas <span class="hl">identificáveis</span>.<br/>As novas operam por <span class="hl2">códigos, bases de dados e modelos preditivos</span> — frequentemente invisíveis, opacos e de difícil contestação.</p>
+      <p class="q-foot">Quando os algoritmos passam a influenciar crédito, emprego, reputação e o acesso a bens e serviços, tornam-se inevitáveis as indagações sobre transparência, responsabilidade e respeito à dignidade humana.</p>
+    </div>
+  </section>
+
+  <!-- 7 VOCATION cards -->
+  <section class="slide" data-label="Vocação do direito civil">
+    <div class="wrap reveal">
+      <div class="eyebrow">A vocação do direito civil</div>
+      <h2 style="font-family:var(--serif);font-weight:340;font-size:clamp(1.8rem,3.8vw,3rem);max-width:18ch">Conter assimetrias. Proteger quem é vulnerável.</h2>
+      <div class="cards">
+        <div class="card"><div class="ci">// função</div><h4>Contenção das assimetrias</h4><p>Toda assimetria interessa ao direito civil — e a vulnerabilidade algorítmica é, antes de tudo, uma assimetria de poder e de informação.</p></div>
+        <div class="card"><div class="ci">// continuidade</div><h4>As categorias clássicas permanecem</h4><p>Boa-fé objetiva, função social, tutela da confiança, proteção da personalidade, responsabilidade civil. O que muda é o contexto de aplicação.</p></div>
+        <div class="card"><div class="ci">// resposta</div><h4>Reações já anotadas</h4><p>Um livro especial de direito digital no projeto de novo Código Civil e a LGPD como marco civilizatório do direito brasileiro.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8 ENCICLICA QUOTE -->
+  <section class="slide quote" id="enciclica" data-label="Magnifica Humanitas">
+    <div class="wrap reveal">
+      <span class="mark">“</span>
+      <blockquote>O ser humano deve permanecer no <span class="u">centro de toda e qualquer decisão moral</span>.</blockquote>
+      <cite>Leão XIV — encíclica <em>Magnifica Humanitas</em>, sobre a salvaguarda da pessoa humana na era da inteligência artificial (15 de maio de 2026)</cite>
+    </div>
+  </section>
+
+  <!-- 9 JUSTICE not market -->
+  <section class="slide" data-label="Justiça, não mercado">
+    <div class="wrap reveal split">
+      <div>
+        <div class="eyebrow">Não é só mercado</div>
+        <h2>A distribuição de dados e tecnologia é uma questão de justiça.</h2>
+      </div>
+      <div class="col-r">
+        <p class="lead">A concentração de informações produz novas formas de <strong>desigualdade, dependência e exclusão</strong> — o chamado <span class="s">colonialismo digital</span>.</p>
+        <p class="lead">Nenhuma inovação tecnológica pode justificar a diminuição da dignidade humana. O progresso só é legítimo se subordinado à <span class="g">proteção da pessoa</span> e à preservação da humanidade comum.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10 CONSTITUCIONALIZACAO -->
+  <section class="slide" id="const" data-label="1988">
+    <div class="wrap reveal">
+      <div class="eyebrow">Constitucionalização do direito civil · 1988</div>
+      <p class="q-big">Do <span class="hl2">sujeito idealizado</span> — racional, informado, autônomo —<br/>à <span class="hl">pessoa real e concreta</span>, em sua vulnerabilidade existencial.</p>
+      <p class="q-foot">A criança, o idoso, a pessoa com deficiência, o consumidor, a mulher submetida à violência, os grupos historicamente discriminados. Nasceu uma racionalidade jurídica fundada na dignidade humana: o direito civil não pode reproduzir vulnerabilidades — deve reduzi-las.</p>
+    </div>
+  </section>
+
+  <!-- 11 MESTRES -->
+  <section class="slide quote" id="mestres" data-label="Os mestres">
+    <div class="wrap reveal">
+      <span class="mark">“</span>
+      <blockquote>Evitar tanto o <span class="u">apego acrítico à tradição</span> quanto o <span class="u">entusiasmo irrefletido</span> pelas novidades.</blockquote>
+      <cite>Ministro Moreira Alves · com Pontes de Miranda — a modernização do direito não consiste em abandonar o passado, mas em reinterpretá-lo</cite>
+    </div>
+  </section>
+
+  <!-- 12 DADOS = PODER -->
+  <section class="slide" id="dados" data-label="Sociedade de dados">
+    <div class="wrap reveal">
+      <div class="eyebrow">Uma sociedade organizada por dados</div>
+      <p class="q-big">Cada pesquisa, cada compra, cada deslocamento, cada preferência<br/>se converte em <span class="hl2">dado</span> — e os dados se convertem em <span class="hl">poder</span>.</p>
+      <p class="q-foot">A inteligência artificial amplia essa capacidade exponencialmente: identifica padrões, antecipa comportamentos, classifica pessoas, determina oportunidades — e, em certos casos, as restringe.</p>
+    </div>
+  </section>
+
+  <!-- 13 VULNERABILIDADE def -->
+  <section class="slide" data-label="Vulnerabilidade algorítmica">
+    <div class="wrap reveal split">
+      <div>
+        <div class="eyebrow">Definição</div>
+        <h2>Vulnerabilidade algorítmica</h2>
+      </div>
+      <div class="col-r">
+        <p class="lead">A fragilidade de indivíduos perante <strong>processos decisórios automatizados</strong> cujos critérios permanecem desconhecidos, incompreensíveis ou inacessíveis.</p>
+        <p class="lead">Um algoritmo pode negar crédito, dificultar o emprego, direcionar informações, <span class="s">reproduzir preconceitos históricos</span> e ampliar desigualdades — sem que a pessoa compreenda como a decisão foi produzida.</p>
+        <p class="lead"><span class="g">O problema não reside na tecnologia.</span> Reside na assimetria. E toda assimetria interessa ao direito civil.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 14 NAO TECNOFOBICO -->
+  <section class="slide" id="benef" data-label="Não à tecnofobia">
+    <div class="wrap reveal">
+      <div class="eyebrow">Sem tecnofobia</div>
+      <p class="q-big">A IA pode <span class="hl">democratizar conhecimento</span>, ampliar o acesso à justiça, melhorar diagnósticos e <span class="hl">auxiliar a atividade jurisdicional</span>.</p>
+      <p class="q-foot">O direito não deve combater a inovação — deve recebê-la e orientá-la. O verdadeiro desafio é assegurar que a tecnologia permaneça subordinada aos valores humanos. Jamais o contrário.</p>
+    </div>
+  </section>
+
+  <!-- 15 DIGNIDADE quote (algorithm variant) -->
+  <section class="slide quote" id="dignidade" data-label="Dignidade">
+    <div class="wrap reveal">
+      <span class="mark">“</span>
+      <blockquote>Algoritmo não possui dignidade. Nenhuma máquina tem consciência moral.<br/><span class="u">Essas características pertencem exclusivamente à pessoa humana.</span></blockquote>
+      <cite>A máquina é um meio · o ser humano continua sendo um fim</cite>
+    </div>
+  </section>
+
+  <!-- 16 FUTURE challenges -->
+  <section class="slide" id="future" data-label="Os próximos 75 anos">
+    <div class="wrap reveal">
+      <div class="eyebrow">O direito civil dos próximos 75 anos</div>
+      <h2>As questões que já nos interpelam</h2>
+      <p class="sub">Todas com um denominador comum: a preservação da pessoa humana como centro do ordenamento jurídico.</p>
+      <div class="grid-list">
+        <div class="gl"><span class="gn">01</span><span class="gt">Responsabilidade por decisões automatizadas</span></div>
+        <div class="gl"><span class="gn">02</span><span class="gt">Proteção contra discriminações algorítmicas</span></div>
+        <div class="gl"><span class="gn">03</span><span class="gt">Transparência dos sistemas inteligentes</span></div>
+        <div class="gl"><span class="gn">04</span><span class="gt">Direito à explicação</span></div>
+        <div class="gl"><span class="gn">05</span><span class="gt">Direito à revisão humana</span></div>
+        <div class="gl"><span class="gn">06</span><span class="gt">Autodeterminação informacional</span></div>
+        <div class="gl"><span class="gn">07</span><span class="gt">Governança de dados</span></div>
+        <div class="gl"><span class="gn">08</span><span class="gt">Patrimônio e identidade digital</span></div>
+        <div class="gl"><span class="gn">09</span><span class="gt">Novas formas de vulnerabilidade cognitiva</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 17 ANTROPOLOGICA -->
+  <section class="slide" id="antrop" data-label="Antropológica">
+    <div class="wrap reveal">
+      <div class="eyebrow">A grande questão do nosso tempo</div>
+      <p class="q-big">Não é <span class="hl2">tecnológica</span>. Ela é, antes de tudo, <span class="hl">antropológica</span>.</p>
+      <p class="q-foot">Não se trata de perguntar apenas o que as máquinas podem fazer — mas o que os seres humanos devem permitir que elas façam. Não apenas desenvolver a inteligência artificial, mas preservar a inteligência ética e moral. Não apenas criar sistemas eficientes, mas construir uma sociedade livre, justa e solidária.</p>
+    </div>
+  </section>
+
+  <!-- 18 CLOSING -->
+  <section class="slide" id="closing" data-label="Conclusão">
+    <div class="wrap reveal">
+      <div class="ckicker">Em conclusão</div>
+      <p class="cbig">Mesmo na era dos algoritmos, permanece verdadeira a mais antiga das lições humanistas: toda construção jurídica só encontra legitimidade quando colocada <span class="g">a serviço da pessoa humana</span>.</p>
+      <div class="csig">Muito grato.</div>
+      <div class="cby">Ministro Edson Fachin · Jornada de Direito Civil</div>
+    </div>
+  </section>
+
+</main>
+
+<script>
+  // theme switch (escuro / médio / claro), persisted — default: escuro
+  (function(){
+    const DEF='dark';
+    const sw=document.getElementById('themeSwitch');
+    const btns=[...sw.querySelectorAll('button')];
+    function apply(t){
+      if(t===DEF){document.documentElement.removeAttribute('data-theme');}
+      else{document.documentElement.setAttribute('data-theme',t);}
+      btns.forEach(b=>b.setAttribute('aria-pressed', String(b.dataset.t===t)));
+      try{localStorage.setItem('fachin-theme',t);}catch(e){}
+    }
+    btns.forEach(b=>b.addEventListener('click',()=>apply(b.dataset.t)));
+    let saved=DEF;
+    try{saved=localStorage.getItem('fachin-theme')||DEF;}catch(e){}
+    apply(saved);
+  })();
+
+  const deck = document.getElementById('deck');
+  const slides = [...document.querySelectorAll('.slide')];
+  const dotsWrap = document.getElementById('dots');
+  const progress = document.getElementById('progress');
+  const curEl = document.getElementById('cur');
+  document.getElementById('tot').textContent = String(slides.length).padStart(2,'0');
+
+  // build nav dots
+  slides.forEach((s,i)=>{
+    const b = document.createElement('button');
+    b.setAttribute('aria-label', s.dataset.label || ('Slide '+(i+1)));
+    b.title = s.dataset.label || '';
+    b.addEventListener('click',()=>slides[i].scrollIntoView());
+    dotsWrap.appendChild(b);
+  });
+  const dots = [...dotsWrap.children];
+
+  // intersection: active state + reveal
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        e.target.classList.add('in');
+        const i = slides.indexOf(e.target);
+        curEl.textContent = String(i+1).padStart(2,'0');
+        dots.forEach((d,j)=>d.classList.toggle('active', j===i));
+      }
+    });
+  },{threshold:.55});
+  slides.forEach(s=>io.observe(s));
+
+  // progress bar
+  deck.addEventListener('scroll',()=>{
+    const max = deck.scrollHeight - deck.clientHeight;
+    progress.style.width = (deck.scrollTop/max*100)+'%';
+  },{passive:true});
+
+  // keyboard nav
+  function currentIndex(){
+    const top = deck.scrollTop;
+    return Math.round(top / deck.clientHeight);
+  }
+  window.addEventListener('keydown',(e)=>{
+    const i = currentIndex();
+    if(['ArrowRight','ArrowDown','PageDown',' '].includes(e.key)){ e.preventDefault(); slides[Math.min(i+1,slides.length-1)].scrollIntoView(); }
+    else if(['ArrowLeft','ArrowUp','PageUp'].includes(e.key)){ e.preventDefault(); slides[Math.max(i-1,0)].scrollIntoView(); }
+    else if(e.key==='Home'){ e.preventDefault(); slides[0].scrollIntoView(); }
+    else if(e.key==='End'){ e.preventDefault(); slides[slides.length-1].scrollIntoView(); }
+  });
+</script>
+</body>
+</html>

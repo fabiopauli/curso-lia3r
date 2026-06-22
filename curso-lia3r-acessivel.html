@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="Curso LIA 3R — Módulo I: introdução ao uso ético, responsável e eficiente da inteligência artificial no sistema judiciário brasileiro. Versão acessível conforme o eMAG." />
+<title>Curso LIA 3R — Módulo I · Introdução ao Uso da LIA 3R (versão acessível)</title>
+<link rel="icon" type="image/png" href="icone-lia.png" />
+<link rel="stylesheet" href="site-nav.css" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  /* ===== eMAG-oriented accessible styles =====
+     - Contraste mínimo AA (Rec. 4.1); foco visível (Rec. 4.4);
+     - Unidades rem para redimensionamento (Rec. 4.3);
+     - Cor nunca é o único indicador (Rec. 4.2). */
+  :root{
+    --bg:#FFFFFF;
+    --surface:#F4F5F8;
+    --surface-2:#E9ECF2;
+    --ink:#16181D;          /* texto principal — contraste ~15:1 sobre branco */
+    --ink-2:#3A3E47;        /* texto secundário — contraste ~9:1 */
+    --brand:#0B3D91;        /* azul institucional — contraste ~9:1 sobre branco */
+    --brand-2:#093170;
+    --good:#0E6B45;         /* verde acessível */
+    --warn:#9A4A12;         /* laranja escuro acessível */
+    --danger:#A11423;       /* vermelho acessível */
+    --line:#C7CCD6;
+    --line-2:#9aa1ae;
+    --focus:#0B3D91;
+    --font:"Inter",system-ui,Arial,sans-serif;
+    font-size:100%;
+  }
+  /* Alto contraste (Rec. 4.1 / padrão gov.br) — preto/branco/amarelo */
+  body.alto-contraste{
+    --bg:#000000;--surface:#0a0a0a;--surface-2:#141414;
+    --ink:#FFFFFF;--ink-2:#F2F2F2;--brand:#FFEB3B;--brand-2:#FFF176;
+    --good:#7CFFB0;--warn:#FFC078;--danger:#FF8A8A;--line:#FFFFFF;--line-2:#FFFFFF;--focus:#FFEB3B;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--ink);font-family:var(--font);line-height:1.6;-webkit-font-smoothing:antialiased}
+
+  /* Foco sempre visível e evidente (Rec. 4.4) */
+  a:focus-visible,button:focus-visible,[tabindex]:focus-visible{outline:3px solid var(--focus);outline-offset:2px;border-radius:3px}
+
+  /* ---- Barra de acessibilidade (Rec. 1.5 âncoras, 2.1 teclado) ---- */
+  .skip{position:absolute;left:-9999px;top:0;z-index:200;background:var(--brand);color:#fff;padding:.6rem 1rem;border-radius:0 0 6px 0;font-weight:600}
+  .skip:focus{left:0}
+  .a11y-bar{background:var(--surface-2);border-bottom:1px solid var(--line);padding:.5rem clamp(1rem,4vw,3rem);display:flex;flex-wrap:wrap;gap:.5rem 1.4rem;align-items:center;justify-content:space-between}
+  .a11y-links{display:flex;flex-wrap:wrap;gap:.3rem 1.1rem;font-size:.86rem}
+  .a11y-links a{color:var(--brand);font-weight:600;text-decoration:underline;text-underline-offset:2px}
+  .a11y-tools{display:flex;flex-wrap:wrap;gap:.4rem;align-items:center}
+  .a11y-tools button{font-family:var(--font);font-size:.82rem;font-weight:600;color:var(--brand);background:transparent;border:1px solid var(--line-2);border-radius:5px;padding:.3rem .6rem;cursor:pointer}
+  .a11y-tools button:hover{background:var(--surface)}
+  .a11y-tools button[aria-pressed="true"]{background:var(--brand);color:#fff;border-color:var(--brand)}
+  .a11y-tools .grp{display:flex;align-items:center;gap:.2rem;border-left:1px solid var(--line);padding-left:.8rem}
+  .a11y-tools .grp span{font-size:.8rem;color:var(--ink-2);margin-right:.2rem}
+
+  /* ---- Cabeçalho ---- */
+  header.page{padding:clamp(1.6rem,4vw,3rem) clamp(1rem,4vw,3rem) clamp(1.2rem,3vw,2rem);border-bottom:3px solid var(--brand);background:var(--surface)}
+  .breadcrumb{font-size:.85rem;color:var(--ink-2);margin-bottom:1rem}
+  .breadcrumb strong{color:var(--ink)}
+  header.page .badge{display:inline-block;font-size:.78rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--brand);border:1px solid var(--brand);border-radius:999px;padding:.25rem .8rem;margin-bottom:1rem}
+  header.page h1{font-size:clamp(1.8rem,4.4vw,3rem);line-height:1.1;color:var(--ink)}
+  header.page h1 .mod{display:block;font-size:.5em;font-weight:600;color:var(--ink-2);margin-top:.5rem}
+  header.page .intro{margin-top:1rem;max-width:70ch;color:var(--ink-2);font-size:1.05rem}
+
+  /* ---- Layout ---- */
+  .layout{display:grid;grid-template-columns:280px 1fr;gap:0;align-items:start}
+  @media(max-width:900px){.layout{grid-template-columns:1fr}}
+
+  /* Menu / sumário (Rec. 1.5, 3.4, 3.5) */
+  nav.toc{position:sticky;top:0;align-self:start;padding:clamp(1.2rem,3vw,2rem) 1.2rem;border-right:1px solid var(--line);background:var(--surface)}
+  @media(max-width:900px){nav.toc{position:static;border-right:0;border-bottom:1px solid var(--line)}}
+  nav.toc h2{font-size:.9rem;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-2);margin-bottom:.8rem}
+  nav.toc ol{list-style:decimal;padding-left:1.4rem;display:flex;flex-direction:column;gap:.4rem}
+  nav.toc a{color:var(--brand);text-decoration:underline;text-underline-offset:2px;font-size:.92rem;font-weight:500}
+
+  main{padding:clamp(1.2rem,3vw,2.4rem) clamp(1rem,4vw,3rem) 0;max-width:78ch}
+
+  section.topic{padding:clamp(1.6rem,3.5vw,2.6rem) 0;border-bottom:1px solid var(--line)}
+  section.topic > h2{font-size:clamp(1.4rem,3vw,2rem);color:var(--ink);line-height:1.15;margin-bottom:.4rem;scroll-margin-top:1rem}
+  .topic .klabel{font-size:.8rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--brand);margin-bottom:.5rem}
+  .topic p{color:var(--ink-2);margin:.7rem 0;max-width:72ch}
+  .topic p strong,.topic li strong{color:var(--ink)}
+  abbr[title]{text-decoration:underline dotted;text-underline-offset:2px;cursor:help}
+
+  h3{font-size:1.15rem;color:var(--ink);margin:1.3rem 0 .3rem}
+
+  /* listas semânticas */
+  ul.bul,ol.num{margin:.6rem 0 .6rem 1.4rem;display:flex;flex-direction:column;gap:.5rem}
+  ul.bul li,ol.num li{color:var(--ink-2)}
+  ol.num li::marker{color:var(--brand);font-weight:700}
+
+  /* glossário com lista de definições (semântico p/ leitores de tela) */
+  dl.gloss{margin-top:1rem;display:grid;gap:1.1rem}
+  dl.gloss > div{border-left:4px solid var(--brand);padding-left:1rem}
+  dl.gloss dt{font-weight:700;color:var(--ink);font-size:1.05rem;margin-bottom:.2rem}
+  dl.gloss dd{color:var(--ink-2);margin:0}
+  dl.gloss dd + dd{margin-top:.4rem}
+
+  /* fluxo entrada/processamento/saída */
+  .flow{display:flex;flex-wrap:wrap;gap:.7rem;align-items:stretch;margin:1rem 0;list-style:none}
+  .flow li{flex:1 1 180px;border:1px solid var(--line);border-radius:8px;padding:1rem;background:var(--surface)}
+  .flow li b{display:block;color:var(--brand);font-size:.85rem;text-transform:uppercase;letter-spacing:.04em;margin-bottom:.3rem}
+  .flow li .step-name{font-weight:700;color:var(--ink)}
+
+  /* destaque / citação */
+  blockquote{border-left:4px solid var(--brand);background:var(--surface);padding:1rem 1.2rem;margin:1rem 0;color:var(--ink)}
+  blockquote cite{display:block;margin-top:.6rem;font-style:normal;font-size:.88rem;color:var(--ink-2)}
+
+  /* caixa de atenção (cor + ícone + rótulo textual — Rec. 4.2) */
+  .callout{display:flex;gap:.7rem;border:1px solid var(--line);border-left:5px solid var(--warn);border-radius:8px;padding:1rem 1.2rem;margin:1rem 0;background:var(--surface)}
+  .callout .tag{font-weight:700;color:var(--warn);white-space:nowrap}
+
+  /* tabela de definições legais */
+  table.legal{width:100%;border-collapse:collapse;margin:1rem 0;font-size:.96rem}
+  table.legal caption{text-align:left;font-weight:700;color:var(--ink);margin-bottom:.5rem}
+  table.legal th,table.legal td{border:1px solid var(--line);padding:.6rem .7rem;text-align:left;vertical-align:top;color:var(--ink-2)}
+  table.legal th{background:var(--surface-2);color:var(--ink);width:7rem;font-family:inherit}
+
+  /* níveis de risco — rótulo textual + cor (Rec. 4.2) */
+  .tiers{display:grid;gap:1rem;margin-top:1rem}
+  .tier{border:1px solid var(--line);border-radius:8px;padding:1.1rem 1.2rem;background:var(--surface)}
+  .tier h3{margin:0 0 .2rem}
+  .tier .level{display:inline-block;font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;padding:.15rem .6rem;border-radius:4px;border:2px solid;margin-bottom:.6rem}
+  .tier.exc{border-left:5px solid var(--danger)} .tier.exc .level{color:var(--danger);border-color:var(--danger)}
+  .tier.alto{border-left:5px solid var(--warn)} .tier.alto .level{color:var(--warn);border-color:var(--warn)}
+  .tier.baixo{border-left:5px solid var(--good)} .tier.baixo .level{color:var(--good);border-color:var(--good)}
+  .tier ul{margin:.5rem 0 0 1.3rem;display:flex;flex-direction:column;gap:.35rem}
+  .tier li{color:var(--ink-2)}
+
+  footer.page{background:var(--surface-2);border-top:3px solid var(--brand);padding:clamp(1.6rem,4vw,2.6rem) clamp(1rem,4vw,3rem);margin-top:2rem;color:var(--ink-2);font-size:.92rem}
+  footer.page h2{font-size:1.1rem;color:var(--ink);margin-bottom:.6rem}
+  footer.page a{color:var(--brand);text-decoration:underline;text-underline-offset:2px}
+  footer.page .keys{margin-top:1rem;font-size:.85rem}
+  footer.page kbd{border:1px solid var(--line-2);border-radius:3px;padding:.05em .4em;background:var(--bg);color:var(--ink);font-family:var(--font);font-size:.85em}
+
+  @media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+</style>
+</head>
+<body>
+  <!-- Âncoras de pulo — primeiros elementos focáveis (Rec. 1.5 / 2.1) -->
+  <a class="skip" href="#conteudo" accesskey="1">Ir para o conteúdo [1]</a>
+  <a class="skip" href="#menu" accesskey="2">Ir para o menu [2]</a>
+  <a class="skip" href="#rodape" accesskey="4">Ir para o rodapé [4]</a>
+
+  <!-- Barra de acessibilidade -->
+  <div class="a11y-bar">
+    <nav class="a11y-links" aria-label="Atalhos de acessibilidade">
+      <a href="#conteudo" accesskey="1">Conteúdo [1]</a>
+      <a href="#menu" accesskey="2">Menu [2]</a>
+      <a href="#rodape" accesskey="4">Rodapé [4]</a>
+    </nav>
+    <div class="a11y-tools">
+      <button type="button" id="btnContraste" aria-pressed="false" accesskey="5">Alto contraste [5]</button>
+      <span class="grp" role="group" aria-label="Tamanho da fonte">
+        <span aria-hidden="true">Fonte:</span>
+        <button type="button" id="fontMenos" aria-label="Diminuir fonte">A−</button>
+        <button type="button" id="fontReset" aria-label="Fonte padrão">A</button>
+        <button type="button" id="fontMais" aria-label="Aumentar fonte">A+</button>
+      </span>
+    </div>
+  </div>
+
+  <nav class="site-nav site-nav--light site-nav--flow" aria-label="Navegação principal">
+    <a class="site-nav__brand" href="index.html" aria-label="LIA 3R — início"><span class="site-nav__mark" aria-hidden="true">L3</span><span class="site-nav__wordmark">LIA 3R</span></a><span class="site-nav__divider" aria-hidden="true"></span>
+    <a href="index.html#lgpd">CF · LGPD</a><a href="index.html#fachin">Magna</a><a href="index.html#curso">Curso</a>
+  </nav>
+
+  <header class="page">
+    <p class="breadcrumb">Você está em: <strong>Início</strong> › Capacitação › <strong>Curso LIA 3R — Módulo I</strong></p>
+    <span class="badge">Capacitação · Sistema Judiciário Brasileiro</span>
+    <h1>Curso LIA 3R<span class="mod">Módulo I — Introdução ao Uso da LIA 3R</span></h1>
+    <p class="intro">Fundamentos essenciais para o uso <strong>ético, responsável e eficiente</strong> da <abbr title="Inteligência Artificial">IA</abbr> no contexto das ocupações públicas e operacionais do sistema judiciário brasileiro.</p>
+  </header>
+
+  <div class="layout">
+    <nav class="toc" id="menu" aria-label="Sumário do módulo">
+      <h2>Sumário</h2>
+      <ol>
+        <li><a href="#governanca">Governança da IA</a></li>
+        <li><a href="#generativa">IA generativa</a></li>
+        <li><a href="#glossario">Glossário de termos</a></li>
+        <li><a href="#injection">Prompt injection</a></li>
+        <li><a href="#cuidados">Cuidados essenciais</a></li>
+        <li><a href="#mapas">Mapas de risco</a></li>
+        <li><a href="#legal">Constituição e <abbr title="Lei Geral de Proteção de Dados">LGPD</abbr></a></li>
+        <li><a href="#resolucao">Resolução <abbr title="Conselho Nacional de Justiça">CNJ</abbr> 615/2025</a></li>
+        <li><a href="#riscos">Regulação por riscos</a></li>
+        <li><a href="#pratica">LIA 3R na prática</a></li>
+        <li><a href="#mapa-final">Uso responsável</a></li>
+      </ol>
+    </nav>
+
+    <main id="conteudo">
+
+      <section class="topic" id="governanca" aria-labelledby="h-gov">
+        <p class="klabel">Governança da IA</p>
+        <h2 id="h-gov">Princípios fundamentais</h2>
+        <p>A governança da inteligência artificial no contexto público coloca o ser humano no centro de todas as decisões. A tecnologia serve como ferramenta de apoio, nunca como substituta do julgamento humano.</p>
+        <h3>Centralidade da pessoa humana</h3>
+        <p>A dignidade humana é o valor supremo. A tecnologia deve respeitar e promover os direitos fundamentais, servindo às pessoas e à sociedade.</p>
+        <h3>Supervisão humana obrigatória e inafastável</h3>
+        <p>Todo sistema de IA requer supervisão humana constante e qualificada. Nenhuma decisão automatizada dispensa análise crítica e validação por profissionais competentes.</p>
+        <h3>Responsabilidade integral do usuário</h3>
+        <p>Quem utiliza a IA mantém responsabilidade total pelos resultados gerados. A responsabilidade final sempre recai sobre o profissional humano.</p>
+      </section>
+
+      <section class="topic" id="generativa" aria-labelledby="h-gen">
+        <p class="klabel">IA generativa · entendendo a tecnologia</p>
+        <h2 id="h-gen">Modelos de linguagem e geração de conteúdo</h2>
+        <p>Os <abbr title="Large Language Models — Modelos de Linguagem Grandes">LLMs</abbr> são sistemas treinados com bilhões ou trilhões de parâmetros, a partir de enormes quantidades de texto, para compreender e gerar linguagem humana. Formam a base tecnológica do LIA 3R.</p>
+        <p>Enquanto a <strong>IA analítica</strong> classifica e analisa dados existentes, a <strong>IA generativa</strong> cria novos conteúdos — textos, resumos, minutas — a partir de padrões aprendidos.</p>
+        <h3>Como o conteúdo é gerado</h3>
+        <ol class="flow">
+          <li><b>Entrada (input)</b><span class="step-name">O que você fornece</span><br>Informações, documentos, instruções ou perguntas do usuário.</li>
+          <li><b>Processamento</b><span class="step-name">O modelo analisa</span><br>Processa usando padrões aprendidos no treinamento.</li>
+          <li><b>Saída (output)</b><span class="step-name">O que é gerado</span><br>Textos, resumos, análises ou respostas.</li>
+        </ol>
+      </section>
+
+      <section class="topic" id="glossario" aria-labelledby="h-glo">
+        <p class="klabel">Desmistificando termos de IA</p>
+        <h2 id="h-glo">Glossário de termos</h2>
+        <dl class="gloss">
+          <div><dt>Prompt</dt><dd>Instrução, solicitação ou pergunta encaminhada ao sistema de IA — a forma como “conversamos” com o modelo. Pode ser de chat ou de agente. <strong>A qualidade da resposta depende diretamente da qualidade do prompt.</strong></dd></div>
+          <div><dt>Engenharia de prompts</dt><dd>Arte e técnica de formular instruções precisas. É um processo iterativo (instrução → resposta → aperfeiçoamento), buscando clareza, precisão, formato e cadeia de raciocínio, eliminando ambiguidades.</dd>
+          <dd><strong>Regra prática:</strong> Tarefa + Contexto + Restrições + Formato + Exemplos (quando necessário).</dd></div>
+          <div><dt>Prompts simples</dt><dd>Instruções diretas, curtas e objetivas, com pouco contexto. <em>Vantagem:</em> rápidos. <em>Desvantagem:</em> respostas mais genéricas.</dd></div>
+          <div><dt>Prompts complexos</dt><dd>Adicionam contexto, papel (role), formato e exemplos, e podem usar cadeia de raciocínio (Chain of Thought). <em>Vantagem:</em> resultados precisos e estruturados. <em>Desvantagem:</em> exigem mais tempo e boas práticas.</dd></div>
+          <div><dt>Engenharia de contexto (Context Engineering)</dt><dd>Prática de organizar e controlar o que o modelo recebe antes de responder — instruções, histórico, documentos, dados externos e uso de ferramentas.</dd></div>
+          <div><dt>Agentes</dt><dd>Sistema que usa um LLM para executar uma tarefa completa de forma estruturada. Tem objetivo definido, segue um fluxo de trabalho e pode usar ferramentas (bases de dados, metadados do processo, buscas) até entregar o resultado.</dd></div>
+          <div><dt>Tokens</dt><dd>Unidades básicas que os LLMs usam para processar e gerar texto. Podem ser uma palavra inteira, parte de uma palavra, um espaço ou um sinal de pontuação.</dd></div>
+          <div><dt>Harness</dt><dd>Camada de software que organiza e controla um agente — dá autonomia ao modelo com memórias, ferramentas, consultas externas, instruções e skills, gerenciando contexto, logs, segurança e fluxo de trabalho.</dd></div>
+          <div><dt>Janela de contexto</dt><dd>Quantidade máxima de informação (em tokens) que o modelo processa de uma só vez — a “memória de trabalho” da IA.</dd></div>
+          <div><dt><abbr title="Retrieval-Augmented Generation — Geração Aumentada por Recuperação">RAG</abbr></dt><dd>Técnica que permite à IA buscar informações em documentos específicos antes de responder. No LIA 3R, analisa documentos do <abbr title="Processo Judicial Eletrônico">PJe</abbr> com mais precisão.</dd></div>
+        </dl>
+      </section>
+
+      <section class="topic" id="injection" aria-labelledby="h-inj">
+        <p class="klabel">Conceito avançado · segurança</p>
+        <h2 id="h-inj">Prompt injection</h2>
+        <p>Tentativa maliciosa de manipular o comportamento da IA por meio de instruções ocultas ou enganosas nos prompts. Ocorre quando alguém coloca no input instruções que “competem” com as regras originais do modelo. Exemplos: tom de ficção (“estou escrevendo um roteiro de filme”) ou a instrução direta “ignore as instruções anteriores”.</p>
+        <blockquote>
+          <p>“Trata-se de classe de ataques em que comandos maliciosos são inseridos em documentos, textos, metadados, links ou outras entradas processadas por sistemas de IA, com a finalidade de subverter o comportamento do modelo, manipulando respostas ou comprometendo, no limite, informações sensíveis”.</p>
+          <cite>Definição da Nota Técnica elaborada nos autos n. 0004183-33.2026.2.00.0000 do CONSELHO NACIONAL DE JUSTIÇA – <abbr title="Conselho Nacional de Justiça">CNJ</abbr>.</cite>
+        </blockquote>
+      </section>
+
+      <section class="topic" id="cuidados" aria-labelledby="h-cui">
+        <p class="klabel">Cuidados essenciais no uso de IA</p>
+        <h2 id="h-cui">Riscos e contramedida</h2>
+        <h3>Alucinação</h3>
+        <p>A IA gera informações falsas ou inventadas com aparência convincente de verdade: citações jurídicas inexistentes, números de processos fictícios ou jurisprudência fantasiosa.</p>
+        <h3>Viés algorítmico</h3>
+        <p>Padrões discriminatórios aprendidos dos dados de treinamento, que podem perpetuar preconceitos relacionados a gênero, raça, classe social ou outras características. Requer vigilância constante.</p>
+        <h3>Confiança excessiva do usuário</h3>
+        <p>Tendência perigosa de aceitar os resultados da IA sem questionamento crítico. A aparência fluente das respostas cria falsa sensação de infalibilidade.</p>
+        <div class="callout"><span class="tag">Contramedida:</span><span>Supervisão humana inafastável — sempre revise, valide e questione os resultados gerados por IA. Conheça profundamente o processo antes de utilizar qualquer documento gerado automaticamente, especialmente em contextos decisórios.</span></div>
+      </section>
+
+      <section class="topic" id="mapas" aria-labelledby="h-map">
+        <p class="klabel">Mapas de risco na atuação judicial</p>
+        <h2 id="h-map">Seis riscos que demandam atenção</h2>
+        <ol class="num">
+          <li><strong>Alucinação e vieses</strong> — informações falsas e padrões discriminatórios podem comprometer decisões. Validação rigorosa é obrigatória.</li>
+          <li><strong>Supervisão humana obrigatória</strong> — nenhuma decisão judicial pode ser delegada à IA. O profissional valida e assume total responsabilidade.</li>
+          <li><strong>Tratamento de dados sensíveis</strong> — a anonimização adequada é essencial para proteger a privacidade e a dignidade das partes.</li>
+          <li><strong>Viés da confiança excessiva</strong> — aparência profissional não garante correção. Mantenha postura crítica.</li>
+          <li><strong>Conhecimento do contexto</strong> — a IA não compreende significado ou consequências. Conheça o processo antes de usar o conteúdo gerado.</li>
+          <li><strong>Responsabilidade total do usuário</strong> — o usuário responde integralmente por resultados, erros e consequências do uso de IA.</li>
+        </ol>
+      </section>
+
+      <section class="topic" id="legal" aria-labelledby="h-leg">
+        <p class="klabel">Fundamentos legais da proteção de dados</p>
+        <h2 id="h-leg">Constituição Federal e LGPD</h2>
+        <table class="legal">
+          <caption><abbr title="Constituição Federal">CF</abbr> de 1988 — Artigo 5º (Direitos Fundamentais)</caption>
+          <tbody>
+            <tr><th scope="row">Inciso X</th><td>São invioláveis a intimidade, a vida privada, a honra e a imagem das pessoas, assegurado o direito à indenização pelo dano material ou moral decorrente de sua violação.</td></tr>
+            <tr><th scope="row">Inciso LXXIX (<abbr title="Emenda Constitucional 115 de 2022">EC 115/2022</abbr>)</th><td>É assegurado, nos termos da lei, o direito à proteção dos dados pessoais, inclusive nos meios digitais.</td></tr>
+          </tbody>
+        </table>
+        <table class="legal">
+          <caption><abbr title="Lei Geral de Proteção de Dados">LGPD</abbr> — Lei 13.709/18, Artigo 2º (Fundamentos)</caption>
+          <tbody>
+            <tr><th scope="row">Inciso I</th><td>Respeito à privacidade.</td></tr>
+            <tr><th scope="row">Inciso IV</th><td>Inviolabilidade da intimidade, da honra e da imagem.</td></tr>
+          </tbody>
+        </table>
+        <h3>LGPD — definições essenciais (Art. 5º)</h3>
+        <dl class="gloss">
+          <div><dt>Dado pessoal</dt><dd>Informação relacionada a pessoa natural identificada ou identificável — qualquer dado que permita, direta ou indiretamente, identificar uma pessoa específica.</dd></div>
+          <div><dt>Dado pessoal sensível</dt><dd>Origem racial ou étnica, convicção religiosa, opinião política, filiação sindical, dados de saúde, vida sexual, dados genéticos ou biométricos vinculados a pessoa natural.</dd></div>
+          <div><dt>Dado anonimizado</dt><dd>Dado relativo a titular que não possa ser identificado, considerando a utilização de meios técnicos razoáveis e disponíveis na ocasião de seu tratamento.</dd></div>
+          <div><dt>Tratamento de dados</dt><dd>Toda operação realizada com dados pessoais: coleta, produção, recepção, classificação, utilização, acesso, reprodução, transmissão, distribuição, processamento, arquivamento, armazenamento, eliminação, avaliação, controle, modificação, comunicação, transferência, difusão ou extração.</dd></div>
+          <div><dt>Anonimização</dt><dd>Uso de técnicas razoáveis e disponíveis para impedir que um dado possa ser associado, direta ou indiretamente, a uma pessoa natural. Se a anonimização puder ser revertida ou a pessoa puder ser identificada com esforços razoáveis, os dados continuam sujeitos à lei.</dd></div>
+        </dl>
+        <h3>LGPD — princípios do tratamento (Art. 6º)</h3>
+        <ul class="bul">
+          <li><strong>Boa-fé</strong> — atuação ética, honesta e leal.</li>
+          <li><strong>Finalidade</strong> — propósitos legítimos, específicos, explícitos e informados ao titular.</li>
+          <li><strong>Adequação</strong> — compatibilidade do tratamento com as finalidades informadas.</li>
+          <li><strong>Necessidade</strong> — limitação ao mínimo necessário.</li>
+          <li><strong>Transparência</strong> — informações claras, precisas e acessíveis aos titulares.</li>
+          <li><strong>Segurança</strong> — medidas técnicas e administrativas de proteção.</li>
+          <li><strong>Prevenção</strong> — medidas para prevenir danos aos titulares.</li>
+          <li><strong>Não discriminação</strong> — vedação de tratamento para fins discriminatórios ilícitos ou abusivos.</li>
+          <li><strong>Responsabilização e prestação de contas</strong> — demonstração de medidas que comprovem a observância das normas.</li>
+        </ul>
+      </section>
+
+      <section class="topic" id="resolucao" aria-labelledby="h-res">
+        <p class="klabel">Marco regulatório</p>
+        <h2 id="h-res">Resolução CNJ 615/2025</h2>
+        <p>Estabelece diretrizes para o uso de inteligência artificial no Poder Judiciário brasileiro, em alinhamento com os princípios constitucionais e a proteção de direitos fundamentais.</p>
+        <ol class="num">
+          <li><strong>Respeito aos direitos fundamentais e à LGPD.</strong></li>
+          <li><strong>IA como ferramenta de apoio</strong>, jamais substituta da decisão judicial.</li>
+          <li><strong>Responsabilidade integral do usuário</strong> pelos resultados e consequências.</li>
+          <li><strong>Supervisão humana constante</strong> sobre todos os produtos gerados.</li>
+          <li><strong>Classificação de riscos</strong>, com requisitos específicos de controle, documentação e supervisão para cada categoria.</li>
+        </ol>
+      </section>
+
+      <section class="topic" id="riscos" aria-labelledby="h-ris">
+        <p class="klabel">Regulação baseada em riscos · CNJ 615/2025</p>
+        <h2 id="h-ris">Três níveis de risco</h2>
+        <div class="tiers">
+          <div class="tier exc">
+            <span class="level">Risco excessivo — proibido</span>
+            <h3>Aplicações proibidas que violam direitos fundamentais</h3>
+            <ul>
+              <li>Não possibilite a revisão humana</li>
+              <li>Perfilamento criminal de pessoas</li>
+              <li>Classificação de pessoas para aplicação jurídica</li>
+              <li>Análise biométrica para reconhecimento de emoções</li>
+              <li>Risco a direitos fundamentais</li>
+            </ul>
+          </div>
+          <div class="tier alto">
+            <span class="level">Alto risco — controles rigorosos</span>
+            <h3>Requerem documentação e supervisão constante</h3>
+            <ul>
+              <li>Perfilamento de pessoas</li>
+              <li>Aferição e valoração de prova em processos</li>
+              <li>Interpretação de fatos como crimes</li>
+              <li>Juízos sobre aplicação da norma jurídica ou precedentes</li>
+              <li>Análise biométrica para monitoramento comportamental</li>
+            </ul>
+          </div>
+          <div class="tier baixo">
+            <span class="level">Baixo risco — ferramentas auxiliares</span>
+            <h3>Menor potencial de dano</h3>
+            <ul>
+              <li>Produção de textos de apoio</li>
+              <li>Execução de atos processuais ordinatórios e tarefas de apoio</li>
+              <li>Extração de informações de sistemas e de documentos</li>
+              <li>Detecção de padrões decisórios e de precedentes qualificados</li>
+              <li>Relatórios gerenciais, análises jurimétricas e estatísticas</li>
+              <li>Análise de atuação pretérita</li>
+              <li>Transcrição de áudio e vídeo; anonimização de documentos</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="topic" id="pratica" aria-labelledby="h-pra">
+        <p class="klabel">LIA 3R na prática</p>
+        <h2 id="h-pra">Roteiro da demonstração</h2>
+        <ol class="num">
+          <li>Demonstração do acesso</li>
+          <li>Visão geral do sistema</li>
+          <li>Demonstrar conta do usuário</li>
+          <li>Explicar o que é Fluxo e Fator de Custo</li>
+          <li>Uso como chatbot (histórico de interações)</li>
+          <li>Análise de documentos processuais favoritados no PJe</li>
+          <li>Como acessar os agentes</li>
+        </ol>
+      </section>
+
+      <section class="topic" id="mapa-final" aria-labelledby="h-fin">
+        <p class="klabel">Mapa do uso responsável da IA no Judiciário</p>
+        <h2 id="h-fin">Seis princípios para levar com você</h2>
+        <ol class="num">
+          <li>Conhecer o processo com profundidade.</li>
+          <li>Revisar e desconfiar da IA.</li>
+          <li>Supervisão humana obrigatória e inafastável.</li>
+          <li>Nunca utilizar para processos sigilosos.</li>
+          <li>Responsabilidade integral do usuário.</li>
+          <li>Centralidade da pessoa humana.</li>
+        </ol>
+      </section>
+
+    </main>
+  </div>
+
+  <footer class="page" id="rodape">
+    <h2>Sobre esta página</h2>
+    <p><strong>Curso LIA 3R — Módulo I.</strong> Versão acessível elaborada em conformidade com o <a href="https://emag.governoeletronico.gov.br/" lang="pt-BR">eMAG — Modelo de Acessibilidade em Governo Eletrônico</a> (abre o sítio do eMAG).</p>
+    <p>Recursos de acessibilidade: âncoras de pulo, navegação por teclado, alto contraste, redimensionamento de fonte, marcação semântica, descrição de siglas e foco visível.</p>
+    <p class="keys">Teclas de atalho: <kbd>1</kbd> conteúdo · <kbd>2</kbd> menu · <kbd>4</kbd> rodapé · <kbd>5</kbd> alto contraste. <br>A combinação depende do navegador (geralmente <kbd>Alt</kbd> + tecla, ou <kbd>Alt</kbd> + <kbd>Shift</kbd> + tecla).</p>
+  </footer>
+
+<script>
+  // Comportamentos acionados apenas pelo usuário (Rec. 2.3/2.4: sem auto-refresh/redirect)
+  (function(){
+    var body=document.body, root=document.documentElement;
+
+    // Alto contraste (persistido)
+    var bc=document.getElementById('btnContraste');
+    function setContrast(on){
+      body.classList.toggle('alto-contraste', on);
+      bc.setAttribute('aria-pressed', String(on));
+      try{localStorage.setItem('lia3r-a11y-contraste', on?'1':'0');}catch(e){}
+    }
+    bc.addEventListener('click', function(){ setContrast(!body.classList.contains('alto-contraste')); });
+
+    // Tamanho da fonte (persistido) — redimensionamento sem perda (Rec. 4.3)
+    var sizes=[87.5,100,112.5,125,137.5], idx=1;
+    function applyFont(){ root.style.fontSize=sizes[idx]+'%'; try{localStorage.setItem('lia3r-a11y-font', String(idx));}catch(e){} }
+    document.getElementById('fontMais').addEventListener('click', function(){ idx=Math.min(idx+1,sizes.length-1); applyFont(); });
+    document.getElementById('fontMenos').addEventListener('click', function(){ idx=Math.max(idx-1,0); applyFont(); });
+    document.getElementById('fontReset').addEventListener('click', function(){ idx=1; applyFont(); });
+
+    // Restaurar preferências
+    try{
+      if(localStorage.getItem('lia3r-a11y-contraste')==='1') setContrast(true);
+      var f=localStorage.getItem('lia3r-a11y-font'); if(f!==null){ idx=parseInt(f,10)||1; applyFont(); }
+    }catch(e){}
+  })();
+</script>
+</body>
+</html>

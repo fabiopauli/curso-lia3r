@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Magnifica Humanitas — Carta Encíclica do Papa Leão XIV</title>
+<link rel="icon" type="image/png" href="icone-lia.png" />
+<link rel="stylesheet" href="site-nav.css" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Barlow+Semi+Condensed:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --night:#121A33;
+    --night-2:#172146;
+    --night-3:#1E2A52;
+    --stone:#EFE9DC;
+    --stone-dim:rgba(239,233,220,.66);
+    --stone-faint:rgba(239,233,220,.38);
+    --gold:#D4AF5A;
+    --gold-soft:#ecd494;
+    --clay:#CC8463;
+    --clay-soft:#e0a585;
+    --line:rgba(239,233,220,.14);
+    --line-strong:rgba(239,233,220,.26);
+    --display:"Cormorant Garamond",Georgia,serif;
+    --body:"EB Garamond",Georgia,serif;
+    --label:"Barlow Semi Condensed",system-ui,sans-serif;
+  }
+  /* ---- MEDIUM theme (warm soft grey-blue) ---- */
+  html[data-theme="medium"]{
+    --night:#C7CBD6;--night-2:#BCC1CE;--night-3:#B2B8C7;
+    --stone:#161B28;--stone-dim:rgba(22,27,40,.72);--stone-faint:rgba(22,27,40,.46);
+    --gold:#8A6B23;--gold-soft:#735819;--clay:#A6502E;--clay-soft:#8F4327;
+    --line:rgba(22,27,40,.17);--line-strong:rgba(22,27,40,.30);
+  }
+  /* ---- LIGHT theme ---- */
+  html[data-theme="light"]{
+    --night:#F0F1F5;--night-2:#E7E9EF;--night-3:#DDE0E8;
+    --stone:#121829;--stone-dim:rgba(18,24,41,.68);--stone-faint:rgba(18,24,41,.44);
+    --gold:#7E6120;--gold-soft:#674E16;--clay:#9E4A29;--clay-soft:#853E23;
+    --line:rgba(18,24,41,.14);--line-strong:rgba(18,24,41,.24);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--night);color:var(--stone);font-family:var(--body);-webkit-font-smoothing:antialiased;overflow-x:hidden;transition:background-color .4s ease,color .4s ease}
+
+  /* ---- deck mechanics ---- */
+  .deck{height:100vh;overflow-y:scroll;scroll-snap-type:y mandatory;scroll-behavior:smooth}
+  .deck::-webkit-scrollbar{width:0}
+  .slide{
+    min-height:100vh;scroll-snap-align:start;scroll-snap-stop:always;
+    position:relative;display:flex;flex-direction:column;justify-content:center;
+    padding:clamp(2.4rem,4.5vh,4.5rem) clamp(2rem,6vw,7rem);overflow:hidden;
+  }
+  /* blueprint / construction grid — the "canteiro de obras" motif */
+  .slide::before{
+    content:"";position:absolute;inset:0;
+    background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);
+    background-size:clamp(60px,7vw,120px) clamp(60px,7vw,120px);
+    opacity:.35;
+    -webkit-mask-image:radial-gradient(120% 120% at 50% 50%,#000 35%,transparent 80%);
+            mask-image:radial-gradient(120% 120% at 50% 50%,#000 35%,transparent 80%);
+    pointer-events:none;
+  }
+  .wrap{position:relative;z-index:2;max-width:1180px;margin:0 auto;width:100%}
+
+  /* ---- shared type ---- */
+  .plate{
+    font-family:var(--label);font-size:clamp(.62rem,1vw,.76rem);
+    letter-spacing:.34em;text-transform:uppercase;color:var(--gold);
+    display:flex;align-items:center;gap:.9rem;margin-bottom:1.6rem;font-weight:500;
+  }
+  .plate::before{content:"";width:clamp(24px,3.5vw,46px);height:1px;background:var(--gold);opacity:.7}
+  .plate.clay{color:var(--clay-soft)}
+  .plate.clay::before{background:var(--clay)}
+
+  h1,h2,h3{font-family:var(--display);font-weight:400;line-height:1.04;letter-spacing:.005em}
+
+  .lead{font-family:var(--body);font-size:clamp(1.08rem,1.55vw,1.4rem);line-height:1.62;color:var(--stone-dim);max-width:48ch}
+  .lead strong{color:var(--stone);font-weight:500}
+  .lead .g{color:var(--gold-soft)}
+  .lead .c{color:var(--clay-soft)}
+
+  .big{font-family:var(--display);font-weight:300;font-size:clamp(1.7rem,3.9vw,3.5rem);line-height:1.12}
+  .big .g{color:var(--gold);font-style:italic}
+  .big .c{color:var(--clay-soft);font-style:italic}
+  .foot{margin-top:2.2rem;max-width:54ch;color:var(--stone-dim);font-size:clamp(1rem,1.45vw,1.22rem);line-height:1.6}
+
+  /* ---- 1 hero ---- */
+  #hero{justify-content:center}
+  #hero .wrap{max-width:1280px}
+  .hero-kicker{font-family:var(--label);font-size:clamp(.66rem,1.1vw,.84rem);letter-spacing:.36em;text-transform:uppercase;color:var(--stone-dim);margin-bottom:1.8rem}
+  .hero-title{font-family:var(--display);font-weight:300;font-size:clamp(3.4rem,12vw,11rem);line-height:.9;letter-spacing:.01em;color:var(--stone)}
+  .hero-title em{font-style:italic;color:var(--gold)}
+  .hero-rule{height:1px;background:linear-gradient(90deg,var(--gold),transparent);margin:2.2rem 0;max-width:560px}
+  .hero-sub{font-family:var(--display);font-weight:300;font-style:italic;font-size:clamp(1.3rem,2.6vw,2.1rem);color:var(--stone);max-width:30ch;line-height:1.2}
+  .hero-meta{font-family:var(--label);font-size:clamp(.66rem,1vw,.8rem);letter-spacing:.22em;text-transform:uppercase;color:var(--stone-faint);margin-top:2rem;display:flex;flex-wrap:wrap;gap:.5rem 1.6rem}
+
+  /* ---- continuity ---- */
+  .conti{display:grid;grid-template-columns:1fr auto 1fr;gap:clamp(1.4rem,4vw,3.4rem);align-items:center;margin-top:clamp(1.8rem,4vw,3rem)}
+  .enc{padding:clamp(1.4rem,2.6vw,2.4rem);border:1px solid var(--line);background:rgba(239,233,220,.02)}
+  .enc .yr{font-family:var(--label);font-size:.78rem;letter-spacing:.2em;color:var(--gold);margin-bottom:.8rem}
+  .enc h3{font-family:var(--display);font-style:italic;font-size:clamp(1.5rem,2.4vw,2.2rem);margin-bottom:.5rem}
+  .enc p{font-size:.96rem;line-height:1.5;color:var(--stone-dim)}
+  .arrow{font-family:var(--display);font-size:clamp(1.6rem,3vw,2.6rem);color:var(--gold);line-height:1}
+  @media(max-width:780px){.conti{grid-template-columns:1fr;gap:1rem}.arrow{transform:rotate(90deg);margin:0 auto}}
+
+  /* ---- two biblical images (signature) ---- */
+  #images .wrap{max-width:1240px}
+  .duo{display:grid;grid-template-columns:1fr 1fr;gap:0;margin-top:clamp(1.6rem,3vw,2.6rem);border:1px solid var(--line-strong)}
+  .duo-col{padding:clamp(1.8rem,3.5vw,3.2rem)}
+  .duo-col:first-child{border-right:1px solid var(--line-strong)}
+  .duo-tag{font-family:var(--label);font-size:.74rem;letter-spacing:.24em;text-transform:uppercase;margin-bottom:1.2rem}
+  .duo-col.babel .duo-tag{color:var(--clay-soft)}
+  .duo-col.jeru .duo-tag{color:var(--gold)}
+  .duo-col h3{font-family:var(--display);font-style:italic;font-size:clamp(1.7rem,3vw,2.8rem);line-height:1.05;margin-bottom:1rem}
+  .duo-col.babel h3{color:var(--clay-soft)}
+  .duo-col.jeru h3{color:var(--gold-soft)}
+  .duo-col p{font-size:clamp(.98rem,1.4vw,1.2rem);line-height:1.55;color:var(--stone-dim)}
+  .duo-ref{font-family:var(--label);font-size:.72rem;letter-spacing:.12em;color:var(--stone-faint);margin-top:1.1rem}
+  @media(max-width:680px){.duo{grid-template-columns:1fr}.duo-col:first-child{border-right:none;border-bottom:1px solid var(--line-strong)}}
+
+  /* ---- pull quote ---- */
+  .quote{justify-content:center}
+  .quote .wrap{max-width:1080px}
+  .quote .mk{font-family:var(--display);font-size:clamp(4rem,9vw,9rem);line-height:.5;color:var(--gold);height:.5em;display:block;opacity:.6}
+  .quote blockquote{font-family:var(--display);font-weight:300;font-style:italic;font-size:clamp(1.7rem,4.3vw,3.7rem);line-height:1.16;margin:1.2rem 0 2rem}
+  .quote blockquote .u{color:var(--gold)}
+  .quote cite{font-family:var(--label);font-style:normal;font-size:.78rem;letter-spacing:.18em;text-transform:uppercase;color:var(--stone-dim);display:block;line-height:1.7}
+  #neutra{background:var(--night-2)}
+  #neutra blockquote .u{color:var(--clay-soft)}
+  #neutra .mk{color:var(--clay)}
+
+  /* ---- foundations (4 alicerces) ---- */
+  .quad{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);margin-top:clamp(1.6rem,3vw,2.6rem)}
+  .qd{background:var(--night);padding:clamp(1.4rem,2.4vw,2rem)}
+  .qd .n{font-family:var(--label);font-size:.74rem;letter-spacing:.2em;color:var(--gold);margin-bottom:1rem}
+  .qd h4{font-family:var(--display);font-style:italic;font-weight:500;font-size:clamp(1.15rem,1.6vw,1.5rem);margin-bottom:.5rem;line-height:1.1}
+  .qd p{font-size:.92rem;line-height:1.5;color:var(--stone-dim)}
+  @media(max-width:880px){.quad{grid-template-columns:1fr 1fr}}
+  @media(max-width:480px){.quad{grid-template-columns:1fr}}
+
+  /* ---- principles chips ---- */
+  .chips{display:flex;flex-wrap:wrap;gap:.7rem;margin-top:clamp(1.6rem,3vw,2.4rem);max-width:60ch}
+  .chip{font-family:var(--display);font-style:italic;font-size:clamp(1.05rem,1.6vw,1.5rem);padding:.5rem 1.2rem;border:1px solid var(--line-strong);border-radius:999px;color:var(--stone)}
+  .chip:nth-child(odd){color:var(--gold-soft);border-color:rgba(212,175,90,.4)}
+
+  /* ---- split ---- */
+  .split{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1fr);gap:clamp(2rem,5vw,5rem);align-items:center}
+  .split h2{font-size:clamp(2rem,4.4vw,3.8rem)}
+  .split .col-r{display:flex;flex-direction:column;gap:1.5rem}
+  @media(max-width:780px){.split{grid-template-columns:1fr;gap:1.6rem}}
+
+  /* ---- history marks ---- */
+  .marks{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);margin-top:clamp(1.6rem,3vw,2.6rem)}
+  .mark-i{background:var(--night);padding:clamp(1.4rem,2.6vw,2.2rem)}
+  .mark-i .my{font-family:var(--display);font-size:clamp(1.6rem,2.6vw,2.4rem);color:var(--gold);line-height:1;margin-bottom:.7rem}
+  .mark-i h4{font-family:var(--display);font-style:italic;font-size:clamp(1.1rem,1.5vw,1.35rem);margin-bottom:.4rem}
+  .mark-i p{font-size:.9rem;line-height:1.45;color:var(--stone-dim)}
+  @media(max-width:780px){.marks{grid-template-columns:1fr}}
+
+  /* ---- imperatives (numbered list) ---- */
+  #apelos h2{font-size:clamp(1.9rem,4.4vw,3.6rem);margin-bottom:.6rem}
+  #apelos .sub{color:var(--stone-dim);margin-bottom:clamp(1.6rem,3.2vw,2.6rem);max-width:52ch;font-size:clamp(1rem,1.4vw,1.2rem);line-height:1.55}
+  .impv{display:grid;gap:0}
+  .imp{display:grid;grid-template-columns:auto 1fr;gap:1.4rem;align-items:baseline;padding:1.15rem 0;border-top:1px solid var(--line)}
+  .imp .in{font-family:var(--label);font-size:.82rem;letter-spacing:.1em;color:var(--gold);min-width:3ch}
+  .imp .it{font-family:var(--display);font-style:italic;font-size:clamp(1.3rem,2.2vw,2rem);line-height:1.1}
+  .imp .id{font-family:var(--body);font-size:clamp(.94rem,1.3vw,1.08rem);color:var(--stone-dim);line-height:1.5;margin-top:.3rem}
+
+  /* ---- closing colophon ---- */
+  #closing{background:radial-gradient(130% 130% at 50% 30%,var(--night-2),var(--night))}
+  #closing .wrap{max-width:900px;text-align:center}
+  #closing .big{font-size:clamp(1.7rem,3.8vw,3.2rem)}
+  #closing .colophon{margin-top:3rem;font-family:var(--display);font-style:italic;font-size:clamp(1.2rem,2vw,1.7rem);color:var(--stone-dim);line-height:1.5}
+  #closing .sig{margin-top:1.6rem;font-family:var(--display);font-size:clamp(1.6rem,3vw,2.4rem);letter-spacing:.12em;color:var(--gold)}
+
+  /* ---- chrome ---- */
+  .theme-switch{position:fixed;top:1.15rem;right:1.4rem;z-index:60;display:flex;gap:2px;padding:3px;border:1px solid var(--line-strong);border-radius:999px;background:var(--night-2)}
+  .theme-switch button{display:inline-flex;align-items:center;gap:.35rem;font-family:var(--label);font-size:.66rem;letter-spacing:.06em;text-transform:uppercase;color:var(--stone-dim);background:transparent;border:0;border-radius:999px;padding:.34rem .6rem;cursor:pointer;transition:all .2s}
+  .theme-switch button .ico{width:11px;height:11px;border-radius:50%;border:1.5px solid currentColor}
+  .theme-switch button[data-t="medium"] .ico{background:linear-gradient(90deg,currentColor 50%,transparent 50%)}
+  .theme-switch button[data-t="light"] .ico{background:currentColor}
+  .theme-switch button:hover{color:var(--stone)}
+  .theme-switch button[aria-pressed="true"]{background:var(--gold);color:var(--night)}
+  @media(max-width:560px){.theme-switch{top:auto;bottom:1.3rem;left:50%;right:auto;transform:translateX(-50%)}.theme-switch button span.lbl{display:none}}
+
+  .progress{position:fixed;top:0;left:0;height:2px;background:linear-gradient(90deg,var(--gold),var(--clay));width:0;z-index:50;transition:width .15s linear}
+  .counter{position:fixed;bottom:1.6rem;right:1.8rem;z-index:50;font-family:var(--label);font-size:.78rem;letter-spacing:.14em;color:var(--stone-dim)}
+  .counter .cur{color:var(--stone)}
+  .nav-dots{position:fixed;top:50%;right:1.6rem;transform:translateY(-50%);z-index:50;display:flex;flex-direction:column;gap:.7rem}
+  .nav-dots button{width:8px;height:8px;border-radius:50%;border:1px solid var(--stone-faint);background:transparent;padding:0;cursor:pointer;transition:all .25s;display:block}
+  .nav-dots button:hover{border-color:var(--gold)}
+  .nav-dots button.active{background:var(--gold);border-color:var(--gold);transform:scale(1.35)}
+  .kbd-hint{position:fixed;bottom:1.6rem;left:1.8rem;z-index:50;font-family:var(--label);font-size:.72rem;letter-spacing:.08em;color:var(--stone-faint)}
+  .kbd-hint kbd{border:1px solid var(--line);border-radius:3px;padding:.05em .4em;color:var(--stone-dim)}
+  :focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+
+  .reveal>*{opacity:0;transform:translateY(22px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1)}
+  .slide.in .reveal>*{opacity:1;transform:none}
+  .slide.in .reveal>*:nth-child(2){transition-delay:.08s}
+  .slide.in .reveal>*:nth-child(3){transition-delay:.16s}
+  .slide.in .reveal>*:nth-child(4){transition-delay:.24s}
+  .slide.in .reveal>*:nth-child(5){transition-delay:.32s}
+
+  @media(max-width:780px){.nav-dots,.kbd-hint{display:none}.slide{padding:4.2rem 1.4rem}}
+
+  /* mobile no-snap: use normal document scrolling on touch devices */
+  @media(max-width:780px){
+    html{scroll-behavior:auto}
+    .deck{height:auto;overflow-y:visible;scroll-snap-type:none;scroll-behavior:auto}
+    .slide,
+    #hero{min-height:100svh;scroll-snap-align:none;scroll-snap-stop:normal;justify-content:flex-start;overflow:visible}
+    .nav-dots,.kbd-hint,.progress,.counter{display:none}
+  }
+
+  @media (prefers-reduced-motion:reduce){*{scroll-behavior:auto !important}.reveal>*{opacity:1 !important;transform:none !important}}
+</style>
+</head>
+<body>
+<nav class="site-nav" aria-label="Navegação principal">
+  <a class="site-nav__brand" href="index.html" aria-label="LIA 3R — início"><span class="site-nav__mark" aria-hidden="true">L3</span><span class="site-nav__wordmark">LIA 3R</span></a><span class="site-nav__divider" aria-hidden="true"></span>
+  <a href="index.html#lgpd">CF · LGPD</a><a href="index.html#fachin">Magna</a><a href="index.html#curso">Curso</a>
+</nav>
+
+<div class="theme-switch" id="themeSwitch" role="group" aria-label="Tema de cor">
+  <button data-t="dark" aria-pressed="true"><span class="ico"></span><span class="lbl">Escuro</span></button>
+  <button data-t="medium" aria-pressed="false"><span class="ico"></span><span class="lbl">Médio</span></button>
+  <button data-t="light" aria-pressed="false"><span class="ico"></span><span class="lbl">Claro</span></button>
+</div>
+
+<div class="progress" id="progress"></div>
+<div class="counter"><span class="cur" id="cur">01</span> / <span id="tot">18</span></div>
+<nav class="nav-dots" id="dots" aria-label="Navegação dos slides"></nav>
+<div class="kbd-hint">↑ ↓ ← → · <kbd>espaço</kbd> navega</div>
+
+<main class="deck" id="deck">
+
+  <!-- 1 HERO -->
+  <section class="slide" id="hero" data-label="Abertura">
+    <div class="wrap reveal">
+      <div class="hero-kicker">Carta Encíclica · Papa Leão XIV</div>
+      <h1 class="hero-title">Magnifica<br/><em>Humanitas</em></h1>
+      <div class="hero-rule"></div>
+      <p class="hero-sub">Sobre a salvaguarda da pessoa humana na era da inteligência artificial</p>
+      <div class="hero-meta"><span>Roma, junto de São Pedro</span><span>15 de maio de 2026</span></div>
+    </div>
+  </section>
+
+  <!-- 2 CONTINUITY -->
+  <section class="slide" id="continuity" data-label="Continuidade">
+    <div class="wrap reveal">
+      <div class="plate">Doutrina Social da Igreja</div>
+      <h2 style="font-size:clamp(1.7rem,3.5vw,2.8rem);max-width:24ch;font-style:italic;font-weight:300">Da questão operária à questão algorítmica.</h2>
+      <div class="conti">
+        <div class="enc">
+          <div class="yr">1891</div>
+          <h3>Rerum Novarum</h3>
+          <p>Leão XIII enfrenta os dilemas da revolução industrial e funda a Doutrina Social da Igreja. Seu 135º aniversário é celebrado neste ano.</p>
+        </div>
+        <div class="arrow">→</div>
+        <div class="enc">
+          <div class="yr">2026</div>
+          <h3>Magnifica Humanitas</h3>
+          <p>Leão XIV não repete os ensinamentos do passado, mas pede a Deus a sabedoria para <em>interpretar as grandes tendências do nosso tempo</em> — em particular os progressos da técnica.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 THE CHOICE -->
+  <section class="slide" id="choice" data-label="A escolha">
+    <div class="wrap reveal">
+      <div class="plate">Introdução · n. 1</div>
+      <p class="big">A Magnífica Humanidade criada por Deus encontra-se hoje perante uma escolha decisiva:<br/>erguer uma nova <span class="c">torre de Babel</span><br/>ou construir a <span class="g">cidade onde Deus e a humanidade habitam juntos</span>.</p>
+    </div>
+  </section>
+
+  <!-- 4 TWO BIBLICAL IMAGES (signature) -->
+  <section class="slide" id="images" data-label="Duas imagens">
+    <div class="wrap reveal">
+      <div class="plate">Duas imagens bíblicas</div>
+      <div class="duo">
+        <div class="duo-col babel">
+          <div class="duo-tag">O risco</div>
+          <h3>A torre de Babel</h3>
+          <p>A pretensão de construir o futuro excluindo Deus e o próximo — a idolatria do poder que divide e uniformiza.</p>
+          <div class="duo-ref">Gn 11, 1-9</div>
+        </div>
+        <div class="duo-col jeru">
+          <div class="duo-tag">A esperança</div>
+          <h3>As muralhas de Jerusalém</h3>
+          <p>Neemias ouve o clamor de uma cidade ferida, reza, discerne e — tijolo por tijolo, com o povo — reconstrói o bem comum.</p>
+          <div class="duo-ref">Ne 2-6</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 SYNDROME OF BABEL -->
+  <section class="slide" id="sindrome" data-label="Síndrome de Babel">
+    <div class="wrap reveal">
+      <div class="plate clay">O risco da desumanização</div>
+      <h2 style="font-style:italic;font-weight:300;font-size:clamp(1.8rem,3.6vw,3rem);margin-bottom:1.8rem">Evitemos a “síndrome de Babel”</h2>
+      <div class="chips">
+        <span class="chip">A idolatria do lucro, que sacrifica os mais fracos</span>
+        <span class="chip">A uniformidade, que anula as diferenças</span>
+        <span class="chip">Traduzir tudo em dados e desempenhos — inclusive o mistério da pessoa</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 FOUR FOUNDATIONS -->
+  <section class="slide" id="construir" data-label="Construir no bem">
+    <div class="wrap reveal">
+      <div class="plate">Construir no bem · quatro alicerces</div>
+      <h2 style="font-style:italic;font-weight:300;font-size:clamp(1.7rem,3.2vw,2.6rem);max-width:22ch">O canteiro de obras do nosso tempo.</h2>
+      <div class="quad">
+        <div class="qd"><div class="n">i · fundamento</div><h4>A rocha</h4><p>Edificar sobre a relação com Deus, que chama a uma vida em abundância e à comunhão.</p></div>
+        <div class="qd"><div class="n">ii · matéria</div><h4>O limite</h4><p>Aceitar a fragilidade da humanidade sem a considerar um erro a corrigir.</p></div>
+        <div class="qd"><div class="n">iii · método</div><h4>A corresponsabilidade</h4><p>Nenhuma mão sozinha basta; nenhuma é tão fraca que nada possa dar.</p></div>
+        <div class="qd"><div class="n">iv · estilo</div><h4>A linguagem</h4><p>Palavras que iluminam e abrem caminhos — sem entusiasmos ingénuos nem medos estéreis.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7 PERMANECER HUMANOS -->
+  <section class="slide quote" id="humanos" data-label="Permanecer humanos">
+    <div class="wrap reveal">
+      <span class="mk">“</span>
+      <blockquote>Não tenhamos medo de sujar as mãos no canteiro de obras do nosso tempo — <span class="u">recolocando Deus no horizonte do nosso agir e o ser humano no centro</span>.</blockquote>
+      <cite>Introdução · Permanecer humanos · n. 16</cite>
+    </div>
+  </section>
+
+  <!-- 8 PRINCIPLES AS CRITERIA -->
+  <section class="slide" id="principios" data-label="Critérios">
+    <div class="wrap reveal split">
+      <div>
+        <div class="plate">Critérios de discernimento</div>
+        <h2 style="font-style:italic;font-weight:300">Os princípios da Doutrina Social tornam-se a régua do mundo digital.</h2>
+      </div>
+      <div class="col-r">
+        <p class="lead">Ante a concentração de poder no mundo digital, seis princípios permitem avaliar e discernir o novo cenário:</p>
+        <div class="chips">
+          <span class="chip">Dignidade da pessoa</span>
+          <span class="chip">Bem comum</span>
+          <span class="chip">Destinação universal dos bens</span>
+          <span class="chip">Subsidiariedade</span>
+          <span class="chip">Solidariedade</span>
+          <span class="chip">Justiça social</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9 NEW FORMS OF PROPERTY -->
+  <section class="slide" id="bens" data-label="Novos bens">
+    <div class="wrap reveal">
+      <div class="plate">Destinação universal dos bens · n. 67</div>
+      <p class="big">Entre os bens destinados a <span class="g">todos</span>, é preciso contar agora as novas formas de propriedade:</p>
+      <div class="chips" style="margin-top:1.8rem">
+        <span class="chip">Patentes</span>
+        <span class="chip">Algoritmos</span>
+        <span class="chip">Plataformas digitais</span>
+        <span class="chip">Infraestruturas tecnológicas</span>
+        <span class="chip">Dados</span>
+      </div>
+      <p class="foot">Quando a riqueza das nações depende cada vez mais de conhecimentos e tecnologias, a sua concentração em poucas mãos torna-se uma questão de justiça.</p>
+    </div>
+  </section>
+
+  <!-- 10 AI NOT NEUTRAL (clay quote) -->
+  <section class="slide quote" id="neutra" data-label="IA não é neutra">
+    <div class="wrap reveal">
+      <span class="mk">“</span>
+      <blockquote>Não podemos considerar a IA <span class="u">moralmente neutra</span>. Todo artefato técnico traz consigo escolhas: o que mede, o que ignora, o que otimiza — e como classifica pessoas e situações.</blockquote>
+      <cite>Capítulo III · n. 104</cite>
+    </div>
+  </section>
+
+  <!-- 11 WHAT IS AT STAKE -->
+  <section class="slide" id="emjogo" data-label="O que está em jogo">
+    <div class="wrap reveal split">
+      <div>
+        <div class="plate clay">O uso da IA nunca é puramente técnico</div>
+        <h2 style="font-style:italic;font-weight:300">Ela incide sobre direitos, oportunidades, reputação e liberdade.</h2>
+      </div>
+      <div class="col-r">
+        <p class="lead">Decisões delicadas sobre o trabalho, o crédito, o acesso a serviços e a reputação correm o risco de ser confiadas inteiramente a <strong>sistemas automatizados</strong>.</p>
+        <p class="lead">Confiar a um algoritmo o poder de <span class="c">selecionar quem merece ou não</span> — sem que ninguém assuma o peso da decisão — é deixá-lo redefinir os limites das possibilidades humanas.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 12 CONCENTRATION / ASYMMETRY -->
+  <section class="slide" id="assimetria" data-label="Assimetria">
+    <div class="wrap reveal">
+      <div class="plate clay">Concentração de poder</div>
+      <p class="big">Num mundo onde poucos concentram dados, capital computacional e capacidade normativa, falar de bem comum significa <span class="g">desmascarar a nova assimetria</span> — epistémica, económica e política — e <span class="c">dar nome aos novos monopólios da IA</span>.</p>
+    </div>
+  </section>
+
+  <!-- 13 DESARMAR + programadores -->
+  <section class="slide" id="desarmar" data-label="Desarmar a IA">
+    <div class="wrap reveal split">
+      <div>
+        <div class="plate">Uma palavra cara ao Papa</div>
+        <h2 style="font-style:italic;font-weight:300;font-size:clamp(2.4rem,5vw,4.4rem)">Desarmar a IA.</h2>
+      </div>
+      <div class="col-r">
+        <p class="lead">Subtraí-la à lógica da competição armada — que hoje <span class="c">não é apenas militar, mas também económica e cognitiva</span>: a corrida ao algoritmo mais eficaz e ao maior banco de dados.</p>
+        <p class="lead">Aos que desenvolvem a IA, um apelo: cada escolha feita no projeto <span class="g">exprime uma visão da humanidade</span>. Os programadores assumem um particular peso ético e espiritual.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 14 GREATNESS OF LIMITS -->
+  <section class="slide quote" id="limites" data-label="A grandeza dos limites">
+    <div class="wrap reveal">
+      <span class="mk">“</span>
+      <blockquote>Precisamente porque experimenta os limites — <span class="u">a vulnerabilidade, a dor, o insucesso</span> — o ser humano pode reconhecer como inviolável a sua dignidade e a dos outros.</blockquote>
+      <cite>Capítulo III · n. 122 · contra o sonho transumanista de ultrapassar o humano</cite>
+    </div>
+  </section>
+
+  <!-- 15 HISTORY CAN BUILD GOOD -->
+  <section class="slide" id="historia" data-label="A história prova">
+    <div class="wrap reveal">
+      <div class="plate">A história não é só o catálogo das violências</div>
+      <h2 style="font-style:italic;font-weight:300;font-size:clamp(1.7rem,3.4vw,2.8rem);max-width:26ch">O ser humano é capaz de criar instituições que protegem a vida em comum.</h2>
+      <div class="marks">
+        <div class="mark-i"><div class="my">1863</div><h4>Cruz Vermelha</h4><p>A neutralidade operacional que garante cuidado a todos, mesmo no conflito.</p></div>
+        <div class="mark-i"><div class="my">★</div><h4>Direitos civis</h4><p>O testemunho de Martin Luther King Jr. nos Estados Unidos da América.</p></div>
+        <div class="mark-i"><div class="my">★</div><h4>Fim do apartheid</h4><p>Mandela e a escolha de não responder à opressão com vingança.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 16 FOUR IMPERATIVES -->
+  <section class="slide" id="apelos" data-label="Programa de vida">
+    <div class="wrap reveal">
+      <div class="plate">Conclusão · um programa de vida cristã</div>
+      <h2>Quatro apelos para a era da IA</h2>
+      <p class="sub">Cada escolha técnica ou económica torna-se uma ocasião de discernimento espiritual.</p>
+      <div class="impv">
+        <div class="imp"><span class="in">01</span><div><div class="it">Permaneçamos fiéis à verdade</div><div class="id">Conservar um coração que ama a verdade mais do que conteúdos apelativos, onde algoritmos dirigem decisões e preferências.</div></div></div>
+        <div class="imp"><span class="in">02</span><div><div class="it">Invistamos na educação</div><div class="id">Formar-nos para viver o mundo digital de forma humana — um novo continente a ser evangelizado.</div></div></div>
+        <div class="imp"><span class="in">03</span><div><div class="it">Cuidemos das relações</div><div class="id">A carne humana continua a pedir ternura e proximidade que nenhuma conexão substitui.</div></div></div>
+        <div class="imp"><span class="in">04</span><div><div class="it">Amemos a justiça e a paz</div><div class="id">Verificar se os progressos da IA abrem espaços de justiça — ou exploram os mais fracos.</div></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 17 CONCLUSION / HOPE -->
+  <section class="slide quote" id="esperanca" data-label="Tecelões de esperança">
+    <div class="wrap reveal">
+      <span class="mk">“</span>
+      <blockquote>Tornemo-nos <span class="u">tecelões de esperança</span>. Também a era da IA pode tornar-se uma etapa em que o Espírito faz amadurecer a civilização do amor.</blockquote>
+      <cite>Conclusão · O cântico da esperança: Magnificat · n. 245</cite>
+    </div>
+  </section>
+
+  <!-- 18 COLOPHON -->
+  <section class="slide" id="closing" data-label="Colofão">
+    <div class="wrap reveal">
+      <p class="big">A qualidade de uma civilização não se mede pelo poder dos seus meios, mas <span class="g">pelo cuidado que sabe oferecer</span>.</p>
+      <div class="colophon">Dado em Roma, junto de São Pedro, a 15 de maio do ano 2026,<br/>segundo do meu Pontificado.</div>
+      <div class="sig">LEÃO PP. XIV</div>
+    </div>
+  </section>
+
+</main>
+
+<script>
+  // theme switch (escuro / médio / claro), persisted — default: escuro
+  (function(){
+    const DEF='dark';
+    const sw=document.getElementById('themeSwitch');
+    const btns=[...sw.querySelectorAll('button')];
+    function apply(t){
+      if(t===DEF){document.documentElement.removeAttribute('data-theme');}
+      else{document.documentElement.setAttribute('data-theme',t);}
+      btns.forEach(b=>b.setAttribute('aria-pressed', String(b.dataset.t===t)));
+      try{localStorage.setItem('magnifica-theme',t);}catch(e){}
+    }
+    btns.forEach(b=>b.addEventListener('click',()=>apply(b.dataset.t)));
+    let saved=DEF;
+    try{saved=localStorage.getItem('magnifica-theme')||DEF;}catch(e){}
+    apply(saved);
+  })();
+
+  const deck=document.getElementById('deck');
+  const slides=[...document.querySelectorAll('.slide')];
+  const dotsWrap=document.getElementById('dots');
+  const progress=document.getElementById('progress');
+  const curEl=document.getElementById('cur');
+  document.getElementById('tot').textContent=String(slides.length).padStart(2,'0');
+
+  slides.forEach((s,i)=>{
+    const b=document.createElement('button');
+    b.setAttribute('aria-label',s.dataset.label||('Slide '+(i+1)));
+    b.title=s.dataset.label||'';
+    b.addEventListener('click',()=>slides[i].scrollIntoView());
+    dotsWrap.appendChild(b);
+  });
+  const dots=[...dotsWrap.children];
+
+  const io=new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        e.target.classList.add('in');
+        const i=slides.indexOf(e.target);
+        curEl.textContent=String(i+1).padStart(2,'0');
+        dots.forEach((d,j)=>d.classList.toggle('active',j===i));
+      }
+    });
+  },{threshold:.55});
+  slides.forEach(s=>io.observe(s));
+
+  deck.addEventListener('scroll',()=>{
+    const max=deck.scrollHeight-deck.clientHeight;
+    progress.style.width=(deck.scrollTop/max*100)+'%';
+  },{passive:true});
+
+  function currentIndex(){return Math.round(deck.scrollTop/deck.clientHeight)}
+  window.addEventListener('keydown',(e)=>{
+    const i=currentIndex();
+    if(['ArrowRight','ArrowDown','PageDown',' '].includes(e.key)){e.preventDefault();slides[Math.min(i+1,slides.length-1)].scrollIntoView();}
+    else if(['ArrowLeft','ArrowUp','PageUp'].includes(e.key)){e.preventDefault();slides[Math.max(i-1,0)].scrollIntoView();}
+    else if(e.key==='Home'){e.preventDefault();slides[0].scrollIntoView();}
+    else if(e.key==='End'){e.preventDefault();slides[slides.length-1].scrollIntoView();}
+  });
+</script>
+</body>
+</html>

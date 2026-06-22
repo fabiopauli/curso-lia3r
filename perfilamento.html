@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>HC 208.240/SP — Busca pessoal e perfilamento racial · STF</title>
+<link rel="icon" type="image/png" href="icone-lia.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=Spectral:ital,wght@0,300;0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#131A2E;            /* midnight authority */
+    --ink-soft:#1C2440;
+    --paper:#F2EFE7;          /* processo / document paper */
+    --paper-line:#E2DCCD;
+    --toga:#8A2A33;           /* oxblood — the signature gravity */
+    --toga-bright:#A8323D;
+    --brass:#B08D57;          /* official fine detail, used sparingly */
+    --slate:#5E6473;          /* secondary text */
+    --slate-dark:#3A4150;
+    --on-ink:#EDE9DE;
+    --on-ink-dim:#9AA0B4;
+    --maxw:1080px;
+  }
+  /* MEDIUM — soft warm grey for the light slides (dark slides unchanged) */
+  html[data-theme="medium"]{
+    --paper:#DCD8CC;--paper-line:#CBC4B3;
+    --slate:#54596A;--slate-dark:#33394A;
+  }
+  /* DARK — full dark mode */
+  html[data-theme="dark"]{
+    --paper:#0E1322;--paper-line:rgba(176,141,87,.22);
+    --slate:#A6ACBC;--slate-dark:#C7CCD8;
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Spectral',Georgia,serif;
+    background:var(--paper);
+    color:var(--slate-dark);
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+    transition:background-color .4s ease,color .4s ease;
+  }
+
+  /* ---------- scroll deck ---------- */
+  .deck{
+    height:100vh;
+    overflow-y:scroll;
+    scroll-snap-type:y proximity;
+    scroll-padding-top:0;
+  }
+  .slide{
+    min-height:100vh;
+    scroll-snap-align:start;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    padding:clamp(28px,6vw,84px) clamp(22px,6vw,96px);
+    position:relative;
+  }
+  .wrap{width:100%;max-width:var(--maxw);margin:0 auto}
+
+  /* ---------- shared type ---------- */
+  .eyebrow{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:clamp(11px,1.4vw,13px);
+    letter-spacing:.32em;
+    text-transform:uppercase;
+    font-weight:500;
+  }
+  h1,h2,h3{font-family:'Fraunces',Georgia,serif;font-weight:400;line-height:1.04;letter-spacing:-.01em}
+  .lead{font-size:clamp(17px,2.1vw,20px);font-weight:300;color:var(--slate)}
+  .mono{font-family:'IBM Plex Mono',monospace}
+
+  /* ---------- light vs dark slides ---------- */
+  .dark{background:var(--ink);color:var(--on-ink)}
+  .dark .eyebrow{color:var(--brass)}
+  .dark .lead{color:var(--on-ink-dim)}
+  .toga-bg{background:var(--toga);color:var(--on-ink)}
+  .toga-bg .eyebrow{color:#F0D9B8}
+
+  /* ---------- hero ---------- */
+  .hero{background:var(--ink);color:var(--on-ink);overflow:hidden}
+  .hero::before{
+    content:"";position:absolute;inset:0;
+    background:
+      radial-gradient(120% 80% at 85% 8%, rgba(176,141,87,.10), transparent 55%),
+      radial-gradient(90% 70% at 8% 96%, rgba(138,42,51,.30), transparent 60%);
+    pointer-events:none;
+  }
+  .hero .wrap{position:relative;z-index:1}
+  .hero-meta{display:flex;flex-wrap:wrap;gap:10px 22px;align-items:baseline;margin-bottom:clamp(26px,5vh,54px)}
+  .hero-meta .eyebrow{color:var(--brass)}
+  .case-no{
+    font-family:'IBM Plex Mono',monospace;font-size:clamp(12px,1.5vw,14px);
+    letter-spacing:.12em;color:var(--on-ink-dim);
+  }
+  .hero h1{
+    font-size:clamp(40px,8.4vw,108px);
+    font-weight:300;
+    letter-spacing:-.025em;
+    margin:0 0 .35em;
+  }
+  .hero h1 em{font-style:italic;color:var(--toga-bright);font-weight:400}
+  .hero .lead{max-width:44ch}
+  .hero-foot{
+    display:flex;flex-wrap:wrap;gap:6px 28px;margin-top:clamp(30px,6vh,60px);
+    font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.04em;color:var(--on-ink-dim);
+  }
+  .hero-foot b{color:var(--on-ink);font-weight:500}
+  .scrollcue{
+    position:absolute;left:50%;bottom:26px;transform:translateX(-50%);
+    font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.3em;
+    color:var(--on-ink-dim);text-transform:uppercase;z-index:1;
+    animation:bob 2.4s ease-in-out infinite;
+  }
+  @keyframes bob{0%,100%{transform:translate(-50%,0);opacity:.5}50%{transform:translate(-50%,7px);opacity:1}}
+
+  /* ---------- section heads ---------- */
+  .kicker{display:flex;align-items:center;gap:14px;margin-bottom:26px}
+  .kicker .num{
+    font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:600;
+    color:var(--toga);letter-spacing:.05em;
+  }
+  .kicker .rule{height:1px;flex:1;background:var(--paper-line)}
+  .dark .kicker .rule{background:rgba(176,141,87,.3)}
+  .dark .kicker .num{color:var(--brass)}
+  h2.sec{font-size:clamp(28px,5vw,52px);font-weight:400;margin-bottom:.55em;max-width:18ch}
+  h2.sec em{font-style:italic;color:var(--toga)}
+  .dark h2.sec em{color:var(--toga-bright)}
+
+  .body-cols{display:grid;grid-template-columns:1.15fr 1fr;gap:clamp(28px,5vw,72px);align-items:start}
+  .body-cols p{font-size:clamp(16px,1.9vw,19px);margin-bottom:1em;color:var(--slate-dark)}
+  .dark .body-cols p{color:var(--on-ink)}
+  .body-cols p .hl{color:var(--toga);font-style:italic}
+  .dark .body-cols p .hl{color:var(--toga-bright)}
+
+  /* fact aside card */
+  .aside-card{
+    border:1px solid var(--paper-line);background:#fff;
+    padding:clamp(20px,3vw,30px);position:relative;
+  }
+  .aside-card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--toga)}
+  .aside-card .eyebrow{color:var(--toga);margin-bottom:16px}
+  .aside-card dl{display:grid;grid-template-columns:auto 1fr;gap:10px 16px;font-size:14px}
+  .aside-card dt{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.06em;color:var(--slate);text-transform:uppercase;padding-top:2px}
+  .aside-card dd{color:var(--slate-dark)}
+  .quote-strip{
+    margin-top:22px;padding:16px 18px;background:var(--ink);color:var(--on-ink);
+    font-size:14px;font-style:italic;line-height:1.5;
+  }
+  .quote-strip span{display:block;font-style:normal;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.14em;color:var(--brass);margin-top:10px;text-transform:uppercase}
+
+  /* ---------- the line (signature) ---------- */
+  .linha-grid{display:grid;grid-template-columns:1fr 1px 1fr;gap:0;margin-top:14px;align-items:stretch}
+  .linha-col{padding:clamp(22px,3.5vw,40px) clamp(18px,3vw,40px)}
+  .linha-divider{position:relative;background:linear-gradient(var(--brass),var(--brass));}
+  .linha-divider::after{
+    content:"LIMITE CONSTITUCIONAL";position:absolute;top:50%;left:50%;
+    transform:translate(-50%,-50%) rotate(90deg);transform-origin:center;
+    font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.34em;
+    white-space:nowrap;color:var(--brass);background:var(--ink);padding:8px 4px;
+  }
+  .linha-col .tag{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.2em;text-transform:uppercase;margin-bottom:18px;display:inline-block}
+  .col-yes .tag{color:#7FB489}
+  .col-no .tag{color:var(--toga-bright)}
+  .col-yes h3,.col-no h3{font-size:clamp(20px,3vw,30px);font-weight:400;color:var(--on-ink);margin-bottom:18px;line-height:1.12}
+  .linha-list{list-style:none}
+  .linha-list li{
+    font-family:'IBM Plex Mono',monospace;font-size:clamp(13px,1.7vw,15px);
+    padding:9px 0;border-bottom:1px solid rgba(255,255,255,.08);color:var(--on-ink-dim);
+    display:flex;gap:10px;align-items:baseline;
+  }
+  .linha-list li::before{content:"—";color:var(--brass)}
+  .col-no .linha-list li::before{content:"\00d7";color:var(--toga-bright)}
+
+  /* ---------- thesis monument ---------- */
+  .tese{background:var(--ink);color:var(--on-ink);text-align:left}
+  .tese .wrap{max-width:920px}
+  .tese .eyebrow{color:var(--brass);margin-bottom:30px}
+  .tese blockquote{
+    font-family:'Fraunces',Georgia,serif;font-weight:300;
+    font-size:clamp(24px,4.6vw,46px);line-height:1.22;letter-spacing:-.015em;
+    position:relative;padding-left:clamp(20px,3vw,40px);
+  }
+  .tese blockquote::before{content:"";position:absolute;left:0;top:6px;bottom:6px;width:3px;background:var(--toga-bright)}
+  .tese blockquote b{font-weight:500;color:#fff}
+  .tese blockquote .neg{color:var(--toga-bright);font-style:italic}
+  .tese .attrib{margin-top:34px;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.1em;color:var(--on-ink-dim)}
+  .tese .attrib b{color:var(--brass);font-weight:500}
+
+  /* ---------- fundamentos list ---------- */
+  .funda-list{display:grid;gap:2px;margin-top:8px}
+  .funda-item{
+    display:grid;grid-template-columns:auto 1fr;gap:clamp(16px,3vw,34px);
+    padding:clamp(16px,2.6vw,26px) 0;border-top:1px solid var(--paper-line);align-items:start;
+  }
+  .funda-item:last-child{border-bottom:1px solid var(--paper-line)}
+  .funda-item .fn{font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:600;color:var(--toga);padding-top:5px}
+  .funda-item h3{font-size:clamp(17px,2.2vw,21px);font-weight:500;color:var(--ink);margin-bottom:5px;line-height:1.2}
+  .funda-item p{font-size:clamp(14px,1.7vw,16px);color:var(--slate)}
+  .funda-item .cite{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--brass);margin-top:6px;letter-spacing:.02em}
+
+  /* ---------- result / paradox ---------- */
+  .result-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(20px,4vw,48px);margin-top:10px}
+  .res-card{padding:clamp(22px,3.5vw,38px);border-radius:0;position:relative}
+  .res-a{background:var(--ink-soft);color:var(--on-ink)}
+  .res-b{background:var(--toga);color:var(--on-ink)}
+  .res-card .label{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.24em;text-transform:uppercase;margin-bottom:14px;display:block}
+  .res-a .label{color:var(--on-ink-dim)}
+  .res-b .label{color:#F0D9B8}
+  .res-card .big{font-family:'Fraunces',serif;font-weight:300;font-size:clamp(26px,4.4vw,44px);line-height:1.06;margin-bottom:14px}
+  .res-card p{font-size:clamp(14px,1.7vw,16px);opacity:.92}
+  .vencidos{margin-top:clamp(26px,4vw,40px);display:flex;flex-wrap:wrap;gap:14px;align-items:center}
+  .vencidos .lbl{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--slate)}
+  .chip{
+    font-family:'IBM Plex Mono',monospace;font-size:13px;border:1px solid var(--paper-line);
+    padding:8px 14px;color:var(--slate-dark);background:#fff;
+  }
+  .chip b{color:var(--toga)}
+
+  /* ---------- impact ---------- */
+  .impact-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--paper-line);margin-top:10px;border:1px solid var(--paper-line)}
+  .imp{background:var(--paper);padding:clamp(20px,3vw,32px)}
+  .imp .n{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--brass);letter-spacing:.1em}
+  .imp h3{font-size:clamp(17px,2.2vw,22px);font-weight:500;color:var(--ink);margin:12px 0 8px;line-height:1.16}
+  .imp p{font-size:14px;color:var(--slate)}
+
+  /* ---------- ficha / close ---------- */
+  .ficha .wrap{max-width:920px}
+  .ficha dl{display:grid;grid-template-columns:160px 1fr;gap:0;margin-top:14px}
+  .ficha dt{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--brass);padding:14px 0;border-top:1px solid rgba(176,141,87,.2)}
+  .ficha dd{font-size:15px;color:var(--on-ink);padding:14px 0;border-top:1px solid rgba(176,141,87,.2)}
+  .ficha dd small{color:var(--on-ink-dim);font-size:13px}
+  .source-note{margin-top:34px;font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--on-ink-dim);letter-spacing:.04em;line-height:1.7}
+
+  /* ---------- progress nav ---------- */
+  .pnav{position:fixed;right:18px;top:50%;transform:translateY(-50%);z-index:40;display:flex;flex-direction:column;gap:11px}
+  .pnav a{width:9px;height:9px;border-radius:50%;background:rgba(94,100,115,.35);transition:all .3s}
+  .pnav a.active{background:var(--toga);transform:scale(1.35)}
+  .pnav a:hover{background:var(--toga-bright)}
+
+  /* ---------- reveal ---------- */
+  .reveal{opacity:0;transform:translateY(22px);transition:opacity .8s ease,transform .8s cubic-bezier(.2,.7,.3,1)}
+  .reveal.in{opacity:1;transform:none}
+  .reveal.d1{transition-delay:.08s}.reveal.d2{transition-delay:.16s}.reveal.d3{transition-delay:.24s}.reveal.d4{transition-delay:.32s}
+
+  /* ---------- theme switch ---------- */
+  .theme-switch{position:fixed;top:16px;right:16px;z-index:60;display:flex;gap:2px;padding:3px;border:1px solid var(--paper-line);border-radius:999px;background:var(--paper);box-shadow:0 6px 20px rgba(19,26,46,.18)}
+  .theme-switch button{display:inline-flex;align-items:center;gap:7px;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:var(--slate);background:transparent;border:0;border-radius:999px;padding:6px 10px;cursor:pointer;transition:all .2s}
+  .theme-switch button .ico{width:11px;height:11px;border-radius:50%;border:1.5px solid currentColor}
+  .theme-switch button[data-t="medium"] .ico{background:linear-gradient(90deg,currentColor 50%,transparent 50%)}
+  .theme-switch button[data-t="light"] .ico{background:currentColor}
+  .theme-switch button:hover{color:var(--slate-dark)}
+  .theme-switch button[aria-pressed="true"]{background:var(--toga);color:#fff}
+  @media(max-width:560px){.theme-switch{top:auto;bottom:14px;left:50%;right:auto;transform:translateX(-50%)}.theme-switch button span.lbl{display:none}}
+
+  /* MEDIUM — soften the hardcoded light surfaces */
+  html[data-theme="medium"] .aside-card,
+  html[data-theme="medium"] .chip{background:#EAE6DB}
+  html[data-theme="medium"] #s6{background:#D7D2C6 !important}
+
+  /* DARK — flip the light slides; intentionally-dark slides keep their look */
+  html[data-theme="dark"] h2.sec,
+  html[data-theme="dark"] .funda-item h3,
+  html[data-theme="dark"] .imp h3{color:var(--on-ink)}
+  html[data-theme="dark"] h2.sec em,
+  html[data-theme="dark"] .body-cols p .hl{color:var(--toga-bright)}
+  html[data-theme="dark"] .kicker .num,
+  html[data-theme="dark"] .funda-item .fn{color:var(--brass)}
+  html[data-theme="dark"] .kicker .rule{background:rgba(176,141,87,.3)}
+  html[data-theme="dark"] .funda-item,
+  html[data-theme="dark"] .funda-item:last-child{border-color:rgba(176,141,87,.18)}
+  html[data-theme="dark"] .aside-card{background:var(--ink-soft);border-color:rgba(176,141,87,.22)}
+  html[data-theme="dark"] .aside-card dd{color:var(--on-ink)}
+  html[data-theme="dark"] .chip{background:var(--ink-soft);border-color:rgba(176,141,87,.22);color:var(--on-ink)}
+  html[data-theme="dark"] .chip b{color:var(--brass)}
+  html[data-theme="dark"] #s6{background:var(--ink-soft) !important}
+  html[data-theme="dark"] .impact-grid{border-color:rgba(176,141,87,.18);background:rgba(176,141,87,.18)}
+
+  /* ---------- responsive ---------- */
+  @media (max-width:760px){
+    .body-cols{grid-template-columns:1fr;gap:26px}
+    .linha-grid{grid-template-columns:1fr;}
+    .linha-divider{height:1px;width:100%}
+    .linha-divider::after{transform:translate(-50%,-50%);letter-spacing:.24em}
+    .result-grid{grid-template-columns:1fr}
+    .impact-grid{grid-template-columns:1fr}
+    .ficha dl{grid-template-columns:1fr}
+    .ficha dt{padding-bottom:0;border-top:1px solid rgba(176,141,87,.2)}
+    .ficha dd{padding-top:4px;border-top:none}
+    .pnav{display:none}
+    .slide{justify-content:flex-start;padding-top:64px;padding-bottom:48px}
+    .hero{justify-content:center}
+  }
+  @media (prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto}
+    .reveal{opacity:1;transform:none;transition:none}
+    .scrollcue{animation:none}
+  }
+</style>
+</head>
+<body>
+
+<div class="theme-switch" id="themeSwitch" role="group" aria-label="Tema de cor">
+  <button data-t="dark" aria-pressed="false"><span class="ico"></span><span class="lbl">Escuro</span></button>
+  <button data-t="medium" aria-pressed="false"><span class="ico"></span><span class="lbl">Médio</span></button>
+  <button data-t="light" aria-pressed="true"><span class="ico"></span><span class="lbl">Claro</span></button>
+</div>
+
+<nav class="pnav" aria-hidden="true">
+  <a href="#s0" class="active"></a><a href="#s1"></a><a href="#s2"></a><a href="#s3"></a>
+  <a href="#s4"></a><a href="#s5"></a><a href="#s6"></a><a href="#s7"></a>
+</nav>
+
+<main class="deck" id="deck">
+
+  <!-- 0 — HERO -->
+  <section class="slide hero" id="s0">
+    <div class="wrap">
+      <div class="hero-meta reveal">
+        <span class="eyebrow">Supremo Tribunal Federal · Plenário</span>
+        <span class="case-no">HC 208.240 / São Paulo</span>
+      </div>
+      <h1 class="reveal d1">A suspeita não se<br>mede pela <em>cor da pele.</em></h1>
+      <p class="lead reveal d2">O STF definiu os limites da busca pessoal sem mandado judicial e declarou inconstitucional a abordagem policial fundada em perfilamento racial.</p>
+      <div class="hero-foot reveal d3">
+        <span>Relator&nbsp; <b>Min. Edson Fachin</b></span>
+        <span>Julgamento&nbsp; <b>11 · abr · 2024</b></span>
+        <span>Tese&nbsp; <b>fixada por unanimidade</b></span>
+      </div>
+    </div>
+    <span class="scrollcue">role para ler ↓</span>
+  </section>
+
+  <!-- 1 — O CASO -->
+  <section class="slide" id="s1">
+    <div class="wrap">
+      <div class="kicker reveal"><span class="num">01</span><span>O caso</span><span class="rule"></span></div>
+      <h2 class="sec reveal d1">Uma abordagem que começou <em>num olhar à distância.</em></h2>
+      <div class="body-cols">
+        <div class="reveal d2">
+          <p>Francisco Cícero dos Santos Junior foi condenado por tráfico de drogas após a apreensão de <span class="hl">1,53 grama de cocaína</span>. A prova nasceu de uma busca pessoal feita sem mandado judicial.</p>
+          <p>Segundo o relato dos próprios policiais, a abordagem se deu porque avistaram, “ao longe”, um homem negro parado na via pública — descrição que, no recurso, tornou-se o centro da controvérsia: a cor da pele pode, por si só, justificar a revista?</p>
+          <p>O caso foi apreciado pelo STF em habeas corpus impetrado pela Defensoria Pública de São Paulo, contra acórdão do Superior Tribunal de Justiça.</p>
+        </div>
+        <aside class="aside-card reveal d3">
+          <span class="eyebrow">Ficha do caso</span>
+          <dl>
+            <dt>Paciente</dt><dd>Francisco Cícero dos Santos Junior</dd>
+            <dt>Impetrante</dt><dd>Defensoria Pública de SP</dd>
+            <dt>Coator</dt><dd>Superior Tribunal de Justiça</dd>
+            <dt>Origem</dt><dd>HC 660.930/SP (STJ)</dd>
+          </dl>
+          <div class="quote-strip">“Avistou ao longe um indivíduo de cor negra que estava em cena típica de tráfico de drogas.”
+            <span>Depoimento policial citado nos autos</span>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 — A QUESTÃO -->
+  <section class="slide dark" id="s2">
+    <div class="wrap">
+      <div class="kicker reveal"><span class="num">02</span><span>A questão jurídica</span><span class="rule"></span></div>
+      <h2 class="sec reveal d1">O que é uma <em>fundada suspeita</em>?</h2>
+      <div class="body-cols">
+        <div class="reveal d2">
+          <p>A busca pessoal independe de mandado, mas o art. 244 do Código de Processo Penal a condiciona à <span class="hl">fundada suspeita</span> de que a pessoa carregue arma proibida ou objetos que constituam corpo de delito.</p>
+          <p>“Fundada suspeita” não é palpite: exige elementos indiciários <span class="hl">objetivos</span>. A pergunta que o Tribunal precisou responder foi se estereótipos — sobretudo raciais — podem preencher essa exigência.</p>
+        </div>
+        <div class="reveal d3">
+          <p style="font-family:'Fraunces',serif;font-size:clamp(18px,2.4vw,23px);line-height:1.3;color:var(--brass);font-weight:300;border-left:2px solid var(--toga-bright);padding-left:20px">
+            <b style="font-weight:500;color:#fff">Perfilamento racial</b> ocorre quando a polícia usa raça, cor, etnia ou aparência — em vez de evidências objetivas — para decidir quem revistar.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 — A LINHA (signature) -->
+  <section class="slide dark" id="s3" style="background:var(--ink-soft)">
+    <div class="wrap">
+      <div class="kicker reveal"><span class="num">03</span><span>A linha que o Tribunal traçou</span><span class="rule"></span></div>
+      <h2 class="sec reveal d1" style="color:var(--on-ink)">O que pode — e o que <em>nunca pode</em> — fundar a busca.</h2>
+      <div class="linha-grid reveal d2">
+        <div class="linha-col col-yes">
+          <span class="tag">Funda a suspeita</span>
+          <h3>Elementos indiciários objetivos</h3>
+          <ul class="linha-list">
+            <li>posse aparente de arma proibida</li>
+            <li>objetos que constituam corpo de delito</li>
+            <li>circunstâncias concretas e verificáveis</li>
+            <li>justa causa demonstrável</li>
+          </ul>
+        </div>
+        <div class="linha-divider"></div>
+        <div class="linha-col col-no">
+          <span class="tag">Nunca funda a suspeita</span>
+          <h3>Estereótipos e aparência</h3>
+          <ul class="linha-list">
+            <li>raça</li>
+            <li>sexo</li>
+            <li>orientação sexual</li>
+            <li>cor da pele</li>
+            <li>aparência física</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 — A TESE -->
+  <section class="slide tese" id="s4">
+    <div class="wrap">
+      <span class="eyebrow reveal">Tese de julgamento · aprovada por unanimidade</span>
+      <blockquote class="reveal d1">“A busca pessoal independente de mandado judicial deve estar fundada em <b>elementos indiciários objetivos</b> de que a pessoa esteja na posse de arma proibida ou de objetos ou papéis que constituam corpo de delito, <span class="neg">não sendo lícita</span> a realização da medida com base na raça, sexo, orientação sexual, cor da pele ou aparência física.”</blockquote>
+      <p class="attrib reveal d2">STF · Tribunal Pleno · HC 208.240/SP · Rel. <b>Min. Edson Fachin</b> · 11.04.2024</p>
+    </div>
+  </section>
+
+  <!-- 5 — FUNDAMENTOS -->
+  <section class="slide" id="s5">
+    <div class="wrap">
+      <div class="kicker reveal"><span class="num">04</span><span>Fundamentos da decisão</span><span class="rule"></span></div>
+      <h2 class="sec reveal d1" style="margin-bottom:.3em">Da Constituição aos <em>tratados internacionais.</em></h2>
+      <div class="funda-list">
+        <div class="funda-item reveal d2">
+          <span class="fn">i</span>
+          <div>
+            <h3>Intimidade e igualdade são direitos da Constituição</h3>
+            <p>A CF protege a privacidade e fixa como objetivo da República uma sociedade sem preconceitos de origem, raça, sexo, cor e idade.</p>
+            <p class="cite">art. 5º, X · art. 3º, I e IV</p>
+          </div>
+        </div>
+        <div class="funda-item reveal d2">
+          <span class="fn">ii</span>
+          <div>
+            <h3>A lei exige justa causa objetiva</h3>
+            <p>A busca sem mandado depende de fundada suspeita ancorada em elementos indiciários objetivos — não em impressões subjetivas.</p>
+            <p class="cite">art. 244 do CPP</p>
+          </div>
+        </div>
+        <div class="funda-item reveal d3">
+          <span class="fn">iii</span>
+          <div>
+            <h3>O Brasil assumiu compromissos internacionais</h3>
+            <p>O país se obrigou a proibir e eliminar toda forma de discriminação racial e a garantir igualdade perante a lei.</p>
+            <p class="cite">Convenção Internacional sobre a Eliminação de Todas as Formas de Discriminação Racial</p>
+          </div>
+        </div>
+        <div class="funda-item reveal d4">
+          <span class="fn">iv</span>
+          <div>
+            <h3>Filtragem racial é inconstitucional</h3>
+            <p>A busca pessoal baseada em perfilamento racial viola a Constituição, a legislação processual e os tratados firmados pelo Brasil.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 — RESULTADO -->
+  <section class="slide" id="s6" style="background:#ECE7DA">
+    <div class="wrap">
+      <div class="kicker reveal"><span class="num">05</span><span>O resultado</span><span class="rule"></span></div>
+      <h2 class="sec reveal d1">Resultado: <em>precedente firmado.</em></h2>
+      <div class="result-grid reveal d2">
+        <div class="res-card res-a">
+          <span class="label">No caso concreto</span>
+          <div class="big">Ordem denegada</div>
+          <p>Por maioria, o Plenário entendeu que, naquele caso, a abordagem não decorreu exclusivamente de perfilamento racial — e manteve a condenação.</p>
+        </div>
+        <div class="res-card res-b">
+          <span class="label">Em tese</span>
+          <div class="big">Tese fixada por unanimidade</div>
+          <p>Mesmo os ministros divergentes quanto ao caso concreto convergiram para a tese que proíbe a busca baseada em raça e aparência.</p>
+        </div>
+      </div>
+      <div class="vencidos reveal d3">
+        <span class="lbl">Vencidos quanto à ordem (concediam o HC):</span>
+        <span class="chip"><b>Min. Edson Fachin</b> · relator</span>
+        <span class="chip"><b>Min. Luiz Fux</b></span>
+        <span class="chip"><b>Min. Luís Roberto Barroso</b> · presidente</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7 — IMPACTO + FICHA (close) -->
+  <section class="slide dark ficha" id="s7">
+    <div class="wrap">
+      <div class="kicker reveal"><span class="num">06</span><span>Por que importa</span><span class="rule"></span></div>
+      <h2 class="sec reveal d1" style="color:var(--on-ink);margin-bottom:.6em">Um padrão objetivo para a abordagem policial.</h2>
+      <div class="impact-grid reveal d2">
+        <div class="imp">
+          <span class="n">→</span>
+          <h3>Critério verificável</h3>
+          <p>Substitui o palpite por elementos concretos, sujeitos a controle judicial.</p>
+        </div>
+        <div class="imp">
+          <span class="n">→</span>
+          <h3>Contra a seletividade racial</h3>
+          <p>Enfrenta diretamente o perfilamento racial no sistema de justiça criminal.</p>
+        </div>
+        <div class="imp">
+          <span class="n">→</span>
+          <h3>Orientação a polícias e juízes</h3>
+          <p>Baliza a validade da prova e o exame da legalidade das buscas pessoais.</p>
+        </div>
+      </div>
+
+      <dl class="reveal d3" style="margin-top:clamp(34px,6vh,60px)">
+        <dt>Classe</dt><dd>Habeas Corpus 208.240 · São Paulo</dd>
+        <dt>Órgão</dt><dd>Tribunal Pleno do STF</dd>
+        <dt>Relator</dt><dd>Min. Edson Fachin</dd>
+        <dt>Sessões</dt><dd>Iniciado em 2023 · concluído em 11.04.2024 <small>(Presidência Min. Barroso)</small></dd>
+        <dt>Amici curiae</dt><dd><small>Conectas, IDDD, IBCCRIM, Educafro, Coalizão Negra por Direitos, Defensorias de SP e RJ, Iniciativa Negra, entre outros</small></dd>
+      </dl>
+      <p class="source-note reveal d4">Fonte: Inteiro Teor do Acórdão — HC 208.240/SP, Supremo Tribunal Federal (192 p.).<br>Apresentação de síntese · conteúdo público · sem valor de certidão oficial.</p>
+    </div>
+  </section>
+
+</main>
+
+<script>
+  // theme switch (escuro / médio / claro), persisted — default: claro
+  (function(){
+    const DEF='light';
+    const sw=document.getElementById('themeSwitch');
+    const btns=[...sw.querySelectorAll('button')];
+    function apply(t){
+      if(t===DEF){document.documentElement.removeAttribute('data-theme');}
+      else{document.documentElement.setAttribute('data-theme',t);}
+      btns.forEach(b=>b.setAttribute('aria-pressed', String(b.dataset.t===t)));
+      try{localStorage.setItem('perfilamento-theme',t);}catch(e){}
+    }
+    btns.forEach(b=>b.addEventListener('click',()=>apply(b.dataset.t)));
+    let saved=DEF;
+    try{saved=localStorage.getItem('perfilamento-theme')||DEF;}catch(e){}
+    apply(saved);
+  })();
+
+  // scroll reveal
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
+  },{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+  // progress dots + active section
+  const deck=document.getElementById('deck');
+  const slides=[...document.querySelectorAll('.slide')];
+  const dots=[...document.querySelectorAll('.pnav a')];
+  const sObs=new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        const i=slides.indexOf(e.target);
+        dots.forEach((d,j)=>d.classList.toggle('active',j===i));
+      }
+    });
+  },{root:deck,threshold:.5});
+  slides.forEach(s=>sObs.observe(s));
+  dots.forEach((d,i)=>d.addEventListener('click',ev=>{ev.preventDefault();slides[i].scrollIntoView({behavior:'smooth'});}));
+
+  // keyboard navigation
+  let idx=0;
+  window.addEventListener('keydown',ev=>{
+    if(ev.key==='ArrowDown'||ev.key==='PageDown'){ev.preventDefault();idx=Math.min(idx+1,slides.length-1);slides[idx].scrollIntoView({behavior:'smooth'});}
+    if(ev.key==='ArrowUp'||ev.key==='PageUp'){ev.preventDefault();idx=Math.max(idx-1,0);slides[idx].scrollIntoView({behavior:'smooth'});}
+  });
+  deck.addEventListener('scroll',()=>{ // keep idx synced for keyboard
+    const st=deck.scrollTop;idx=Math.round(st/window.innerHeight);
+  },{passive:true});
+</script>
+</body>
+</html>
