@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="Manual de Padronização de Ementas (Recomendação CNJ nº 154/2024) — Pacto Nacional do Judiciário pela Linguagem Simples." />
+<title>Manual de Padronização de Ementas · CNJ</title>
+<link rel="icon" type="image/png" href="icone-lia.png" />
+<link rel="stylesheet" href="site-nav.css" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..600;1,9..144,400..500&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    /* LIGHT (default) — warm bond paper, warm ink, oxblood seal, teal data */
+    --paper:#EBE8DF;
+    --paper-2:#E0DCD0;
+    --panel:#F7F5EE;
+    --ink:#1C1813;
+    --ink-soft:rgba(28,24,19,.66);
+    --ink-faint:rgba(28,24,19,.42);
+    --seal:#8C2B2F;
+    --seal-soft:#A8484C;
+    --data:#2C5A6E;
+    --data-soft:#3E7589;
+    --rule:rgba(28,24,19,.14);
+    --rule-strong:rgba(28,24,19,.26);
+    --display:"Fraunces",Georgia,"Times New Roman",serif;
+    --body:"Inter",system-ui,sans-serif;
+    --mono:"JetBrains Mono",ui-monospace,monospace;
+  }
+  /* MEDIUM — warm soft grey */
+  html[data-theme="medium"]{
+    --paper:#CCC6B8;--paper-2:#C1BAAA;--panel:#D6D0C2;
+    --ink:#181410;--ink-soft:rgba(24,20,16,.70);--ink-faint:rgba(24,20,16,.46);
+    --seal:#7C2528;--seal-soft:#933539;--data:#234C5E;--data-soft:#2F6072;
+    --rule:rgba(24,20,16,.18);--rule-strong:rgba(24,20,16,.32);
+  }
+  /* DARK — warm near-black ink */
+  html[data-theme="dark"]{
+    --paper:#15120D;--paper-2:#0E0C08;--panel:#1F1B14;
+    --ink:#ECE6D9;--ink-soft:rgba(236,230,217,.72);--ink-faint:rgba(236,230,217,.44);
+    --seal:#D26A6C;--seal-soft:#E18A8C;--data:#6FB0C6;--data-soft:#8AC4D8;
+    --rule:rgba(236,230,217,.14);--rule-strong:rgba(236,230,217,.26);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--paper);color:var(--ink);font-family:var(--body);-webkit-font-smoothing:antialiased;overflow-x:hidden;transition:background-color .4s ease,color .4s ease}
+
+  /* ---- deck mechanics ---- */
+  .deck{height:100vh;overflow-y:scroll;scroll-snap-type:y mandatory;scroll-behavior:smooth}
+  .deck::-webkit-scrollbar{width:0}
+  .slide{min-height:100vh;scroll-snap-align:start;scroll-snap-stop:always;position:relative;display:flex;flex-direction:column;justify-content:center;padding:clamp(2.2rem,4.4vh,4rem) clamp(1.8rem,6vw,7rem);overflow:hidden}
+  /* faint ruled-paper baseline grid — the manuscript surface */
+  .slide::before{content:"";position:absolute;inset:0;background-image:repeating-linear-gradient(transparent,transparent 33px,var(--rule) 33px,var(--rule) 34px);opacity:.5;-webkit-mask-image:linear-gradient(180deg,transparent,#000 22%,#000 78%,transparent);mask-image:linear-gradient(180deg,transparent,#000 22%,#000 78%,transparent);pointer-events:none}
+  .wrap{position:relative;z-index:2;max-width:1180px;margin:0 auto;width:100%}
+
+  /* ---- shared type ---- */
+  .eyebrow{font-family:var(--mono);font-size:clamp(.62rem,1vw,.74rem);letter-spacing:.16em;text-transform:uppercase;color:var(--seal);display:flex;align-items:center;gap:.8rem;margin-bottom:1.4rem;font-weight:700}
+  .eyebrow::before{content:"";width:clamp(20px,3vw,42px);height:2px;background:var(--seal)}
+  .eyebrow.data{color:var(--data)}.eyebrow.data::before{background:var(--data)}
+  h1,h2,h3{font-family:var(--display);font-weight:500;line-height:1.04;letter-spacing:-.012em}
+  .h-lg{font-size:clamp(2rem,5vw,4rem)}
+  .h-md{font-size:clamp(1.65rem,3.4vw,2.9rem)}
+  .lead{font-size:clamp(1rem,1.4vw,1.2rem);line-height:1.62;color:var(--ink-soft);max-width:54ch;font-weight:300}
+  .lead strong{color:var(--ink);font-weight:600}
+  .lead .seal{color:var(--seal);font-weight:600}.lead .data{color:var(--data);font-weight:600}
+  .foot{margin-top:1.5rem;max-width:60ch;color:var(--ink-soft);font-size:clamp(.94rem,1.3vw,1.08rem);line-height:1.55;font-weight:300}
+  .foot strong{color:var(--ink);font-weight:600}
+
+  /* small caps — the versalete the manual mandates for headers */
+  .sc{font-variant:small-caps;font-feature-settings:"smcp" 1;letter-spacing:.015em}
+
+  /* ---- typewriter caret ---- */
+  .type{white-space:pre-wrap}
+  .type.tw::after{content:"";display:inline-block;width:.46ch;height:1.02em;margin-left:.06em;transform:translateY(.16em);background:var(--seal);animation:caretblink 1.06s steps(1) infinite}
+  .type.data-caret.tw::after{background:var(--data)}
+  @keyframes caretblink{0%,50%{opacity:1}50.01%,100%{opacity:0}}
+
+  /* ---- 1 hero ---- */
+  #hero{justify-content:center}
+  #hero .wrap{max-width:1240px}
+  #hero .kicker{font-family:var(--mono);font-size:clamp(.66rem,1.05vw,.8rem);letter-spacing:.14em;text-transform:uppercase;color:var(--data);margin:.9rem 0 1.7rem;font-weight:500}
+  #hero .htitle{font-family:var(--display);font-weight:500;font-size:clamp(2.4rem,7.4vw,6.2rem);line-height:.98;letter-spacing:-.025em;max-width:16ch}
+  #hero .htitle em{font-style:italic;color:var(--seal);font-weight:500}
+  #hero .hsub{font-size:clamp(1.05rem,1.7vw,1.35rem);color:var(--ink-soft);max-width:50ch;line-height:1.5;font-weight:300;margin-top:1.5rem}
+  /* the live ementa header drafting on load */
+  #hero .draftline{margin-top:clamp(1.8rem,3.4vw,2.6rem);max-width:760px;border-top:1px solid var(--rule-strong);padding-top:1.1rem}
+  #hero .dl-tag{font-family:var(--mono);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--seal);font-weight:700;display:block;margin-bottom:.5rem}
+  #hero .dl-text{font-family:var(--display);font-weight:500;font-size:clamp(1.05rem,1.9vw,1.55rem);line-height:1.3;color:var(--ink)}
+  #hero .hmeta{font-family:var(--mono);font-size:clamp(.64rem,.95vw,.76rem);letter-spacing:.04em;color:var(--ink-faint);margin-top:2rem;display:flex;flex-wrap:wrap;gap:.4rem 2rem}
+  #hero .hmeta b{color:var(--ink)}
+
+  /* ---- 2 three objectives ---- */
+  #objetivos .tri{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule);margin-top:clamp(1.6rem,3vw,2.4rem)}
+  #objetivos .cell{background:var(--panel);padding:clamp(1.4rem,2.6vw,2.2rem);display:flex;flex-direction:column;gap:.7rem}
+  #objetivos .cell .ct{font-family:var(--mono);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;font-weight:700}
+  #objetivos .cell.a .ct{color:var(--seal)}#objetivos .cell.b .ct{color:var(--ink-soft)}#objetivos .cell.c .ct{color:var(--data)}
+  #objetivos .cell h3{font-family:var(--display);font-weight:500;font-size:clamp(1.3rem,2.2vw,1.85rem);line-height:1.08}
+  #objetivos .cell p{font-size:clamp(.94rem,1.3vw,1.05rem);line-height:1.5;color:var(--ink-soft);font-weight:300}
+  @media(max-width:760px){#objetivos .tri{grid-template-columns:1fr}}
+
+  /* ---- drafting card (anatomy + worked example) ---- */
+  .draft{background:var(--panel);border:1px solid var(--rule-strong);box-shadow:0 18px 44px rgba(28,24,19,.10),0 2px 4px rgba(28,24,19,.05);position:relative}
+  .draft .tab{position:absolute;top:0;left:clamp(1.4rem,3vw,2.4rem);transform:translateY(-50%);background:var(--seal);color:#F7F5EE;font-family:var(--mono);font-size:.66rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:.34rem .7rem;border-radius:2px}
+  .draft .body{padding:clamp(1.8rem,3.4vw,2.8rem) clamp(1.5rem,3.4vw,2.8rem) clamp(1.6rem,3vw,2.4rem)}
+  .dl{display:grid;grid-template-columns:auto 1fr;gap:.7rem 1.1rem;align-items:baseline;padding:.5rem 0}
+  .dl .rn{font-family:var(--mono);font-size:.82rem;font-weight:700;color:var(--seal);letter-spacing:.02em;min-width:2.4ch}
+  .dl .field{font-family:var(--display);font-weight:600;font-size:clamp(1rem,1.6vw,1.22rem);color:var(--ink)}
+  .dl .field.sc{font-weight:600}
+  .dl .note{font-family:var(--body);font-weight:300;font-size:clamp(.88rem,1.2vw,.98rem);color:var(--ink-soft);grid-column:2}
+  .draft .ementa-head{font-family:var(--display);font-weight:600;font-size:clamp(1.05rem,1.8vw,1.4rem);line-height:1.3;color:var(--seal)}
+  .draft hr{border:0;border-top:1px solid var(--rule);margin:.9rem 0}
+  .draft .cite-row{font-family:var(--mono);font-size:clamp(.74rem,1.05vw,.86rem);line-height:1.55;color:var(--ink-soft);padding:.2rem 0}
+  .draft .cite-row b{color:var(--ink);font-weight:700}
+  #anatomia .split{display:grid;grid-template-columns:minmax(0,.82fr) minmax(0,1fr);gap:clamp(2rem,5vw,4rem);align-items:center}
+  @media(max-width:860px){#anatomia .split{grid-template-columns:1fr;gap:1.8rem}}
+
+  /* ---- cabeçalho slide ---- */
+  #cabecalho .seq{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule);margin:clamp(1.4rem,2.6vw,2rem) 0}
+  #cabecalho .sq{background:var(--panel);padding:clamp(1rem,2vw,1.5rem)}
+  #cabecalho .sq .si{font-family:var(--mono);font-size:.68rem;letter-spacing:.1em;color:var(--seal);font-weight:700;margin-bottom:.5rem}
+  #cabecalho .sq .sl{font-family:var(--display);font-weight:500;font-size:clamp(1rem,1.5vw,1.2rem);line-height:1.15}
+  @media(max-width:760px){#cabecalho .seq{grid-template-columns:1fr 1fr}}
+  #cabecalho .example{background:var(--panel);border:1px solid var(--rule-strong);border-left:3px solid var(--seal);padding:clamp(1.1rem,2.4vw,1.8rem);max-width:880px}
+  #cabecalho .example .exlbl{font-family:var(--mono);font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);font-weight:700;margin-bottom:.6rem}
+  #cabecalho .example .extext{font-family:var(--display);font-weight:600;font-size:clamp(1.1rem,2vw,1.55rem);line-height:1.34;color:var(--seal)}
+
+  /* ---- fields walkthrough (I / II / III) ---- */
+  #itens .stack{display:flex;flex-direction:column;gap:1px;background:var(--rule);border:1px solid var(--rule);margin-top:clamp(1.4rem,2.6vw,2rem)}
+  #itens .it{background:var(--panel);padding:clamp(1.2rem,2.4vw,1.9rem);display:grid;grid-template-columns:auto 1fr;gap:.4rem 1.3rem;align-items:baseline}
+  #itens .it .iv{font-family:var(--mono);font-weight:700;font-size:clamp(.9rem,1.3vw,1.05rem);color:var(--seal);letter-spacing:.02em}
+  #itens .it .ih{font-family:var(--display);font-weight:600;font-size:clamp(1.15rem,1.9vw,1.5rem);color:var(--ink)}
+  #itens .it .id{grid-column:2;font-size:clamp(.9rem,1.25vw,1.02rem);line-height:1.5;color:var(--ink-soft);font-weight:300;margin-top:.15rem}
+  #itens .it .ex{grid-column:2;margin-top:.7rem;font-family:var(--display);font-style:italic;font-weight:400;font-size:clamp(.96rem,1.4vw,1.12rem);line-height:1.4;color:var(--seal-soft);padding-left:.9rem;border-left:2px solid var(--rule-strong)}
+  @media(max-width:600px){#itens .it{grid-template-columns:1fr}#itens .it .id,#itens .it .ex{grid-column:1}}
+
+  /* ---- tese slide (typing payoff) ---- */
+  #tese{justify-content:center}
+  #tese .wrap{max-width:1000px}
+  #tese .disp{font-family:var(--mono);font-size:clamp(.78rem,1.2vw,.92rem);letter-spacing:.04em;color:var(--ink-soft);margin-bottom:1.6rem}
+  #tese .disp b{color:var(--ink);font-weight:700}
+  #tese .teselbl{font-family:var(--display);font-style:italic;font-weight:500;font-size:clamp(1.1rem,2vw,1.5rem);color:var(--ink-soft);margin-bottom:.7rem}
+  #tese blockquote{font-family:var(--display);font-weight:500;font-size:clamp(1.5rem,3.4vw,2.9rem);line-height:1.18;letter-spacing:-.015em;color:var(--ink)}
+  #tese blockquote .qn{color:var(--seal);font-weight:600;font-variant-numeric:oldstyle-nums}
+  #tese .src{margin-top:1.8rem;font-family:var(--mono);font-size:.74rem;letter-spacing:.05em;color:var(--ink-faint)}
+  #tese .src b{color:var(--ink)}
+
+  /* ---- citation slide ---- */
+  #citacoes .pair{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--rule-strong);margin-top:clamp(1.4rem,2.6vw,2rem)}
+  #citacoes .pc{padding:clamp(1.4rem,2.8vw,2.2rem)}
+  #citacoes .pc:first-child{border-right:1px solid var(--rule-strong)}
+  #citacoes .pt{font-family:var(--display);font-style:italic;font-weight:500;font-size:clamp(1.1rem,1.8vw,1.4rem);margin-bottom:1rem;color:var(--ink)}
+  #citacoes .recipe{font-family:var(--mono);font-size:clamp(.72rem,1.05vw,.82rem);line-height:1.7;color:var(--ink-soft);margin-bottom:1.1rem}
+  #citacoes .recipe span{color:var(--data);font-weight:700}
+  #citacoes .sample{font-family:var(--mono);font-size:clamp(.74rem,1.1vw,.88rem);line-height:1.5;color:var(--ink);background:var(--paper-2);border-left:3px solid var(--seal);padding:.8rem 1rem}
+  @media(max-width:720px){#citacoes .pair{grid-template-columns:1fr}#citacoes .pc:first-child{border-right:none;border-bottom:1px solid var(--rule-strong)}}
+
+  /* ---- plain language swaps ---- */
+  #linguagem .split{display:grid;grid-template-columns:minmax(0,.78fr) minmax(0,1fr);gap:clamp(2rem,5vw,4rem);align-items:center}
+  @media(max-width:820px){#linguagem .split{grid-template-columns:1fr;gap:1.6rem}}
+  #linguagem .swaps{display:flex;flex-direction:column;gap:1px;background:var(--rule);border:1px solid var(--rule)}
+  #linguagem .sw{background:var(--panel);padding:clamp(1rem,2vw,1.4rem) clamp(1.1rem,2.2vw,1.6rem);display:flex;align-items:center;gap:1rem;flex-wrap:wrap}
+  #linguagem .sw .old{font-family:var(--display);font-style:italic;font-size:clamp(1rem,1.6vw,1.3rem);color:var(--ink-faint);text-decoration:line-through;text-decoration-color:var(--seal);text-decoration-thickness:2px}
+  #linguagem .sw .arr{font-family:var(--mono);color:var(--seal);font-weight:700}
+  #linguagem .sw .new{font-family:var(--display);font-weight:600;font-size:clamp(1.05rem,1.7vw,1.4rem);color:var(--ink)}
+  #linguagem .rules{list-style:none;margin-top:1.4rem;display:flex;flex-direction:column;gap:.55rem}
+  #linguagem .rules li{font-size:clamp(.92rem,1.3vw,1.05rem);line-height:1.45;color:var(--ink-soft);font-weight:300;padding-left:1.4rem;position:relative}
+  #linguagem .rules li::before{content:"—";position:absolute;left:0;color:var(--seal);font-weight:700}
+  #linguagem .rules li b{color:var(--ink);font-weight:600}
+
+  /* ---- abbreviations table ---- */
+  #abrev .grid{columns:2;column-gap:clamp(1.5rem,4vw,3.5rem);margin-top:clamp(1.4rem,2.6vw,2rem);max-width:980px}
+  #abrev .ab{display:flex;justify-content:space-between;align-items:baseline;gap:1rem;padding:.5rem 0;border-bottom:1px solid var(--rule);break-inside:avoid}
+  #abrev .ab .name{font-size:clamp(.88rem,1.2vw,1rem);color:var(--ink-soft);font-weight:300}
+  #abrev .ab .code{font-family:var(--mono);font-weight:700;font-size:clamp(.8rem,1.1vw,.92rem);color:var(--seal);white-space:nowrap}
+  @media(max-width:640px){#abrev .grid{columns:1}}
+
+  /* ---- machine-readable (IA / LIA 3R) ---- */
+  #maquina .split{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(2rem,5vw,4rem);align-items:center}
+  @media(max-width:860px){#maquina .split{grid-template-columns:1fr;gap:1.8rem}}
+  #maquina .terminal{background:var(--panel);border:1px solid var(--rule-strong);border-radius:6px;overflow:hidden;box-shadow:0 18px 44px rgba(28,24,19,.10)}
+  #maquina .tbar{background:var(--paper-2);border-bottom:1px solid var(--rule);padding:.6rem .9rem;display:flex;align-items:center;gap:.45rem}
+  #maquina .tbar .dot{width:9px;height:9px;border-radius:50%;background:var(--rule-strong)}
+  #maquina .tbar .tt{font-family:var(--mono);font-size:.66rem;letter-spacing:.06em;color:var(--ink-faint);margin-left:.5rem}
+  #maquina .tbody{padding:clamp(1.2rem,2.6vw,1.8rem);font-family:var(--mono);font-size:clamp(.74rem,1.1vw,.86rem);line-height:1.85}
+  #maquina .kv .k{color:var(--data);font-weight:700}
+  #maquina .kv .v{color:var(--ink)}
+  #maquina .kv .p{color:var(--ink-faint)}
+
+  /* ---- closing ---- */
+  #closing .wrap{max-width:980px}
+  #closing .ck{font-family:var(--mono);font-size:.74rem;letter-spacing:.16em;text-transform:uppercase;color:var(--seal);margin-bottom:1.5rem;font-weight:700}
+  #closing .cbig{font-family:var(--display);font-weight:500;font-size:clamp(1.7rem,3.8vw,3.1rem);line-height:1.12;letter-spacing:-.018em}
+  #closing .cbig em{font-style:italic;color:var(--seal)}
+  #closing .clinks{margin-top:2.1rem;display:flex;flex-wrap:wrap;gap:.7rem}
+  #closing .clinks a{font-family:var(--mono);font-size:.76rem;letter-spacing:.04em;text-decoration:none;color:var(--ink);border:1px solid var(--rule-strong);border-radius:999px;padding:.55rem .95rem;transition:all .2s}
+  #closing .clinks a:hover{background:var(--seal);color:#F7F5EE;border-color:var(--seal)}
+  #closing .credits{margin-top:2.2rem;font-family:var(--mono);font-size:.73rem;letter-spacing:.02em;color:var(--ink-faint);line-height:1.85}
+  #closing .credits b{color:var(--ink)}
+
+  /* ---- chrome ---- */
+  .theme-switch{position:fixed;top:1.15rem;right:1.4rem;z-index:60;display:flex;gap:2px;padding:3px;border:1px solid var(--rule-strong);border-radius:999px;background:var(--panel)}
+  .theme-switch button{display:inline-flex;align-items:center;gap:.35rem;font-family:var(--mono);font-size:.64rem;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-soft);background:transparent;border:0;border-radius:999px;padding:.34rem .6rem;cursor:pointer;transition:all .2s}
+  .theme-switch button .ico{width:11px;height:11px;border-radius:50%;border:1.5px solid currentColor}
+  .theme-switch button[data-t="medium"] .ico{background:linear-gradient(90deg,currentColor 50%,transparent 50%)}
+  .theme-switch button[data-t="light"] .ico{background:currentColor}
+  .theme-switch button:hover{color:var(--ink)}
+  .theme-switch button[aria-pressed="true"]{background:var(--seal);color:#F7F5EE}
+
+  .progress{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--seal),var(--data));width:0;z-index:50;transition:width .15s linear}
+  .counter{position:fixed;bottom:1.4rem;right:1.7rem;z-index:50;font-family:var(--mono);font-size:.74rem;letter-spacing:.06em;color:var(--ink-soft)}
+  .counter .cur{color:var(--seal);font-weight:700}
+  .nav-dots{position:fixed;top:50%;right:1.4rem;transform:translateY(-50%);z-index:50;display:flex;flex-direction:column;gap:.6rem}
+  .nav-dots button{width:8px;height:8px;border-radius:50%;border:1px solid var(--ink-faint);background:transparent;padding:0;cursor:pointer;transition:all .25s;display:block}
+  .nav-dots button:hover{border-color:var(--seal)}
+  .nav-dots button.active{background:var(--seal);border-color:var(--seal);transform:scale(1.35)}
+  .kbd-hint{position:fixed;bottom:1.4rem;left:1.7rem;z-index:50;font-family:var(--mono);font-size:.7rem;letter-spacing:.03em;color:var(--ink-faint)}
+  .kbd-hint kbd{border:1px solid var(--rule-strong);border-radius:3px;padding:.05em .4em;color:var(--ink-soft)}
+  :focus-visible{outline:2px solid var(--seal);outline-offset:3px}
+
+  .reveal>*{opacity:0;transform:translateY(20px);transition:opacity .65s cubic-bezier(.2,.7,.2,1),transform .65s cubic-bezier(.2,.7,.2,1)}
+  .slide.in .reveal>*{opacity:1;transform:none}
+  .slide.in .reveal>*:nth-child(2){transition-delay:.07s}
+  .slide.in .reveal>*:nth-child(3){transition-delay:.14s}
+  .slide.in .reveal>*:nth-child(4){transition-delay:.21s}
+  .slide.in .reveal>*:nth-child(5){transition-delay:.28s}
+
+  @media(max-width:780px){.nav-dots,.kbd-hint{display:none}.slide{padding:3.6rem 1.3rem}}
+  @media(max-width:780px){
+    html{scroll-behavior:auto}
+    .deck{height:auto;overflow-y:visible;scroll-snap-type:none;scroll-behavior:auto}
+    .slide,#hero{min-height:100svh;scroll-snap-align:none;scroll-snap-stop:normal;justify-content:flex-start;overflow:visible}
+    .nav-dots,.kbd-hint,.progress,.counter{display:none}
+  }
+  @media (prefers-reduced-motion:reduce){
+    *{scroll-behavior:auto !important}
+    .reveal>*{opacity:1 !important;transform:none !important}
+    .type.tw::after{animation:none}
+  }
+</style>
+</head>
+<body>
+<nav class="site-nav site-nav--light" aria-label="Navegação principal">
+  <a class="site-nav__brand" href="index.html" aria-label="LIA 3R — início"><span class="site-nav__mark" aria-hidden="true">L3</span><span class="site-nav__wordmark">LIA 3R</span></a><span class="site-nav__divider" aria-hidden="true"></span>
+  <a href="index.html#lgpd">CF · LGPD</a><a href="index.html#fachin">Magna</a><a href="index.html#curso">Curso</a>
+</nav>
+
+<div class="theme-switch" id="themeSwitch" role="group" aria-label="Tema de cor">
+  <button data-t="dark" aria-pressed="false"><span class="ico"></span><span class="lbl">Escuro</span></button>
+  <button data-t="medium" aria-pressed="false"><span class="ico"></span><span class="lbl">Médio</span></button>
+  <button data-t="light" aria-pressed="true"><span class="ico"></span><span class="lbl">Claro</span></button>
+</div>
+
+<div class="progress" id="progress"></div>
+<div class="counter"><span class="cur" id="cur">01</span> / <span id="tot">12</span></div>
+<nav class="nav-dots" id="dots" aria-label="Navegação dos slides"></nav>
+<div class="kbd-hint">↑ ↓ ← → · <kbd>espaço</kbd> navega</div>
+
+<main class="deck" id="deck">
+
+  <!-- 1 HERO -->
+  <section class="slide" id="hero" data-label="Abertura">
+    <div class="wrap reveal">
+      <div class="eyebrow">Pacto Nacional do Judiciário pela Linguagem Simples</div>
+      <h1 class="htitle">Manual de Padronização de <em>Ementas</em></h1>
+      <div class="kicker">Recomendação CNJ nº 154/2024 · ementa-padrão</div>
+      <p class="hsub">Um roteiro único para escrever a ementa de uma decisão — de modo que a pessoa entenda, o precedente se aplique e a máquina encontre.</p>
+      <div class="draftline">
+        <span class="dl-tag">Ementa:</span>
+        <div class="dl-text sc type data-caret" data-caret data-text="Direito constitucional. Ação direta de inconstitucionalidade por omissão. Licença-paternidade. Pedido parcialmente procedente."></div>
+      </div>
+      <div class="hmeta"><span>Conselho Nacional de Justiça</span><span><b>2024</b></span><span>Guia para elaboração de ementas de decisões judiciais</span></div>
+    </div>
+  </section>
+
+  <!-- 2 OBJECTIVES -->
+  <section class="slide" id="objetivos" data-label="Três objetivos">
+    <div class="wrap reveal">
+      <div class="eyebrow">Por que padronizar</div>
+      <h2 class="h-md" style="max-width:24ch">Uma ementa-padrão atende três leitores ao mesmo tempo.</h2>
+      <div class="tri">
+        <div class="cell a">
+          <span class="ct">A pessoa</span>
+          <h3>Compreender a decisão</h3>
+          <p>Sintetiza as ideias do julgado em linguagem direta, simples e acessível ao público em geral.</p>
+        </div>
+        <div class="cell b">
+          <span class="ct">O precedente</span>
+          <h3>Aplicar com segurança</h3>
+          <p>No Brasil os precedentes são fontes formais do direito. A catalogação uniforme otimiza a busca da jurisprudência.</p>
+        </div>
+        <div class="cell c">
+          <span class="ct">A máquina</span>
+          <h3>Processar por IA</h3>
+          <p>Um formato uniforme é lido e analisado por sistemas de inteligência artificial, que recuperam o precedente certo.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 ANATOMY -->
+  <section class="slide" id="anatomia" data-label="Anatomia da ementa">
+    <div class="wrap reveal">
+      <div class="split">
+        <div>
+          <div class="eyebrow">A ementa-padrão</div>
+          <h2 class="h-md" style="max-width:14ch">Sempre a mesma ordem.</h2>
+          <p class="lead" style="margin-top:1rem">Cabeçalho de indexação, quatro itens numerados e, ao final, a legislação e a jurisprudência citadas. A ordem é o que torna a ementa <strong>buscável</strong>.</p>
+        </div>
+        <div class="draft">
+          <span class="tab">ementa-padrão</span>
+          <div class="body">
+            <div class="ementa-head"><span class="sc">Ementa: ramo do direito. Classe processual. Assunto principal. Conclusão.</span></div>
+            <hr/>
+            <div class="dl"><span class="rn">I.</span><span class="field">Caso em exame</span></div>
+            <div class="dl"><span class="rn">II.</span><span class="field sc">Questão em discussão</span></div>
+            <div class="dl"><span class="rn">III.</span><span class="field sc">Razões de decidir</span></div>
+            <div class="dl"><span class="rn">IV.</span><span class="field sc">Dispositivo e tese</span></div>
+            <hr/>
+            <div class="cite-row"><b>Dispositivos relevantes citados:</b> …</div>
+            <div class="cite-row"><b>Jurisprudência relevante citada:</b> …</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 CABEÇALHO -->
+  <section class="slide" id="cabecalho" data-label="Cabeçalho · versalete">
+    <div class="wrap reveal">
+      <div class="eyebrow">Cabeçalho · indexação</div>
+      <h2 class="h-md" style="max-width:22ch">A indexação em versalete, em até três linhas.</h2>
+      <div class="seq">
+        <div class="sq"><div class="si">01</div><div class="sl">Ramo do direito</div></div>
+        <div class="sq"><div class="si">02</div><div class="sl">Classe processual</div></div>
+        <div class="sq"><div class="si">03</div><div class="sl">Assunto principal</div></div>
+        <div class="sq"><div class="si">04</div><div class="sl">Conclusão</div></div>
+      </div>
+      <div class="example">
+        <div class="exlbl">Exemplo · efeito versalete (small caps)</div>
+        <div class="extext sc type" data-text="Direito administrativo e previdenciário. Embargos de declaração em agravo interno em recurso extraordinário. Recurso protelatório. Embargos rejeitados."></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 ITEMS I-III -->
+  <section class="slide" id="itens" data-label="Itens I a III">
+    <div class="wrap reveal">
+      <div class="eyebrow">Os itens, em ordem direta</div>
+      <h2 class="h-md" style="max-width:26ch">Cada item tem uma só função. Texto numerado por cardinais.</h2>
+      <div class="stack">
+        <div class="it">
+          <span class="iv">I.</span><span class="ih sc">Caso em exame</span>
+          <span class="id">A ação ou recurso, com a descrição sumária da hipótese — fato relevante e pedido. Sem a expressão “trata-se de”.</span>
+          <span class="ex type" data-text="1. Embargos de declaração opostos contra acórdão que negou provimento a agravo interno, mantendo a inadmissão do recurso extraordinário."></span>
+        </div>
+        <div class="it">
+          <span class="iv">II.</span><span class="ih sc">Questão em discussão</span>
+          <span class="id">As questões controvertidas, de forma objetiva, na fórmula “A questão em discussão consiste em (…)”.</span>
+          <span class="ex type" data-text="2. A questão consiste em saber se há obscuridade, contradição ou omissão que justifique o afastamento da multa do art. 1.021, § 4º, do CPC."></span>
+        </div>
+        <div class="it">
+          <span class="iv">III.</span><span class="ih sc">Razões de decidir</span>
+          <span class="id">O resultado e os fundamentos resumidos — cada fundamento em um item próprio.</span>
+          <span class="ex type" data-text="3. Os embargos não apontam erro, obscuridade, contradição ou omissão no acórdão, o que afasta os pressupostos do art. 1.022 do CPC."></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 TESE (typing payoff) -->
+  <section class="slide" id="tese" data-label="IV · Dispositivo e tese">
+    <div class="wrap reveal">
+      <div class="eyebrow">IV · Dispositivo e tese</div>
+      <p class="disp">Conclusão do julgamento — <b>provimento</b> ou <b>desprovimento</b> do recurso, <b>procedência</b> ou <b>improcedência</b> do pedido.</p>
+      <div class="teselbl">Tese de julgamento:</div>
+      <blockquote><span class="qn">“1.</span> <span class="type" data-text="Existe omissão inconstitucional quanto à lei que regulamenta a licença-paternidade, prevista no art. 7º, XIX, da Constituição."></span><span class="qn">”</span></blockquote>
+      <div class="src">Frases objetivas, ordenadas por numerais cardinais entre aspas — e <b>sem itálico</b>. · STF, ADO 20, Rel. Min. Edson Fachin</div>
+    </div>
+  </section>
+
+  <!-- 7 CITATIONS -->
+  <section class="slide" id="citacoes" data-label="Legislação e jurisprudência">
+    <div class="wrap reveal">
+      <div class="eyebrow data">Ao final · remissões</div>
+      <h2 class="h-md" style="max-width:26ch">A legislação e a jurisprudência citadas, em formato fixo.</h2>
+      <div class="pair">
+        <div class="pc">
+          <div class="pt">Dispositivos relevantes citados</div>
+          <div class="recipe"><span>diploma abreviado</span> + <span>dispositivo</span></div>
+          <div class="sample">CF/1988, arts. 1º, III, 5º, I, e 7º, XIX; CC, arts. 1.641, II, e 1.639, § 2º.</div>
+        </div>
+        <div class="pc">
+          <div class="pt">Jurisprudência relevante citada</div>
+          <div class="recipe"><span>tribunal</span> + <span>classe</span> + <span>nº</span> + <span>relator</span> + <span>órgão</span> + <span>data</span></div>
+          <div class="sample">STF, ADPF 130, Rel. Min. Ayres Britto, Plenário, j. 30.04.2009.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8 PLAIN LANGUAGE -->
+  <section class="slide" id="linguagem" data-label="Linguagem simples">
+    <div class="wrap reveal split">
+      <div>
+        <div class="eyebrow">Orientações de redação</div>
+        <h2 class="h-md">Diga de novo, em linguagem simples.</h2>
+        <ul class="rules">
+          <li><b>Frases curtas.</b> Uma ideia por frase.</li>
+          <li>Escreva na <b>ordem direta</b>: sujeito, verbo, complemento.</li>
+          <li>Sem citações doutrinárias ou referências bibliográficas.</li>
+          <li>Sem adjetivos, metáforas, superlativos ou termos em latim.</li>
+        </ul>
+      </div>
+      <div>
+        <div class="swaps">
+          <div class="sw"><span class="old">Carta Magna</span><span class="arr">→</span><span class="new type" data-text="Constituição"></span></div>
+          <div class="sw"><span class="old">mandamus</span><span class="arr">→</span><span class="new type" data-text="mandado de segurança"></span></div>
+          <div class="sw"><span class="old">data venia</span><span class="arr">→</span><span class="new type" data-text="com o devido respeito"></span></div>
+        </div>
+        <p class="foot">A linguagem simples não empobrece a decisão — torna o julgado legível para quem ele afeta.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9 ABBREVIATIONS -->
+  <section class="slide" id="abrev" data-label="Abreviações padronizadas">
+    <div class="wrap reveal">
+      <div class="eyebrow">Siglas e abreviações</div>
+      <h2 class="h-md" style="max-width:24ch">Um vocabulário único para citar.</h2>
+      <div class="grid">
+        <div class="ab"><span class="name">Constituição Federal de 1988</span><span class="code">CF/1988</span></div>
+        <div class="ab"><span class="name">Ato das Disposições Const. Transitórias</span><span class="code">ADCT</span></div>
+        <div class="ab"><span class="name">Código de Processo Civil de 2015</span><span class="code">CPC</span></div>
+        <div class="ab"><span class="name">Código Civil de 2002</span><span class="code">CC</span></div>
+        <div class="ab"><span class="name">Código de Defesa do Consumidor</span><span class="code">CDC</span></div>
+        <div class="ab"><span class="name">Consolidação das Leis do Trabalho</span><span class="code">CLT</span></div>
+        <div class="ab"><span class="name">Código Penal · Processo Penal</span><span class="code">CP · CPP</span></div>
+        <div class="ab"><span class="name">Emenda Constitucional</span><span class="code">EC</span></div>
+        <div class="ab"><span class="name">Lei · Lei Complementar</span><span class="code">L. · LC</span></div>
+        <div class="ab"><span class="name">Artigo · inciso · parágrafo</span><span class="code">art. · inc. · §</span></div>
+      </div>
+      <p class="foot">O ano vem com quatro dígitos, em datas e em atos normativos. Ex.: <strong>Lei nº 9.430/1996</strong>.</p>
+    </div>
+  </section>
+
+  <!-- 10 MACHINE READABLE / LIA 3R -->
+  <section class="slide" id="maquina" data-label="Legível por máquina">
+    <div class="wrap reveal split">
+      <div>
+        <div class="eyebrow data">A mesma ementa, para a máquina</div>
+        <h2 class="h-md">Ordem fixa vira dado pesquisável.</h2>
+        <p class="lead" style="margin-top:1rem">Porque cada campo está sempre no mesmo lugar, um sistema de IA separa ramo, classe, assunto e tese sem ambiguidade. É o que permite à <span class="data">LIA 3R</span> recuperar o precedente exato — rápido e com precisão.</p>
+      </div>
+      <div class="terminal">
+        <div class="tbar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="tt">ementa.json</span></div>
+        <div class="tbody kv">
+          <div><span class="p">{</span></div>
+          <div>&nbsp;&nbsp;<span class="k">"ramo"</span><span class="p">:</span> <span class="v type data-caret" data-text="&quot;Direito constitucional&quot;,"></span></div>
+          <div>&nbsp;&nbsp;<span class="k">"classe"</span><span class="p">:</span> <span class="v type data-caret" data-text="&quot;ADO&quot;,"></span></div>
+          <div>&nbsp;&nbsp;<span class="k">"assunto"</span><span class="p">:</span> <span class="v type data-caret" data-text="&quot;licença-paternidade&quot;,"></span></div>
+          <div>&nbsp;&nbsp;<span class="k">"conclusao"</span><span class="p">:</span> <span class="v type data-caret" data-text="&quot;procedência parcial&quot;,"></span></div>
+          <div>&nbsp;&nbsp;<span class="k">"tese"</span><span class="p">:</span> <span class="v type data-caret" data-text="[ &quot;omissão inconstitucional…&quot; ]"></span></div>
+          <div><span class="p">}</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 11 WORKED EXAMPLE -->
+  <section class="slide" id="exemplo" data-label="Exemplo real">
+    <div class="wrap reveal">
+      <div class="eyebrow">Exemplo · Supremo Tribunal Federal</div>
+      <h2 class="h-md" style="max-width:30ch;margin-bottom:1.2rem">ADO 20 — licença-paternidade · Rel. Min. Edson Fachin</h2>
+      <div class="draft">
+        <span class="tab">ementa aplicada</span>
+        <div class="body">
+          <div class="ementa-head"><span class="sc">Ementa: Direito constitucional. Ação direta de inconstitucionalidade por omissão. Licença-paternidade. Pedido parcialmente procedente.</span></div>
+          <hr/>
+          <div class="dl"><span class="rn">I.</span><span class="field sc">Caso em exame</span><span class="note">1. ADO relacionada à ausência de regulamentação do direito à licença-paternidade, previsto no art. 7º, XIX, da CF/1988.</span></div>
+          <div class="dl"><span class="rn">II.</span><span class="field sc">Questão em discussão</span><span class="note">2. (i) saber se há lacuna normativa ilegítima; e (ii) a consequência do reconhecimento da omissão.</span></div>
+          <div class="dl"><span class="rn">III.</span><span class="field sc">Razões de decidir</span><span class="note">3. A regra transitória do ADCT é insuficiente para suprir a omissão. 4. O prazo de cinco dias não reflete a igualdade de gênero nem a proteção da infância.</span></div>
+          <div class="dl"><span class="rn">IV.</span><span class="field sc">Dispositivo e tese</span><span class="note">5. Pedido parcialmente procedente. Fixado o prazo de 18 meses para o Congresso sanar a omissão.</span></div>
+          <hr/>
+          <div class="cite-row"><b>Dispositivos citados:</b> CF/1988, arts. 1º, III, 5º, I, 7º, XIX e 227; ADCT, art. 10, § 1º.</div>
+          <div class="cite-row"><b>Jurisprudência citada:</b> STF, ADO 26, Rel. Min. Celso de Mello, Plenário, j. 13.06.2019.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 12 CLOSING -->
+  <section class="slide" id="closing" data-label="Encerramento">
+    <div class="wrap reveal">
+      <div class="ck">Recomendação CNJ nº 154/2024</div>
+      <p class="cbig">Uma ementa bem escrita é <em>justiça mais legível</em> — para quem a lê e para quem a busca.</p>
+      <div class="clinks">
+        <a href="index.html">↩ Voltar ao início</a>
+      </div>
+      <div class="credits">
+        <b>Manual de Padronização de Ementas</b> · Conselho Nacional de Justiça · 2024<br/>
+        Pacto Nacional do Judiciário pela Linguagem Simples · materializado na Recomendação CNJ nº 154/2024
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<script>
+  /* theme switch (escuro / médio / claro) — default: claro */
+  (function(){
+    const DEF='light';
+    const sw=document.getElementById('themeSwitch');
+    const btns=[...sw.querySelectorAll('button')];
+    function apply(t){
+      if(t===DEF){document.documentElement.removeAttribute('data-theme');}
+      else{document.documentElement.setAttribute('data-theme',t);}
+      btns.forEach(b=>b.setAttribute('aria-pressed', String(b.dataset.t===t)));
+      try{localStorage.setItem('ementas-theme',t);}catch(e){}
+    }
+    btns.forEach(b=>b.addEventListener('click',()=>apply(b.dataset.t)));
+    let saved=DEF;
+    try{saved=localStorage.getItem('ementas-theme')||DEF;}catch(e){}
+    apply(saved);
+  })();
+
+  const deck=document.getElementById('deck');
+  const slides=[...document.querySelectorAll('.slide')];
+  const dotsWrap=document.getElementById('dots');
+  const progress=document.getElementById('progress');
+  const curEl=document.getElementById('cur');
+  document.getElementById('tot').textContent=String(slides.length).padStart(2,'0');
+
+  slides.forEach((s,i)=>{
+    const b=document.createElement('button');
+    b.setAttribute('aria-label',s.dataset.label||('Slide '+(i+1)));
+    b.title=s.dataset.label||'';
+    b.addEventListener('click',()=>slides[i].scrollIntoView());
+    dotsWrap.appendChild(b);
+  });
+  const dots=[...dotsWrap.children];
+
+  /* ---- typewriter: type each .type element on slide entry, with caret ---- */
+  const REDUCE=matchMedia('(prefers-reduced-motion:reduce)').matches;
+  function typeOne(el, token, slide){
+    return new Promise(res=>{
+      const full = el.dataset.text!==undefined ? el.dataset.text : el.textContent;
+      el.dataset.text = full;
+      if(REDUCE){ el.textContent=full; res(); return; }
+      el.textContent='';
+      el.classList.add('tw');
+      let i=0;
+      (function step(){
+        if(slide._token!==token){ return; }            /* cancelled — slide left */
+        el.textContent = full.slice(0,i);
+        if(i>=full.length){
+          if(el.dataset.caret===undefined) el.classList.remove('tw');
+          res(); return;
+        }
+        const ch=full[i]; i++;
+        let d = 22 + Math.random()*44;
+        if(ch==='.'||ch===','||ch===';') d += 170;     /* settle on punctuation */
+        setTimeout(step, d);
+      })();
+    });
+  }
+  async function runSlide(slide){
+    const token=(slide._token||0)+1; slide._token=token;
+    const els=[...slide.querySelectorAll('.type')];
+    if(!els.length) return;
+    els.forEach(el=>{ el.classList.remove('tw'); el.textContent=''; });
+    for(const el of els){
+      if(slide._token!==token) return;
+      await new Promise(r=>setTimeout(r,150));
+      await typeOne(el, token, slide);
+    }
+  }
+
+  const io=new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        e.target.classList.add('in');
+        const i=slides.indexOf(e.target);
+        curEl.textContent=String(i+1).padStart(2,'0');
+        dots.forEach((d,j)=>d.classList.toggle('active',j===i));
+        if(!e.target._active){ e.target._active=true; runSlide(e.target); }
+      }else{
+        e.target._active=false;
+        e.target._token=(e.target._token||0)+1;        /* cancel any in-flight typing */
+      }
+    });
+  },{threshold:.55});
+  slides.forEach(s=>io.observe(s));
+
+  deck.addEventListener('scroll',()=>{
+    const max=deck.scrollHeight-deck.clientHeight;
+    progress.style.width=(deck.scrollTop/max*100)+'%';
+  },{passive:true});
+
+  function currentIndex(){return Math.round(deck.scrollTop/deck.clientHeight)}
+  window.addEventListener('keydown',(e)=>{
+    const i=currentIndex();
+    if(['ArrowRight','ArrowDown','PageDown',' '].includes(e.key)){e.preventDefault();slides[Math.min(i+1,slides.length-1)].scrollIntoView();}
+    else if(['ArrowLeft','ArrowUp','PageUp'].includes(e.key)){e.preventDefault();slides[Math.max(i-1,0)].scrollIntoView();}
+    else if(e.key==='Home'){e.preventDefault();slides[0].scrollIntoView();}
+    else if(e.key==='End'){e.preventDefault();slides[slides.length-1].scrollIntoView();}
+  });
+</script>
+</body>
+</html>
