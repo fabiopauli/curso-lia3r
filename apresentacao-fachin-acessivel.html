@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="Entre a tradição civilista e a sociedade algorítmica — Conferência Magna do Ministro Edson Fachin na Jornada de Direito Civil de 2026. Versão acessível conforme o eMAG." />
+<title>Entre a tradição civilista e a sociedade algorítmica — Min. Edson Fachin (versão acessível)</title>
+<link rel="icon" type="image/png" href="icone-lia.png" />
+<link rel="stylesheet" href="site-nav.css" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  /* ===== eMAG-oriented accessible styles =====
+     - Contraste mínimo AA (Rec. 4.1); foco visível (Rec. 4.4);
+     - Unidades rem para redimensionamento (Rec. 4.3);
+     - Cor nunca é o único indicador (Rec. 4.2). */
+  :root{
+    --bg:#FFFFFF;
+    --surface:#F4F5F8;
+    --surface-2:#E9ECF2;
+    --ink:#16181D;          /* texto principal — contraste ~15:1 sobre branco */
+    --ink-2:#3A3E47;        /* texto secundário — contraste ~9:1 */
+    --brand:#0B3D91;        /* azul institucional — contraste ~9:1 sobre branco */
+    --brand-2:#093170;
+    --good:#0E6B45;         /* verde acessível */
+    --warn:#9A4A12;         /* laranja escuro acessível */
+    --danger:#A11423;       /* vermelho acessível */
+    --line:#C7CCD6;
+    --line-2:#9aa1ae;
+    --focus:#0B3D91;
+    --font:"Inter",system-ui,Arial,sans-serif;
+    font-size:100%;
+  }
+  /* Alto contraste (Rec. 4.1 / padrão gov.br) — preto/branco/amarelo */
+  body.alto-contraste{
+    --bg:#000000;--surface:#0a0a0a;--surface-2:#141414;
+    --ink:#FFFFFF;--ink-2:#F2F2F2;--brand:#FFEB3B;--brand-2:#FFF176;
+    --good:#7CFFB0;--warn:#FFC078;--danger:#FF8A8A;--line:#FFFFFF;--line-2:#FFFFFF;--focus:#FFEB3B;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--ink);font-family:var(--font);line-height:1.6;-webkit-font-smoothing:antialiased}
+
+  /* Foco sempre visível e evidente (Rec. 4.4) */
+  a:focus-visible,button:focus-visible,[tabindex]:focus-visible{outline:3px solid var(--focus);outline-offset:2px;border-radius:3px}
+
+  /* ---- Barra de acessibilidade (Rec. 1.5 âncoras, 2.1 teclado) ---- */
+  .skip{position:absolute;left:-9999px;top:0;z-index:200;background:var(--brand);color:#fff;padding:.6rem 1rem;border-radius:0 0 6px 0;font-weight:600}
+  .skip:focus{left:0}
+  .a11y-bar{background:var(--surface-2);border-bottom:1px solid var(--line);padding:.5rem clamp(1rem,4vw,3rem);display:flex;flex-wrap:wrap;gap:.5rem 1.4rem;align-items:center;justify-content:space-between}
+  .a11y-links{display:flex;flex-wrap:wrap;gap:.3rem 1.1rem;font-size:.86rem}
+  .a11y-links a{color:var(--brand);font-weight:600;text-decoration:underline;text-underline-offset:2px}
+  .a11y-tools{display:flex;flex-wrap:wrap;gap:.4rem;align-items:center}
+  .a11y-tools button{font-family:var(--font);font-size:.82rem;font-weight:600;color:var(--brand);background:transparent;border:1px solid var(--line-2);border-radius:5px;padding:.3rem .6rem;cursor:pointer}
+  .a11y-tools button:hover{background:var(--surface)}
+  .a11y-tools button[aria-pressed="true"]{background:var(--brand);color:#fff;border-color:var(--brand)}
+  .a11y-tools .grp{display:flex;align-items:center;gap:.2rem;border-left:1px solid var(--line);padding-left:.8rem}
+  .a11y-tools .grp span{font-size:.8rem;color:var(--ink-2);margin-right:.2rem}
+
+  /* ---- Cabeçalho ---- */
+  header.page{padding:clamp(1.6rem,4vw,3rem) clamp(1rem,4vw,3rem) clamp(1.2rem,3vw,2rem);border-bottom:3px solid var(--brand);background:var(--surface)}
+  .breadcrumb{font-size:.85rem;color:var(--ink-2);margin-bottom:1rem}
+  .breadcrumb strong{color:var(--ink)}
+  header.page .badge{display:inline-block;font-size:.78rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--brand);border:1px solid var(--brand);border-radius:999px;padding:.25rem .8rem;margin-bottom:1rem}
+  header.page h1{font-size:clamp(1.8rem,4.4vw,3rem);line-height:1.1;color:var(--ink)}
+  header.page h1 .mod{display:block;font-size:.5em;font-weight:600;color:var(--ink-2);margin-top:.5rem}
+  header.page .intro{margin-top:1rem;max-width:70ch;color:var(--ink-2);font-size:1.05rem}
+  header.page .by{margin-top:1rem;font-size:.95rem;color:var(--ink-2)}
+  header.page .by strong{color:var(--ink)}
+
+  /* ---- Layout ---- */
+  .layout{display:grid;grid-template-columns:280px 1fr;gap:0;align-items:start}
+  @media(max-width:900px){.layout{grid-template-columns:1fr}}
+
+  /* Menu / sumário (Rec. 1.5, 3.4, 3.5) */
+  nav.toc{position:sticky;top:0;align-self:start;padding:clamp(1.2rem,3vw,2rem) 1.2rem;border-right:1px solid var(--line);background:var(--surface)}
+  @media(max-width:900px){nav.toc{position:static;border-right:0;border-bottom:1px solid var(--line)}}
+  nav.toc h2{font-size:.9rem;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-2);margin-bottom:.8rem}
+  nav.toc ol{list-style:decimal;padding-left:1.4rem;display:flex;flex-direction:column;gap:.4rem}
+  nav.toc a{color:var(--brand);text-decoration:underline;text-underline-offset:2px;font-size:.92rem;font-weight:500}
+
+  main{padding:clamp(1.2rem,3vw,2.4rem) clamp(1rem,4vw,3rem) 0;max-width:78ch}
+
+  section.topic{padding:clamp(1.6rem,3.5vw,2.6rem) 0;border-bottom:1px solid var(--line)}
+  section.topic > h2{font-size:clamp(1.4rem,3vw,2rem);color:var(--ink);line-height:1.15;margin-bottom:.4rem;scroll-margin-top:1rem}
+  .topic .klabel{font-size:.8rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--brand);margin-bottom:.5rem}
+  .topic p{color:var(--ink-2);margin:.7rem 0;max-width:72ch}
+  .topic p strong,.topic li strong{color:var(--ink)}
+  abbr[title]{text-decoration:underline dotted;text-underline-offset:2px;cursor:help}
+
+  h3{font-size:1.15rem;color:var(--ink);margin:1.3rem 0 .3rem}
+
+  /* listas semânticas */
+  ul.bul,ol.num{margin:.6rem 0 .6rem 1.4rem;display:flex;flex-direction:column;gap:.5rem}
+  ul.bul li,ol.num li{color:var(--ink-2)}
+  ol.num li::marker{color:var(--brand);font-weight:700}
+
+  /* glossário / definições (semântico p/ leitores de tela) */
+  dl.gloss{margin-top:1rem;display:grid;gap:1.1rem}
+  dl.gloss > div{border-left:4px solid var(--brand);padding-left:1rem}
+  dl.gloss dt{font-weight:700;color:var(--ink);font-size:1.05rem;margin-bottom:.2rem}
+  dl.gloss dd{color:var(--ink-2);margin:0}
+  dl.gloss dd + dd{margin-top:.4rem}
+
+  /* linha do tempo / eras (semântica de lista ordenada) */
+  ol.tl{list-style:none;margin:1rem 0;display:grid;gap:.8rem}
+  ol.tl li{border:1px solid var(--line);border-left:5px solid var(--brand);border-radius:8px;padding:1rem 1.2rem;background:var(--surface)}
+  ol.tl .era{display:block;font-weight:700;color:var(--ink);font-size:1.08rem;margin-bottom:.2rem}
+  ol.tl .era .n{display:inline-block;font-size:.8rem;color:var(--brand);border:1px solid var(--brand);border-radius:4px;padding:.05rem .4rem;margin-right:.5rem;vertical-align:middle}
+  ol.tl li:last-child{border-left-color:var(--good)}
+  ol.tl li:last-child .era .n{color:var(--good);border-color:var(--good)}
+
+  /* destaque / citação */
+  blockquote{border-left:4px solid var(--brand);background:var(--surface);padding:1rem 1.2rem;margin:1rem 0;color:var(--ink);font-size:1.08rem}
+  blockquote cite{display:block;margin-top:.6rem;font-style:normal;font-size:.88rem;color:var(--ink-2)}
+
+  /* caixa de destaque (cor + rótulo textual — Rec. 4.2) */
+  .callout{display:flex;gap:.7rem;border:1px solid var(--line);border-left:5px solid var(--warn);border-radius:8px;padding:1rem 1.2rem;margin:1rem 0;background:var(--surface)}
+  .callout .tag{font-weight:700;color:var(--warn);white-space:nowrap}
+
+  /* cartões de conceito */
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;margin:1rem 0}
+  .cards .card{border:1px solid var(--line);border-top:4px solid var(--brand);border-radius:8px;padding:1.1rem 1.2rem;background:var(--surface)}
+  .cards .card .ci{font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--brand);margin-bottom:.4rem}
+  .cards .card h3{margin:0 0 .3rem}
+  .cards .card p{margin:0;color:var(--ink-2)}
+
+  footer.page{background:var(--surface-2);border-top:3px solid var(--brand);padding:clamp(1.6rem,4vw,2.6rem) clamp(1rem,4vw,3rem);margin-top:2rem;color:var(--ink-2);font-size:.92rem}
+  footer.page h2{font-size:1.1rem;color:var(--ink);margin-bottom:.6rem}
+  footer.page a{color:var(--brand);text-decoration:underline;text-underline-offset:2px}
+  footer.page .keys{margin-top:1rem;font-size:.85rem}
+  footer.page kbd{border:1px solid var(--line-2);border-radius:3px;padding:.05em .4em;background:var(--bg);color:var(--ink);font-family:var(--font);font-size:.85em}
+
+  @media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+</style>
+</head>
+<body>
+  <!-- Âncoras de pulo — primeiros elementos focáveis (Rec. 1.5 / 2.1) -->
+  <a class="skip" href="#conteudo" accesskey="1">Ir para o conteúdo [1]</a>
+  <a class="skip" href="#menu" accesskey="2">Ir para o menu [2]</a>
+  <a class="skip" href="#rodape" accesskey="4">Ir para o rodapé [4]</a>
+
+  <!-- Barra de acessibilidade -->
+  <div class="a11y-bar">
+    <nav class="a11y-links" aria-label="Atalhos de acessibilidade">
+      <a href="#conteudo" accesskey="1">Conteúdo [1]</a>
+      <a href="#menu" accesskey="2">Menu [2]</a>
+      <a href="#rodape" accesskey="4">Rodapé [4]</a>
+    </nav>
+    <div class="a11y-tools">
+      <button type="button" id="btnContraste" aria-pressed="false" accesskey="5">Alto contraste [5]</button>
+      <span class="grp" role="group" aria-label="Tamanho da fonte">
+        <span aria-hidden="true">Fonte:</span>
+        <button type="button" id="fontMenos" aria-label="Diminuir fonte">A−</button>
+        <button type="button" id="fontReset" aria-label="Fonte padrão">A</button>
+        <button type="button" id="fontMais" aria-label="Aumentar fonte">A+</button>
+      </span>
+    </div>
+  </div>
+
+  <nav class="site-nav site-nav--light site-nav--flow" aria-label="Navegação principal">
+    <a class="site-nav__brand" href="index.html" aria-label="LIA 3R — início"><span class="site-nav__mark" aria-hidden="true">L3</span><span class="site-nav__wordmark">LIA 3R</span></a><span class="site-nav__divider" aria-hidden="true"></span>
+    <a href="index.html#lgpd">CF · LGPD</a><a href="index.html#fachin">Magna</a><a href="index.html#curso">Curso</a>
+  </nav>
+
+  <header class="page">
+    <p class="breadcrumb">Você está em: <strong>Início</strong> › Aula Magna › <strong>Entre a tradição civilista e a sociedade algorítmica</strong></p>
+    <span class="badge">Aula Magna · Jornada de Direito Civil 2026</span>
+    <h1>Entre a tradição civilista e a sociedade algorítmica<span class="mod">Conferência Magna — Jornada de Direito Civil, 16 de junho de 2026</span></h1>
+    <p class="intro">Conferência magna sobre a preservação da centralidade da pessoa humana diante de uma sociedade progressivamente governada por dados, algoritmos e sistemas automatizados de decisão.</p>
+    <p class="by">Proferida pelo <strong>Ministro Edson Fachin</strong> — Presidente do Supremo Tribunal Federal e do Conselho Nacional de Justiça.</p>
+  </header>
+
+  <div class="layout">
+    <nav class="toc" id="menu" aria-label="Sumário da conferência">
+      <h2>Sumário</h2>
+      <ol>
+        <li><a href="#homenagem">Homenagem</a></li>
+        <li><a href="#pergunta">A indagação central</a></li>
+        <li><a href="#vulnerabilidades">Vulnerabilidades históricas</a></li>
+        <li><a href="#instituicoes">Instituições algorítmicas</a></li>
+        <li><a href="#poder">Uma nova forma de poder</a></li>
+        <li><a href="#vocacao">Vocação do direito civil</a></li>
+        <li><a href="#humanitas">Magnifica Humanitas</a></li>
+        <li><a href="#justica">Justiça, não mercado</a></li>
+        <li><a href="#constitucionalizacao">Constitucionalização · 1988</a></li>
+        <li><a href="#mestres">A lição dos mestres</a></li>
+        <li><a href="#dados">Dados são poder</a></li>
+        <li><a href="#vulnerabilidade">Vulnerabilidade algorítmica</a></li>
+        <li><a href="#tecnofobia">Sem tecnofobia</a></li>
+        <li><a href="#dignidade">Dignidade</a></li>
+        <li><a href="#futuro">Os próximos 75 anos</a></li>
+        <li><a href="#antropologica">Questão antropológica</a></li>
+        <li><a href="#conclusao">Conclusão</a></li>
+      </ol>
+    </nav>
+
+    <main id="conteudo">
+
+      <section class="topic" id="homenagem" aria-labelledby="h-hom">
+        <p class="klabel">Em memória</p>
+        <h2 id="h-hom">Ruy Rosado de Aguiar</h2>
+        <p><em>Magistrado · Professor · Civilista.</em></p>
+        <p>Pertenceu àquela rara linhagem de intérpretes que compreenderam que o direito civil jamais poderia ser reduzido a uma <strong>técnica de administração patrimonial</strong>. Sua obra é uma ponte entre a tradição clássica do direito privado e os desafios do constitucionalismo contemporâneo — sob a advertência permanente de que <strong>o direito existe para servir a pessoa humana</strong>.</p>
+      </section>
+
+      <section class="topic" id="pergunta" aria-labelledby="h-per">
+        <p class="klabel">A indagação central</p>
+        <h2 id="h-per">Como preservar a pessoa humana na sociedade algorítmica?</h2>
+        <p>Como preservar a <strong>centralidade da pessoa humana</strong> em uma sociedade progressivamente governada por <strong>dados, algoritmos e sistemas automatizados de decisão</strong>?</p>
+        <p>A pergunta não é nova; a preocupação que ela encerra é ainda mais antiga. Passaram-se os primeiros 25 anos do século XXI — o que nos espera são os próximos 75, já interpelando juristas e tribunais de todo o Brasil.</p>
+      </section>
+
+      <section class="topic" id="vulnerabilidades" aria-labelledby="h-vul">
+        <p class="klabel">Lição do passado</p>
+        <h2 id="h-vul">Cada poder novo gera uma vulnerabilidade nova</h2>
+        <p>Os instrumentos mudam, as formas de dominação se transformam — mas permanece constante a necessidade de proteger a dignidade humana.</p>
+        <ol class="tl">
+          <li><span class="era"><span class="n">I</span>Propriedade fundiária</span>Desenvolvimento e, ao mesmo tempo, <strong>vulnerabilidade econômica</strong>.</li>
+          <li><span class="era"><span class="n">II</span>Revolução industrial</span>Inovação e, simultaneamente, <strong>vulnerabilidade no trabalho</strong>.</li>
+          <li><span class="era"><span class="n">III</span>Sociedade de consumo</span>Novo modo de ser — e <strong>vulnerabilidade informacional</strong>.</li>
+          <li><span class="era"><span class="n">IV</span>Globalização</span>Transformações extraordinárias e <strong>vulnerabilidades nacionais e transnacionais</strong>.</li>
+          <li><span class="era"><span class="n">V</span>Sociedade digital</span>A colmeia digital produz a <strong>vulnerabilidade algorítmica</strong>.</li>
+        </ol>
+      </section>
+
+      <section class="topic" id="instituicoes" aria-labelledby="h-ins">
+        <p class="klabel">Instituições algorítmicas</p>
+        <h2 id="h-ins">O algoritmo deixou de ser mero instrumento técnico</h2>
+        <p>Em muitas esferas da vida, os algoritmos passaram a desempenhar <strong>funções estruturantes</strong>: estabelecem regras de interação, produzem classificações, moldam expectativas e <strong>condicionam o acesso a direitos e recursos</strong>.</p>
+        <p>Sua relevância para a teoria jurídica é comparável à do mercado ou da burocracia estatal — eles participam da construção da própria <strong>ordem jurídica e social</strong>.</p>
+        <blockquote>
+          <p>O Algoritmo Institucional.</p>
+          <cite>Mendonça · Filgueiras · Almeida (Oxford, 2024).</cite>
+        </blockquote>
+      </section>
+
+      <section class="topic" id="poder" aria-labelledby="h-pod">
+        <p class="klabel">Uma nova forma de poder</p>
+        <h2 id="h-pod">Poder opaco, invisível e de difícil contestação</h2>
+        <p>As instituições tradicionais têm estruturas <strong>identificáveis</strong>. As novas operam por <strong>códigos, bases de dados e modelos preditivos</strong> — frequentemente invisíveis, opacos e de difícil contestação.</p>
+        <p>Quando os algoritmos passam a influenciar crédito, emprego, reputação e o acesso a bens e serviços, tornam-se inevitáveis as indagações sobre transparência, responsabilidade e respeito à dignidade humana.</p>
+      </section>
+
+      <section class="topic" id="vocacao" aria-labelledby="h-voc">
+        <p class="klabel">A vocação do direito civil</p>
+        <h2 id="h-voc">Conter assimetrias. Proteger quem é vulnerável</h2>
+        <div class="cards">
+          <div class="card">
+            <p class="ci">Função</p>
+            <h3>Contenção das assimetrias</h3>
+            <p>Toda assimetria interessa ao direito civil — e a vulnerabilidade algorítmica é, antes de tudo, uma assimetria de poder e de informação.</p>
+          </div>
+          <div class="card">
+            <p class="ci">Continuidade</p>
+            <h3>As categorias clássicas permanecem</h3>
+            <p>Boa-fé objetiva, função social, tutela da confiança, proteção da personalidade, responsabilidade civil. O que muda é o contexto de aplicação.</p>
+          </div>
+          <div class="card">
+            <p class="ci">Resposta</p>
+            <h3>Reações já anotadas</h3>
+            <p>Um livro especial de direito digital no projeto de novo Código Civil e a <abbr title="Lei Geral de Proteção de Dados">LGPD</abbr> como marco civilizatório do direito brasileiro.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="topic" id="humanitas" aria-labelledby="h-hum">
+        <p class="klabel">Magnifica Humanitas</p>
+        <h2 id="h-hum">O ser humano no centro de toda decisão moral</h2>
+        <blockquote>
+          <p>“O ser humano deve permanecer no <strong>centro de toda e qualquer decisão moral</strong>.”</p>
+          <cite>Leão XIV — encíclica <em>Magnifica Humanitas</em>, sobre a salvaguarda da pessoa humana na era da inteligência artificial (15 de maio de 2026).</cite>
+        </blockquote>
+      </section>
+
+      <section class="topic" id="justica" aria-labelledby="h-jus">
+        <p class="klabel">Não é só mercado</p>
+        <h2 id="h-jus">A distribuição de dados e tecnologia é uma questão de justiça</h2>
+        <p>A concentração de informações produz novas formas de <strong>desigualdade, dependência e exclusão</strong> — o chamado <strong>colonialismo digital</strong>.</p>
+        <p>Nenhuma inovação tecnológica pode justificar a diminuição da dignidade humana. O progresso só é legítimo se subordinado à <strong>proteção da pessoa</strong> e à preservação da humanidade comum.</p>
+      </section>
+
+      <section class="topic" id="constitucionalizacao" aria-labelledby="h-con">
+        <p class="klabel">Constitucionalização do direito civil · 1988</p>
+        <h2 id="h-con">Do sujeito idealizado à pessoa real e concreta</h2>
+        <p>Do <strong>sujeito idealizado</strong> — racional, informado, autônomo — à <strong>pessoa real e concreta</strong>, em sua vulnerabilidade existencial.</p>
+        <p>A criança, o idoso, a pessoa com deficiência, o consumidor, a mulher submetida à violência, os grupos historicamente discriminados. Nasceu uma racionalidade jurídica fundada na dignidade humana: o direito civil não pode reproduzir vulnerabilidades — deve reduzi-las.</p>
+      </section>
+
+      <section class="topic" id="mestres" aria-labelledby="h-mes">
+        <p class="klabel">A lição dos mestres</p>
+        <h2 id="h-mes">Reinterpretar o passado, sem abandoná-lo</h2>
+        <blockquote>
+          <p>“Evitar tanto o <strong>apego acrítico à tradição</strong> quanto o <strong>entusiasmo irrefletido</strong> pelas novidades.”</p>
+          <cite>Ministro Moreira Alves, com Pontes de Miranda — a modernização do direito não consiste em abandonar o passado, mas em reinterpretá-lo.</cite>
+        </blockquote>
+      </section>
+
+      <section class="topic" id="dados" aria-labelledby="h-dad">
+        <p class="klabel">Uma sociedade organizada por dados</p>
+        <h2 id="h-dad">Os dados se convertem em poder</h2>
+        <p>Cada pesquisa, cada compra, cada deslocamento, cada preferência se converte em <strong>dado</strong> — e os dados se convertem em <strong>poder</strong>.</p>
+        <p>A inteligência artificial amplia essa capacidade exponencialmente: identifica padrões, antecipa comportamentos, classifica pessoas, determina oportunidades — e, em certos casos, as restringe.</p>
+      </section>
+
+      <section class="topic" id="vulnerabilidade" aria-labelledby="h-vua">
+        <p class="klabel">Definição</p>
+        <h2 id="h-vua">Vulnerabilidade algorítmica</h2>
+        <p>A fragilidade de indivíduos perante <strong>processos decisórios automatizados</strong> cujos critérios permanecem desconhecidos, incompreensíveis ou inacessíveis.</p>
+        <p>Um algoritmo pode negar crédito, dificultar o emprego, direcionar informações, <strong>reproduzir preconceitos históricos</strong> e ampliar desigualdades — sem que a pessoa compreenda como a decisão foi produzida.</p>
+        <div class="callout"><span class="tag">O ponto central:</span><span>O problema não reside na tecnologia. Reside na assimetria. E toda assimetria interessa ao direito civil.</span></div>
+      </section>
+
+      <section class="topic" id="tecnofobia" aria-labelledby="h-tec">
+        <p class="klabel">Sem tecnofobia</p>
+        <h2 id="h-tec">A tecnologia subordinada aos valores humanos</h2>
+        <p>A <abbr title="Inteligência Artificial">IA</abbr> pode <strong>democratizar conhecimento</strong>, ampliar o acesso à justiça, melhorar diagnósticos e <strong>auxiliar a atividade jurisdicional</strong>.</p>
+        <p>O direito não deve combater a inovação — deve recebê-la e orientá-la. O verdadeiro desafio é assegurar que a tecnologia permaneça subordinada aos valores humanos. Jamais o contrário.</p>
+      </section>
+
+      <section class="topic" id="dignidade" aria-labelledby="h-dig">
+        <p class="klabel">Dignidade</p>
+        <h2 id="h-dig">A máquina é um meio; o ser humano, um fim</h2>
+        <blockquote>
+          <p>“Algoritmo não possui dignidade. Nenhuma máquina tem consciência moral. <strong>Essas características pertencem exclusivamente à pessoa humana.</strong>”</p>
+          <cite>A máquina é um meio; o ser humano continua sendo um fim.</cite>
+        </blockquote>
+      </section>
+
+      <section class="topic" id="futuro" aria-labelledby="h-fut">
+        <p class="klabel">O direito civil dos próximos 75 anos</p>
+        <h2 id="h-fut">As questões que já nos interpelam</h2>
+        <p>Todas com um denominador comum: a preservação da pessoa humana como centro do ordenamento jurídico.</p>
+        <ol class="num">
+          <li>Responsabilidade por decisões automatizadas.</li>
+          <li>Proteção contra discriminações algorítmicas.</li>
+          <li>Transparência dos sistemas inteligentes.</li>
+          <li>Direito à explicação.</li>
+          <li>Direito à revisão humana.</li>
+          <li>Autodeterminação informacional.</li>
+          <li>Governança de dados.</li>
+          <li>Patrimônio e identidade digital.</li>
+          <li>Novas formas de vulnerabilidade cognitiva.</li>
+        </ol>
+      </section>
+
+      <section class="topic" id="antropologica" aria-labelledby="h-ant">
+        <p class="klabel">A grande questão do nosso tempo</p>
+        <h2 id="h-ant">Não é tecnológica — é antropológica</h2>
+        <p>A grande questão do nosso tempo não é <strong>tecnológica</strong>. Ela é, antes de tudo, <strong>antropológica</strong>.</p>
+        <p>Não se trata de perguntar apenas o que as máquinas podem fazer — mas o que os seres humanos devem permitir que elas façam. Não apenas desenvolver a inteligência artificial, mas preservar a inteligência ética e moral. Não apenas criar sistemas eficientes, mas construir uma sociedade livre, justa e solidária.</p>
+      </section>
+
+      <section class="topic" id="conclusao" aria-labelledby="h-cl">
+        <p class="klabel">Em conclusão</p>
+        <h2 id="h-cl">A serviço da pessoa humana</h2>
+        <p>Mesmo na era dos algoritmos, permanece verdadeira a mais antiga das lições humanistas: toda construção jurídica só encontra legitimidade quando colocada <strong>a serviço da pessoa humana</strong>.</p>
+        <p class="by"><em>Muito grato.</em> — Ministro Edson Fachin, Jornada de Direito Civil.</p>
+      </section>
+
+    </main>
+  </div>
+
+  <footer class="page" id="rodape">
+    <h2>Sobre esta página</h2>
+    <p><strong>Entre a tradição civilista e a sociedade algorítmica.</strong> Versão acessível da conferência magna do Ministro Edson Fachin, elaborada em conformidade com o <a href="https://emag.governoeletronico.gov.br/" lang="pt-BR">eMAG — Modelo de Acessibilidade em Governo Eletrônico</a> (abre o sítio do eMAG).</p>
+    <p>Recursos de acessibilidade: âncoras de pulo, navegação por teclado, alto contraste, redimensionamento de fonte, marcação semântica, descrição de siglas e foco visível.</p>
+    <p class="keys">Teclas de atalho: <kbd>1</kbd> conteúdo · <kbd>2</kbd> menu · <kbd>4</kbd> rodapé · <kbd>5</kbd> alto contraste. <br>A combinação depende do navegador (geralmente <kbd>Alt</kbd> + tecla, ou <kbd>Alt</kbd> + <kbd>Shift</kbd> + tecla).</p>
+  </footer>
+
+<script>
+  // Comportamentos acionados apenas pelo usuário (Rec. 2.3/2.4: sem auto-refresh/redirect)
+  (function(){
+    var body=document.body, root=document.documentElement;
+
+    // Alto contraste (persistido)
+    var bc=document.getElementById('btnContraste');
+    function setContrast(on){
+      body.classList.toggle('alto-contraste', on);
+      bc.setAttribute('aria-pressed', String(on));
+      try{localStorage.setItem('fachin-a11y-contraste', on?'1':'0');}catch(e){}
+    }
+    bc.addEventListener('click', function(){ setContrast(!body.classList.contains('alto-contraste')); });
+
+    // Tamanho da fonte (persistido) — redimensionamento sem perda (Rec. 4.3)
+    var sizes=[87.5,100,112.5,125,137.5], idx=1;
+    function applyFont(){ root.style.fontSize=sizes[idx]+'%'; try{localStorage.setItem('fachin-a11y-font', String(idx));}catch(e){} }
+    document.getElementById('fontMais').addEventListener('click', function(){ idx=Math.min(idx+1,sizes.length-1); applyFont(); });
+    document.getElementById('fontMenos').addEventListener('click', function(){ idx=Math.max(idx-1,0); applyFont(); });
+    document.getElementById('fontReset').addEventListener('click', function(){ idx=1; applyFont(); });
+
+    // Restaurar preferências
+    try{
+      if(localStorage.getItem('fachin-a11y-contraste')==='1') setContrast(true);
+      var f=localStorage.getItem('fachin-a11y-font'); if(f!==null){ idx=parseInt(f,10)||1; applyFont(); }
+    }catch(e){}
+  })();
+</script>
+</body>
+</html>
