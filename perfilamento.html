@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>HC 208.240/SP — Busca pessoal e perfilamento racial · STF</title>
 <link rel="icon" type="image/png" href="icone-lia.png" />
+<link rel="stylesheet" href="site-nav.css" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=Spectral:ital,wght@0,300;0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -119,6 +120,14 @@
     animation:bob 2.4s ease-in-out infinite;
   }
   @keyframes bob{0%,100%{transform:translate(-50%,0);opacity:.5}50%{transform:translate(-50%,7px);opacity:1}}
+
+  /* navigation hints — in-hero line + persistent corner pill (mirrors index.html) */
+  .hero-hint{margin-top:clamp(22px,4vh,34px);font-family:'IBM Plex Mono',monospace;font-size:clamp(11px,1.2vw,13px);letter-spacing:.1em;text-transform:uppercase;color:var(--on-ink-dim);display:flex;align-items:center;gap:.7rem;flex-wrap:wrap}
+  .hero-hint kbd{border:1px solid rgba(237,233,222,.28);border-radius:3px;padding:.12em .44em;color:var(--on-ink);font-family:'IBM Plex Mono',monospace;font-size:.92em}
+  .hero-hint .chev{display:inline-block;font-size:1.2em;color:var(--brass);animation:hbob 1.8s ease-in-out infinite}
+  @keyframes hbob{0%,100%{transform:translateY(0)}50%{transform:translateY(4px)}}
+  .kbd-hint{position:fixed;bottom:1.3rem;left:1.3rem;z-index:50;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.05em;color:var(--on-ink-dim);background:rgba(19,26,46,.74);border:1px solid rgba(176,141,87,.22);border-radius:999px;padding:.42rem .76rem;-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+  .kbd-hint kbd{border:1px solid rgba(176,141,87,.3);border-radius:3px;padding:.05em .42em;color:var(--on-ink)}
 
   /* ---------- section heads ---------- */
   .kicker{display:flex;align-items:center;gap:14px;margin-bottom:26px}
@@ -293,18 +302,23 @@
     .ficha dl{grid-template-columns:1fr}
     .ficha dt{padding-bottom:0;border-top:1px solid rgba(176,141,87,.2)}
     .ficha dd{padding-top:4px;border-top:none}
-    .pnav{display:none}
+    .pnav,.kbd-hint{display:none}
     .slide{justify-content:flex-start;padding-top:64px;padding-bottom:48px}
     .hero{justify-content:center}
   }
   @media (prefers-reduced-motion:reduce){
     html{scroll-behavior:auto}
     .reveal{opacity:1;transform:none;transition:none}
-    .scrollcue{animation:none}
+    .scrollcue,.hero-hint .chev{animation:none}
   }
 </style>
 </head>
 <body>
+
+<nav class="site-nav" aria-label="Navegação principal">
+  <a class="site-nav__brand" href="index.html" aria-label="LIA 3R — início"><img class="site-nav__mark" src="icone-lia.png" alt="" aria-hidden="true" /><span class="site-nav__wordmark">LIA 3R</span></a><span class="site-nav__divider" aria-hidden="true"></span>
+  <a href="index.html#lgpd">CF · LGPD</a><a href="index.html#fachin">Magna</a><a href="index.html#curso">Curso</a>
+</nav>
 
 <div class="theme-switch" id="themeSwitch" role="group" aria-label="Tema de cor">
   <button data-t="dark" aria-pressed="false"><span class="ico"></span><span class="lbl">Escuro</span></button>
@@ -316,6 +330,8 @@
   <a href="#s0" class="active"></a><a href="#s1"></a><a href="#s2"></a><a href="#s3"></a>
   <a href="#s4"></a><a href="#s5"></a><a href="#s6"></a><a href="#s7"></a>
 </nav>
+
+<div class="kbd-hint">↑ ↓ ← → · <kbd>espaço</kbd> navega</div>
 
 <main class="deck" id="deck">
 
@@ -333,8 +349,11 @@
         <span>Julgamento&nbsp; <b>11 · abr · 2024</b></span>
         <span>Tese&nbsp; <b>fixada por unanimidade</b></span>
       </div>
+      <div class="hero-hint reveal d4">
+        <span class="chev" aria-hidden="true">↓</span>
+        <span>Role para explorar &nbsp;·&nbsp; <kbd>↑</kbd> <kbd>↓</kbd> ou <kbd>espaço</kbd> navega</span>
+      </div>
     </div>
-    <span class="scrollcue">role para ler ↓</span>
   </section>
 
   <!-- 1 — O CASO -->
@@ -569,8 +588,10 @@
   // keyboard navigation
   let idx=0;
   window.addEventListener('keydown',ev=>{
-    if(ev.key==='ArrowDown'||ev.key==='PageDown'){ev.preventDefault();idx=Math.min(idx+1,slides.length-1);slides[idx].scrollIntoView({behavior:'smooth'});}
-    if(ev.key==='ArrowUp'||ev.key==='PageUp'){ev.preventDefault();idx=Math.max(idx-1,0);slides[idx].scrollIntoView({behavior:'smooth'});}
+    if(ev.key==='ArrowDown'||ev.key==='ArrowRight'||ev.key==='PageDown'||ev.key===' '){ev.preventDefault();idx=Math.min(idx+1,slides.length-1);slides[idx].scrollIntoView({behavior:'smooth'});}
+    if(ev.key==='ArrowUp'||ev.key==='ArrowLeft'||ev.key==='PageUp'){ev.preventDefault();idx=Math.max(idx-1,0);slides[idx].scrollIntoView({behavior:'smooth'});}
+    if(ev.key==='Home'){ev.preventDefault();idx=0;slides[0].scrollIntoView({behavior:'smooth'});}
+    if(ev.key==='End'){ev.preventDefault();idx=slides.length-1;slides[idx].scrollIntoView({behavior:'smooth'});}
   });
   deck.addEventListener('scroll',()=>{ // keep idx synced for keyboard
     const st=deck.scrollTop;idx=Math.round(st/window.innerHeight);

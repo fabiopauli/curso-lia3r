@@ -30,15 +30,17 @@
     --body:'Newsreader',Georgia,serif;
     --mono:'Space Mono',ui-monospace,monospace;
   }
-  /* MEDIUM — warmer soft grey for the light slides (dark slides unchanged) */
+  /* MEDIUM — warmer soft grey for the light slides; the dark slides deepen too */
   html[data-theme="medium"]{
     --paper:#DADCD2;--paper-line:#C6CABA;
     --slate:#51584F;--slate-dark:#252F2A;
+    --ink:#0E2E2A;--ink-soft:#143A35;
   }
-  /* DARK — full dark mode */
+  /* DARK — full dark mode: page and the deep slides both go near-black teal */
   html[data-theme="dark"]{
     --paper:#0C1F1C;--paper-line:rgba(215,178,90,.22);
     --slate:#A7BAB2;--slate-dark:#D2D6C9;
+    --ink:#07140F;--ink-soft:#0C2019;
   }
 
   *{box-sizing:border-box;margin:0;padding:0}
@@ -267,13 +269,17 @@
   #s5 .funda-item .fn{padding-top:4px}
   #s5 .funda-item p{margin-top:2px}
   #s5 .funda-item .cite{margin-top:4px}
-  #s7 h2.sec{margin-bottom:.4em}
-  #s7 .impact-grid .imp{padding:clamp(12px,1.8vw,17px)}
-  #s7 .impact-grid .imp h3{font-size:clamp(15px,1.9vw,19px);margin:8px 0 6px}
-  #s7 .impact-grid .imp p{font-size:13px}
+  #s7{padding-top:clamp(20px,4vh,48px);padding-bottom:clamp(20px,4vh,48px)}
+  #s7 .kicker{margin-bottom:13px}
+  #s7 h2.sec{margin-bottom:.2em}
+  #s7 .impact-grid{margin-top:6px}
+  #s7 .impact-grid .imp{padding:clamp(10px,1.4vw,14px)}
+  #s7 .impact-grid .imp .n{font-size:12px}
+  #s7 .impact-grid .imp h3{font-size:clamp(14px,1.7vw,17px);margin:5px 0 4px}
+  #s7 .impact-grid .imp p{font-size:12.5px;line-height:1.42}
   #s7 .ficha dl{margin-top:0}
-  #s7 .ficha dt,#s7 .ficha dd{padding:8px 0}
-  #s7 .source-note{margin-top:18px}
+  #s7 .ficha dt,#s7 .ficha dd{padding:7px 0}
+  #s7 .source-note{margin-top:14px}
 
   /* ---------- progress nav ---------- */
   .pnav{position:fixed;right:18px;top:50%;transform:translateY(-50%);z-index:40;display:flex;flex-direction:column;gap:11px}
@@ -548,7 +554,7 @@
   <section class="slide dark ficha" id="s7">
     <div class="wrap">
       <div class="kicker reveal"><span class="num">06</span><span>Por que importa</span><span class="rule"></span></div>
-      <h2 class="sec reveal d1" style="color:var(--on-ink);margin-bottom:.6em">Inclusão como <em class="acc">regra</em>, não exceção.</h2>
+      <h2 class="sec reveal d1" style="color:var(--on-ink)">Inclusão como <em class="acc">regra</em>, não exceção.</h2>
       <div class="impact-grid reveal d2">
         <div class="imp">
           <span class="n">→</span>
